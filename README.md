@@ -367,15 +367,4 @@ docker-compose -f pwd.yml restart backend frontend websocket scheduler
 
 ---
 
-## Security Notes
 
-- Change all defaults (MariaDB root, Site Admin).
-- Keep images updated: `docker pull` then `docker-compose -f pwd.yml up -d`.
-- Don’t expose `:8080` to the internet without TLS/reverse proxy and proper hardening.
-
----
-
-## License
-
-MIT (or your preferred license).  
-ERPNext and Frappe are © their respective owners and licensed under their terms.
