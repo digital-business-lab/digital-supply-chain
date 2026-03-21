@@ -206,10 +206,12 @@ else
 fi
 
 # ── Stack starten ─────────────────────────────────────────────
-heading "Schritt 5/6 — Stack starten"
+heading "Schritt 5/7 — Stack starten"
 
 chmod +x scripts/backup.sh scripts/restore.sh \
-         scripts/install-backup-timer.sh 2>/dev/null || true
+         scripts/install-backup-timer.sh \
+         scripts/deploy.sh \
+         scripts/install-deploy-timer.sh 2>/dev/null || true
 
 info "Lade Docker Images herunter (kann einige Minuten dauern)..."
 docker compose pull
@@ -239,7 +241,7 @@ check_port "Node-RED"   1880
 check_port "Grafana"    3000
 
 # ── Backup-Timer einrichten ───────────────────────────────────
-heading "Schritt 6/6 — Backup-Timer einrichten"
+heading "Schritt 6/7 — Backup-Timer einrichten"
 
 mkdir -p "$HOME/farm-backups"
 
@@ -252,6 +254,33 @@ if [[ "${INSTALL_TIMER,,}" == "j" ]]; then
 else
   warn "Backup-Timer übersprungen. Später einrichten mit:"
   warn "  sudo ./scripts/install-backup-timer.sh"
+fi
+
+# ── GitOps Deploy-Timer einrichten ────────────────────────────
+heading "Schritt 7/7 — GitOps Deploy-Timer einrichten"
+
+echo ""
+info "Der Deploy-Timer zieht alle 15 Minuten automatisch neue"
+info "Commits vom GitHub-Repository und wendet Änderungen an."
+echo ""
+ask "Soll der GitOps Deploy-Timer eingerichtet werden?"
+read -r -p "  [J/n]: " INSTALL_DEPLOY
+
+if [[ "${INSTALL_DEPLOY,,}" != "n" ]]; then
+  # Prüfen ob Git-Repo vorhanden
+  REPO_DIR="$(git -C "$COMPOSE_DIR" rev-parse --show-toplevel 2>/dev/null || echo "")"
+  if [[ -z "$REPO_DIR" ]]; then
+    warn "Kein Git-Repository erkannt."
+    warn "Bitte Repo zuerst klonen: git clone https://github.com/... /opt/scm-labor"
+    warn "Deploy-Timer kann dann manuell eingerichtet werden:"
+    warn "  sudo ./scripts/install-deploy-timer.sh"
+  else
+    info "Git-Repository gefunden: $REPO_DIR"
+    sudo bash scripts/install-deploy-timer.sh
+  fi
+else
+  warn "Deploy-Timer übersprungen. Später einrichten mit:"
+  warn "  sudo ./scripts/install-deploy-timer.sh"
 fi
 
 # ── Fertig ────────────────────────────────────────────────────
@@ -278,7 +307,9 @@ echo "    4. Node-RED: MQTT-Flow einrichten"
 echo "    5. Grafana: Dashboard aufbauen"
 echo ""
 echo "  Hilfreiche Befehle:"
-echo "    docker compose ps              # Status"
-echo "    docker compose logs -f         # Logs"
+echo "    docker compose ps              # Status aller Dienste"
+echo "    docker compose logs -f         # Logs verfolgen"
 echo "    ./scripts/backup.sh            # Manuelles Backup"
+echo "    ./scripts/deploy.sh            # Manueller GitOps-Deploy"
+echo "    ./scripts/deploy.sh --dry-run  # Vorschau: was würde sich ändern?"
 echo ""

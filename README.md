@@ -47,11 +47,14 @@ SCM Labor/
       mosquitto/                   ← mosquitto.conf
       postgres/                    ← init.sql
     scripts/
-      bootstrap.sh                 ← Einmaliger Schnellstart (läuft auf der Workstation)
+      bootstrap.sh                 ← Ersteinrichtung (einmalig auf der Workstation)
+      deploy.sh                    ← GitOps-Deploy (git pull + docker compose up)
+      install-deploy-timer.sh      ← Richtet automatisches Pulling ein (alle 15 min)
+      farm-deploy.service/.timer   ← systemd-Units für Auto-Deploy
       backup.sh                    ← Datensicherung (Datenbanken + Volumes)
       restore.sh                   ← Wiederherstellung aus Backup
-      install-backup-timer.sh      ← Richtet systemd-Timer ein
-      farm-backup.service/.timer   ← systemd-Units (täglich 02:00)
+      install-backup-timer.sh      ← Richtet Backup-Timer ein
+      farm-backup.service/.timer   ← systemd-Units für Backup (täglich 02:00)
       mikrotik-backup.rsc          ← RouterOS-Backup-Befehle
 ```
 
@@ -109,17 +112,58 @@ Ausgehende TCP-Verbindungen sind in der Claude-Sandbox blockiert. Einrichtung er
 **Backup-Strategie: Skriptbasiert statt VM-Snapshots**
 SQL-Dumps (pg_dump, mysqldump) + Docker Volume-Archive, automatisiert via systemd-Timer, Aufbewahrung 7 Tage. Zuverlässiger als Block-Level-Snapshots einer laufenden Datenbank.
 
+**GitOps für Deployment**
+Alle Konfigurationen und Skripte liegen im Git-Repository. Ein `deploy.sh`-Skript auf jeder Insel zieht per `git pull` neue Commits und wendet sie an (`docker compose up -d`). Ein systemd-Timer automatisiert das Polling alle 15 Minuten. Datenbankinhalt bleibt außen vor (Volumes, Backups). Vorteile: Rollback via `git revert`, Audit-Trail aller Änderungen, konsistentes Ausrollen auf alle drei Inseln, didaktischer Mehrwert (Studierende sehen Änderungshistorie).
+
 ---
 
-## Schnellstart Farm-Insel
+## GitOps-Workflow
+
+Alle Konfigurationen, Compose-Dateien und Skripte werden über dieses Repository versioniert. Jede Insel zieht Änderungen selbstständig vom Remote.
+
+**Was in Git liegt:**
+- `docker-compose.yml` und alle Konfigurationsdateien
+- Deployment-, Backup- und Bootstrap-Skripte
+- Dokumentation
+
+**Was nicht in Git liegt:**
+- `.env` (Passwörter) — liegt lokal, wird nie committed
+- Docker Volumes / Datenbankdaten — Sicherung via `backup.sh`
+
+**Änderung deployen:**
+```bash
+# Auf dem Entwicklungsrechner
+git commit -m "Beschreibung der Änderung"
+git push
+
+# Auf der Insel (automatisch alle 15 min oder manuell)
+./farm-insel/scripts/deploy.sh
+```
+
+**Automatisches Pulling einrichten (einmalig auf der Insel):**
+```bash
+sudo ./farm-insel/scripts/install-deploy-timer.sh
+```
+Danach zieht die Insel alle 15 Minuten selbstständig neue Commits und wendet nur geänderte Dienste neu an.
+
+**Manuell auslösen / Logs:**
+```bash
+sudo systemctl start farm-deploy.service        # sofortiger Deploy
+journalctl -u farm-deploy.service -f            # Logs verfolgen
+cat /var/log/scm-labor/farm-insel-deploy.log    # Deploy-Protokoll
+```
+
+---
+
+## Schnellstart Farm-Insel (Ersteinrichtung)
 
 ```bash
-# 1. Ordner auf die Workstation kopieren (USB oder scp)
-scp -r farm-insel/ farm@192.168.10.10:~/
+# 1. Repo auf die Workstation klonen
+git clone https://github.com/DEIN-USER/scm-labor.git /opt/scm-labor
+cd /opt/scm-labor
 
-# 2. Bootstrap-Skript starten (richtet alles ein)
-cd ~/farm-insel
-chmod +x scripts/bootstrap.sh && ./scripts/bootstrap.sh
+# 2. Bootstrap-Skript starten (richtet alles ein inkl. Deploy-Timer)
+chmod +x farm-insel/scripts/bootstrap.sh && ./farm-insel/scripts/bootstrap.sh
 ```
 
 ---
