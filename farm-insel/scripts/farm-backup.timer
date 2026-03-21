@@ -1,0 +1,21 @@
+# =============================================================
+# systemd Timer-Unit — Farm-Insel Backup
+# Läuft täglich um 02:00 Uhr
+# =============================================================
+
+[Unit]
+Description=Farm-Insel Backup — täglich 02:00 Uhr
+Requires=farm-backup.service
+
+[Timer]
+# Täglich um 02:00 Uhr
+OnCalendar=*-*-* 02:00:00
+
+# Falls Rechner um 02:00 aus war: nachholen beim nächsten Start
+Persistent=true
+
+# Zufällige Verzögerung bis 5 Minuten (schont Netzwerk wenn mehrere Inseln gleichzeitig)
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

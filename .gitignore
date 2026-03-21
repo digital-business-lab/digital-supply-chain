@@ -1,0 +1,45 @@
+# =============================================================
+# SCM Labor — .gitignore
+# =============================================================
+
+# ── Passwörter & Secrets (NIE einchecken!) ───────────────────
+.env
+*.secret
+**/env.secret
+
+# ── Backups ──────────────────────────────────────────────────
+farm-backups/
+factory-backups/
+distributor-backups/
+*.tar.gz
+*.sql.gz
+
+# ── Docker Laufzeit-Daten ─────────────────────────────────────
+**/volumes/
+**/data/
+
+# ── Betriebssystem ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editoren ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Node / npm ────────────────────────────────────────────────
+node_modules/
+npm-debug.log
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# ── Temporäre Dateien ─────────────────────────────────────────
+*.tmp
+*.log

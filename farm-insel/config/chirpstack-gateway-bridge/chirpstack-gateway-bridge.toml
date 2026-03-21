@@ -1,0 +1,28 @@
+# ChirpStack Gateway Bridge — Farm-Insel
+# Übersetzt Semtech UDP (MikroTik wAP LR8 → Port 1700) in MQTT
+
+[general]
+  log_level = 4    # 0=panic 1=fatal 2=error 3=warn 4=info 5=debug
+
+# Backend: Semtech UDP Packet Forwarder (MikroTik wAP LR8)
+[backend]
+  type = "semtech_udp"
+
+  [backend.semtech_udp]
+    udp_bind = "0.0.0.0:1700"
+
+# Integration: MQTT → Mosquitto (intern)
+[integration]
+  marshaler = "protobuf"
+
+  [integration.mqtt]
+    event_topic_template   = "eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}"
+    command_topic_template = "eu868/gateway/{{ .GatewayID }}/command/#"
+    server                 = "tcp://mosquitto:1883/"
+    keep_alive_interval    = "30s"
+    reconnect_interval     = "5s"
+
+# Metrikerfassung
+[metrics]
+  [metrics.prometheus]
+    endpoint_enabled = false

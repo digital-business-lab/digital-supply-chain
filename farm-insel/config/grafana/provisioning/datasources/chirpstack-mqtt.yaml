@@ -1,0 +1,23 @@
+# Grafana Datasource Provisioning — Farm-Insel
+# Wird beim Start automatisch eingerichtet
+
+apiVersion: 1
+
+datasources:
+  - name: ChirpStack MQTT
+    type: marcusolsson-json-datasource
+    access: proxy
+    isDefault: true
+    jsonData:
+      path: "http://nodered:1880/api/sensor-data"
+
+  - name: PostgreSQL
+    type: postgres
+    url: postgres:5432
+    database: chirpstack
+    user: chirpstack
+    secureJsonData:
+      password: "${CHIRPSTACK_DB_PASS}"
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1500

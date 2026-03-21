@@ -1,0 +1,259 @@
+# ============================================================
+# Farm-Insel — IoT- & ERP-Stack
+# Open-Source-Lieferkette SCM Labor
+#
+# Dienste:
+#   LoRaWAN-Stack : mosquitto · chirpstack-gateway-bridge · chirpstack
+#   Datenbank     : postgres (ChirpStack) · mariadb (ERPNext)
+#   Cache         : redis-chirpstack · redis-erpnext
+#   Integration   : nodered
+#   Dashboard     : grafana
+#   ERP           : erpnext (frappe)
+#
+# Voraussetzungen:
+#   - Docker >= 24 und Docker Compose >= 2.20
+#   - .env-Datei mit Passwörtern befüllen (siehe .env.example)
+#   - MikroTik wAP LR8: Paketforwarder auf <HOST-IP>:1700 zeigen lassen
+# ============================================================
+
+name: farm-insel
+
+# ── Gemeinsames internes Netz ────────────────────────────────
+networks:
+  farm-net:
+    driver: bridge
+
+# ── Persistente Volumes ──────────────────────────────────────
+volumes:
+  mosquitto-data:
+  mosquitto-logs:
+  postgres-data:
+  redis-chirpstack-data:
+  chirpstack-data:
+  nodered-data:
+  grafana-data:
+  mariadb-data:
+  redis-erpnext-data:
+  erpnext-sites:
+  erpnext-logs:
+
+services:
+
+  # ══════════════════════════════════════════════════════════
+  # LORAWAN-STACK
+  # ══════════════════════════════════════════════════════════
+
+  # ── MQTT-Broker (intern) ─────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: farm-mosquitto
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "1883:1883"        # MQTT intern (Node-RED, ChirpStack)
+    volumes:
+      - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/log
+
+  # ── ChirpStack Gateway Bridge ────────────────────────────
+  # Übersetzt Semtech-UDP-Pakete vom MikroTik wAP LR8 in MQTT
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    container_name: farm-gateway-bridge
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "1700:1700/udp"   # Semtech UDP Packet Forwarder (MikroTik wAP LR8)
+    volumes:
+      - ./config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml:/etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml:ro
+    depends_on:
+      - mosquitto
+
+  # ── PostgreSQL (ChirpStack) ──────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: farm-postgres
+    restart: unless-stopped
+    networks:
+      - farm-net
+    environment:
+      POSTGRES_USER: ${CHIRPSTACK_DB_USER:-chirpstack}
+      POSTGRES_PASSWORD: ${CHIRPSTACK_DB_PASS:?Bitte CHIRPSTACK_DB_PASS in .env setzen}
+      POSTGRES_DB: chirpstack
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  # ── Redis (ChirpStack) ───────────────────────────────────
+  redis-chirpstack:
+    image: redis:7-alpine
+    container_name: farm-redis-chirpstack
+    restart: unless-stopped
+    networks:
+      - farm-net
+    command: redis-server --save 300 1 --loglevel warning
+    volumes:
+      - redis-chirpstack-data:/data
+
+  # ── ChirpStack Network Server ────────────────────────────
+  chirpstack:
+    image: chirpstack/chirpstack:4
+    container_name: farm-chirpstack
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "8080:8080"       # Web-UI (http://<HOST-IP>:8080)
+    volumes:
+      - ./config/chirpstack:/etc/chirpstack:ro
+      - chirpstack-data:/var/lib/chirpstack
+    environment:
+      CHIRPSTACK_API_SECRET: ${CHIRPSTACK_API_SECRET:?Bitte CHIRPSTACK_API_SECRET in .env setzen}
+    depends_on:
+      - postgres
+      - redis-chirpstack
+      - mosquitto
+
+  # ══════════════════════════════════════════════════════════
+  # INTEGRATION
+  # ══════════════════════════════════════════════════════════
+
+  # ── Node-RED ─────────────────────────────────────────────
+  # MQTT (ChirpStack) → ERPNext + Kafka-Bridge
+  nodered:
+    image: nodered/node-red:3-minimal
+    container_name: farm-nodered
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "1880:1880"       # Web-UI (http://<HOST-IP>:1880)
+    environment:
+      TZ: Europe/Berlin
+      NODE_RED_ENABLE_PROJECTS: "true"
+    volumes:
+      - nodered-data:/data
+    depends_on:
+      - mosquitto
+      - chirpstack
+
+  # ══════════════════════════════════════════════════════════
+  # DASHBOARD
+  # ══════════════════════════════════════════════════════════
+
+  # ── Grafana ──────────────────────────────────────────────
+  # Sensor-Dashboard auf dem Touchscreen
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: farm-grafana
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "3000:3000"       # Web-UI (http://<HOST-IP>:3000)
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASS:?Bitte GRAFANA_ADMIN_PASS in .env setzen}
+      GF_SERVER_ROOT_URL: http://localhost:3000
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/provisioning/dashboards/farm.json
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+
+  # ══════════════════════════════════════════════════════════
+  # ERP
+  # ══════════════════════════════════════════════════════════
+
+  # ── MariaDB (ERPNext) ────────────────────────────────────
+  mariadb:
+    image: mariadb:10.6
+    container_name: farm-mariadb
+    restart: unless-stopped
+    networks:
+      - farm-net
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASS:?Bitte MARIADB_ROOT_PASS in .env setzen}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+  # ── Redis (ERPNext) ──────────────────────────────────────
+  redis-erpnext:
+    image: redis:7-alpine
+    container_name: farm-redis-erpnext
+    restart: unless-stopped
+    networks:
+      - farm-net
+    volumes:
+      - redis-erpnext-data:/data
+
+  # ── ERPNext (Frappe) ─────────────────────────────────────
+  erpnext:
+    image: frappe/erpnext:v15
+    container_name: farm-erpnext
+    restart: unless-stopped
+    networks:
+      - farm-net
+    ports:
+      - "8000:8000"       # Web-UI (http://<HOST-IP>:8000)
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-erpnext:6379/0
+      REDIS_QUEUE: redis-erpnext:6379/1
+      REDIS_SOCKETIO: redis-erpnext:6379/2
+      SOCKETIO_PORT: "9000"
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites
+      - erpnext-logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      - mariadb
+      - redis-erpnext
+
+  # ── ERPNext Worker ───────────────────────────────────────
+  erpnext-worker:
+    image: frappe/erpnext:v15
+    container_name: farm-erpnext-worker
+    restart: unless-stopped
+    networks:
+      - farm-net
+    command: worker
+    environment:
+      DB_HOST: mariadb
+      REDIS_CACHE: redis-erpnext:6379/0
+      REDIS_QUEUE: redis-erpnext:6379/1
+      REDIS_SOCKETIO: redis-erpnext:6379/2
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites
+      - erpnext-logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      - mariadb
+      - redis-erpnext
+      - erpnext
+
+  # ── ERPNext Scheduler ────────────────────────────────────
+  erpnext-scheduler:
+    image: frappe/erpnext:v15
+    container_name: farm-erpnext-scheduler
+    restart: unless-stopped
+    networks:
+      - farm-net
+    command: schedule
+    environment:
+      DB_HOST: mariadb
+      REDIS_CACHE: redis-erpnext:6379/0
+      REDIS_QUEUE: redis-erpnext:6379/1
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites
+      - erpnext-logs:/home/frappe/frappe-bench/logs
+    depends_on:
+      - mariadb
+      - redis-erpnext
+      - erpnext

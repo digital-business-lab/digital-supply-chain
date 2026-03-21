@@ -1,0 +1,42 @@
+# =============================================================
+# systemd Service-Unit — Farm-Insel Backup
+# =============================================================
+# Installation:
+#   sudo cp scripts/farm-backup.service /etc/systemd/system/
+#   sudo cp scripts/farm-backup.timer   /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now farm-backup.timer
+#
+# Manuell ausführen:
+#   sudo systemctl start farm-backup.service
+#
+# Status prüfen:
+#   systemctl status farm-backup.timer
+#   journalctl -u farm-backup.service -n 50
+# =============================================================
+
+[Unit]
+Description=Farm-Insel Backup (Docker Volumes + Datenbanken)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=farm
+WorkingDirectory=/home/farm/farm-insel
+
+# Backup-Ziel (lokal)
+Environment=BACKUP_ROOT=/home/farm/farm-backups
+
+# Optionaler Sync auf Netzlaufwerk — auskommentieren und anpassen:
+# Environment=REMOTE_DEST=farm@nas.local:/backups/farm-insel
+
+ExecStart=/home/farm/farm-insel/scripts/backup.sh
+
+# Logs nach journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=farm-backup
+
+# Timeout: 30 Minuten (bei großen ERPNext-Datenbanken ggf. erhöhen)
+TimeoutStartSec=1800

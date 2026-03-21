@@ -1,0 +1,44 @@
+# ChirpStack Network Server — Farm-Insel
+# Dokumentation: https://www.chirpstack.io/docs/chirpstack/configuration.html
+
+[logging]
+  level = "info"
+
+[postgresql]
+  dsn = "postgres://chirpstack:${CHIRPSTACK_DB_PASS}@postgres/chirpstack?sslmode=disable"
+  max_open_connections = 10
+  min_idle_connections = 0
+
+[redis]
+  servers = [
+    "redis://redis-chirpstack/",
+  ]
+  tls_enabled = false
+
+[network]
+  net_id            = "000000"
+  enabled_regions   = ["eu868"]    # Europa 868 MHz
+  device_session_ttl = "744h"      # 31 Tage
+
+[api]
+  bind    = "0.0.0.0:8080"
+  secret  = "${CHIRPSTACK_API_SECRET}"
+
+[gateway]
+  ca_cert  = ""
+  ca_key   = ""
+
+[integration]
+  enabled = ["mqtt"]
+
+  [integration.mqtt]
+    server               = "tcp://mosquitto:1883/"
+    json                 = true
+    event_topic_template = "application/{{ .ApplicationID }}/device/{{ .DevEUI }}/event/{{ .EventType }}"
+
+[codec]
+  js_timeout = "10s"
+
+[user_authentication]
+  [user_authentication.openid_connect]
+    enabled = false
