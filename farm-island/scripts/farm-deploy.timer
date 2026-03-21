@@ -1,9 +1,9 @@
 [Unit]
-Description=SCM Labor Farm-Insel GitOps Deploy Timer
+Description=SCM Lab Farm Island GitOps Deploy Timer
 Requires=farm-deploy.service
 
 [Timer]
-# Alle 15 Minuten auf neue Commits prüfen
+# Check for new commits every 15 minutes
 OnCalendar=*:0/15
 RandomizedDelaySec=60
 Persistent=true

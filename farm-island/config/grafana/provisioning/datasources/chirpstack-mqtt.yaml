@@ -1,5 +1,5 @@
-# Grafana Datasource Provisioning — Farm-Insel
-# Wird beim Start automatisch eingerichtet
+# Grafana Datasource Provisioning — Farm Island
+# Configured automatically on startup
 
 apiVersion: 1
 

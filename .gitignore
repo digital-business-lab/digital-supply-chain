@@ -1,8 +1,8 @@
 # =============================================================
-# SCM Labor — .gitignore
+# SCM Lab — .gitignore
 # =============================================================
 
-# ── Passwörter & Secrets (NIE einchecken!) ───────────────────
+# ── Passwords & Secrets (NEVER commit!) ──────────────────────
 .env
 *.secret
 **/env.secret
@@ -14,16 +14,16 @@ distributor-backups/
 *.tar.gz
 *.sql.gz
 
-# ── Docker Laufzeit-Daten ─────────────────────────────────────
+# ── Docker runtime data ───────────────────────────────────────
 **/volumes/
 **/data/
 
-# ── Betriebssystem ────────────────────────────────────────────
+# ── Operating system ─────────────────────────────────────────
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ── Editoren ─────────────────────────────────────────────────
+# ── Editors ──────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
@@ -40,6 +40,6 @@ __pycache__/
 *.pyo
 .venv/
 
-# ── Temporäre Dateien ─────────────────────────────────────────
+# ── Temporary files ───────────────────────────────────────────
 *.tmp
 *.log

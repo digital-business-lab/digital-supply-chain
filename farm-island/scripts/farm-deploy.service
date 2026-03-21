@@ -1,12 +1,12 @@
 [Unit]
-Description=SCM Labor Farm-Insel GitOps Deploy
+Description=SCM Lab Farm Island GitOps Deploy
 After=network-online.target docker.service
 Wants=network-online.target
 
 [Service]
 Type=oneshot
 User=root
-ExecStart=/opt/scm-labor/farm-insel/scripts/deploy.sh
+ExecStart=/opt/scm-lab/farm-island/scripts/deploy.sh
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=farm-deploy

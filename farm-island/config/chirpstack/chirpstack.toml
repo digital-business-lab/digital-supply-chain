@@ -1,5 +1,5 @@
-# ChirpStack Network Server — Farm-Insel
-# Dokumentation: https://www.chirpstack.io/docs/chirpstack/configuration.html
+# ChirpStack Network Server — Farm Island
+# Documentation: https://www.chirpstack.io/docs/chirpstack/configuration.html
 
 [logging]
   level = "info"

@@ -1,23 +1,23 @@
 #!/bin/bash
 # =============================================================================
-# deploy.sh — GitOps Deployment für die Farm-Insel
+# deploy.sh — GitOps Deployment for the Farm Island
 # =============================================================================
-# Zieht die aktuelle Version vom Git-Remote und wendet Änderungen an.
-# Startet Docker-Dienste nur neu, wenn sich relevante Dateien geändert haben.
+# Pulls the current version from the Git remote and applies changes.
+# Only restarts Docker services if relevant files have changed.
 #
-# Verwendung:
-#   ./deploy.sh              # Normaler Deploy (main branch)
-#   ./deploy.sh --force      # Neustart erzwingen, auch ohne Änderungen
-#   ./deploy.sh --dry-run    # Nur zeigen, was sich geändert hätte
+# Usage:
+#   ./deploy.sh              # Normal deploy (main branch)
+#   ./deploy.sh --force      # Force restart even without changes
+#   ./deploy.sh --dry-run    # Only show what would have changed
 # =============================================================================
 
 set -euo pipefail
 
-ISLAND="farm-insel"
+ISLAND="farm-island"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ISLAND_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 REPO_DIR="$(git -C "$ISLAND_DIR" rev-parse --show-toplevel)"
-LOG_FILE="/var/log/scm-labor/${ISLAND}-deploy.log"
+LOG_FILE="/var/log/scm-lab/${ISLAND}-deploy.log"
 BRANCH="main"
 
 FORCE=false
@@ -40,79 +40,79 @@ log() {
 }
 
 log "========================================"
-log "Deploy gestartet für: $ISLAND"
+log "Deploy started for: $ISLAND"
 log "Repo: $REPO_DIR | Branch: $BRANCH"
-$DRY_RUN && log "MODUS: dry-run — keine Änderungen werden angewendet"
-$FORCE   && log "MODUS: force  — Neustart wird erzwungen"
+$DRY_RUN && log "MODE: dry-run — no changes will be applied"
+$FORCE   && log "MODE: force  — restart will be forced"
 
-# --- Sicherheitscheck: keine lokalen Änderungen ---
+# --- Safety check: no local changes ---
 if ! git -C "$REPO_DIR" diff --quiet; then
-  log "WARNUNG: Lokale nicht-committete Änderungen erkannt. Deploy abgebrochen."
-  log "Bitte 'git stash' oder Änderungen committen, dann erneut starten."
+  log "WARNING: Uncommitted local changes detected. Deploy aborted."
+  log "Please run 'git stash' or commit the changes, then try again."
   exit 1
 fi
 
-# --- Aktuellen Commit merken ---
+# --- Record current commit ---
 COMMIT_BEFORE=$(git -C "$REPO_DIR" rev-parse HEAD)
-log "Aktueller Commit: $COMMIT_BEFORE"
+log "Current commit: $COMMIT_BEFORE"
 
 # --- Git Pull ---
-log "Ziehe Änderungen vom Remote..."
+log "Pulling changes from remote..."
 if ! $DRY_RUN; then
   git -C "$REPO_DIR" fetch origin "$BRANCH"
   git -C "$REPO_DIR" merge --ff-only "origin/$BRANCH"
 fi
 
 COMMIT_AFTER=$(git -C "$REPO_DIR" rev-parse HEAD 2>/dev/null || echo "$COMMIT_BEFORE")
-log "Neuer Commit:    $COMMIT_AFTER"
+log "New commit:     $COMMIT_AFTER"
 
 if [ "$COMMIT_BEFORE" = "$COMMIT_AFTER" ] && ! $FORCE; then
-  log "Keine neuen Commits. Deploy nicht nötig."
+  log "No new commits. Deploy not needed."
   exit 0
 fi
 
-# --- Geänderte Dateien im Island-Verzeichnis prüfen ---
+# --- Check changed files in the island directory ---
 CHANGED_FILES=$(git -C "$REPO_DIR" diff --name-only "$COMMIT_BEFORE" "$COMMIT_AFTER" \
   | grep "^${ISLAND}/" || true)
 
 if [ -z "$CHANGED_FILES" ] && ! $FORCE; then
-  log "Keine Änderungen in /$ISLAND. Deploy nicht nötig."
+  log "No changes in /$ISLAND. Deploy not needed."
   exit 0
 fi
 
-log "Geänderte Dateien:"
+log "Changed files:"
 echo "$CHANGED_FILES" | while read -r f; do log "  • $f"; done
 
-# --- Prüfen ob docker-compose.yml oder Images geändert ---
+# --- Check if docker-compose.yml or images changed ---
 COMPOSE_CHANGED=false
 CONFIG_CHANGED=false
 
 echo "$CHANGED_FILES" | grep -q "docker-compose.yml"       && COMPOSE_CHANGED=true || true
 echo "$CHANGED_FILES" | grep -q "^${ISLAND}/config/"       && CONFIG_CHANGED=true  || true
 
-# --- Deploy anwenden ---
+# --- Apply deploy ---
 cd "$ISLAND_DIR"
 
 if $DRY_RUN; then
-  log "Dry-run: würde 'docker compose up -d' ausführen (compose_changed=$COMPOSE_CHANGED)"
+  log "Dry-run: would run 'docker compose up -d' (compose_changed=$COMPOSE_CHANGED)"
   exit 0
 fi
 
-# Neue Images ziehen, wenn compose-Datei geändert
+# Pull new images if compose file changed
 if $COMPOSE_CHANGED || $FORCE; then
-  log "Ziehe neue Docker-Images..."
+  log "Pulling new Docker images..."
   docker compose pull --quiet
 fi
 
-# Stack aktualisieren (nur geänderte Container werden neu gestartet)
-log "Starte Stack neu (docker compose up -d)..."
+# Update stack (only changed containers are restarted)
+log "Restarting stack (docker compose up -d)..."
 docker compose up -d --remove-orphans
 
-log "Deploy abgeschlossen."
-log "Geänderter Compose: $COMPOSE_CHANGED | Geänderter Config: $CONFIG_CHANGED"
+log "Deploy completed."
+log "Compose changed: $COMPOSE_CHANGED | Config changed: $CONFIG_CHANGED"
 
-# --- Kurzer Health-Check ---
-log "Warte 15 Sekunden, dann Health-Check..."
+# --- Quick health check ---
+log "Waiting 15 seconds, then health check..."
 sleep 15
 
 UNHEALTHY=$(docker compose ps --format json \
@@ -128,10 +128,10 @@ for line in sys.stdin:
 " 2>/dev/null || true)
 
 if [ -n "$UNHEALTHY" ]; then
-  log "WARNUNG: Folgende Dienste sind nicht healthy:"
+  log "WARNING: The following services are not healthy:"
   echo "$UNHEALTHY" | while read -r line; do log "  ! $line"; done
 else
-  log "Alle Dienste laufen."
+  log "All services are running."
 fi
 
 log "========================================"

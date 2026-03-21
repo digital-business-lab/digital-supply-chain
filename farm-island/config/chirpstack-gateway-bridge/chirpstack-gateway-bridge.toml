@@ -1,5 +1,5 @@
-# ChirpStack Gateway Bridge — Farm-Insel
-# Übersetzt Semtech UDP (MikroTik wAP LR8 → Port 1700) in MQTT
+# ChirpStack Gateway Bridge — Farm Island
+# Translates Semtech UDP (MikroTik wAP LR8 → Port 1700) into MQTT
 
 [general]
   log_level = 4    # 0=panic 1=fatal 2=error 3=warn 4=info 5=debug
