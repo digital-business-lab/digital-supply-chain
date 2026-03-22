@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background: warm cream -->
+  <rect width="200" height="200" rx="40" fill="#FFF3E8"/>
+
+  <!-- === POT === -->
+  <!-- Pot body (trapezoid) -->
+  <path d="M70,178 L77,152 L123,152 L130,178 Q100,184 70,178 Z" fill="#F07800"/>
+  <!-- Pot highlight stripe -->
+  <path d="M82,155 L85,178 L91,178 L88,155 Z" fill="#FFD08A" opacity="0.45"/>
+  <!-- Pot rim -->
+  <rect x="62" y="140" width="76" height="16" rx="8" fill="#C45F00"/>
+
+  <!-- === STEM + BRANCHES === -->
+  <path d="M100,140 Q100,115 100,82" stroke="#4A2500" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Left branch -->
+  <path d="M100,112 Q84,101 66,90" stroke="#4A2500" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Right branch -->
+  <path d="M100,100 Q116,89 134,78" stroke="#4A2500" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+  <!-- === LEAVES === -->
+  <!-- Left leaf pair -->
+  <ellipse cx="55" cy="83" rx="22" ry="9" fill="#F07800" transform="rotate(-38 55 83)"/>
+  <ellipse cx="68" cy="96" rx="18" ry="7" fill="#C45F00" transform="rotate(-38 68 96)"/>
+  <!-- Right leaf pair -->
+  <ellipse cx="145" cy="71" rx="22" ry="9" fill="#F07800" transform="rotate(32 145 71)"/>
+  <ellipse cx="132" cy="82" rx="18" ry="7" fill="#C45F00" transform="rotate(32 132 82)"/>
+  <!-- Top leaf -->
+  <ellipse cx="100" cy="68" rx="20" ry="8" fill="#F07800" transform="rotate(-6 100 68)"/>
+
+  <!-- === COFFEE CHERRIES === -->
+  <!-- Shadow ring + cherry + highlight -->
+  <circle cx="57"  cy="81"  r="11" fill="#4A2500"/>
+  <circle cx="55"  cy="79"  r="8"  fill="#F07800"/>
+  <circle cx="53"  cy="77"  r="3.5" fill="#FFD08A"/>
+
+  <circle cx="143" cy="69"  r="11" fill="#4A2500"/>
+  <circle cx="141" cy="67"  r="8"  fill="#F07800"/>
+  <circle cx="139" cy="65"  r="3.5" fill="#FFD08A"/>
+
+  <circle cx="100" cy="56"  r="10" fill="#4A2500"/>
+  <circle cx="98"  cy="54"  r="7"  fill="#F07800"/>
+  <circle cx="96"  cy="52"  r="3"  fill="#FFD08A"/>
+</svg>

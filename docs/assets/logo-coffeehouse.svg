@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background: warm cream -->
+  <rect width="200" height="200" rx="40" fill="#FFF3E8"/>
+
+  <!-- === STEAM === -->
+  <!-- Steam wisp left -->
+  <path d="M72,88 Q65,76 72,64 Q79,52 72,40"
+        stroke="#C45F00" stroke-width="4" fill="none"
+        stroke-linecap="round" opacity="0.75"/>
+  <!-- Steam wisp centre -->
+  <path d="M100,84 Q93,72 100,60 Q107,48 100,36"
+        stroke="#C45F00" stroke-width="4" fill="none"
+        stroke-linecap="round" opacity="0.75"/>
+  <!-- Steam wisp right -->
+  <path d="M128,88 Q121,76 128,64 Q135,52 128,40"
+        stroke="#C45F00" stroke-width="4" fill="none"
+        stroke-linecap="round" opacity="0.75"/>
+
+  <!-- === CUP === -->
+  <!-- Cup body (trapezoid, wider at top) -->
+  <path d="M52,96 L60,172 L140,172 L148,96 Z" fill="#F07800" rx="6"/>
+  <!-- Subtle highlight on left side -->
+  <path d="M62,100 L68,168 L76,168 L70,100 Z" fill="#FFD08A" opacity="0.30"/>
+  <!-- Cup rim -->
+  <rect x="48" y="90" width="104" height="14" rx="7" fill="#C45F00"/>
+
+  <!-- === HANDLE === -->
+  <path d="M148,108 Q176,108 176,136 Q176,164 148,164"
+        stroke="#C45F00" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <path d="M148,108 Q170,108 170,136 Q170,164 148,164"
+        stroke="#FFD08A" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- === SAUCER === -->
+  <ellipse cx="100" cy="176" rx="68" ry="12" fill="#C45F00"/>
+  <ellipse cx="100" cy="176" rx="44" ry="7"  fill="#F07800"/>
+  <!-- Saucer highlight -->
+  <ellipse cx="88"  cy="174" rx="14" ry="3"  fill="#FFD08A" opacity="0.40"/>
+</svg>

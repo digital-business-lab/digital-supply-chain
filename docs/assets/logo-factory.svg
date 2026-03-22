@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background: warm cream -->
+  <rect width="200" height="200" rx="40" fill="#FFF3E8"/>
+
+  <!-- === SMOKE === -->
+  <!-- Left chimney smoke -->
+  <circle cx="68"  cy="38" r="12" fill="#FFD08A" opacity="0.90"/>
+  <circle cx="78"  cy="26" r="9"  fill="#FFD08A" opacity="0.65"/>
+  <circle cx="86"  cy="16" r="7"  fill="#FFD08A" opacity="0.35"/>
+  <!-- Right chimney smoke -->
+  <circle cx="130" cy="48" r="10" fill="#FFD08A" opacity="0.90"/>
+  <circle cx="140" cy="38" r="8"  fill="#FFD08A" opacity="0.60"/>
+
+  <!-- === CHIMNEYS === -->
+  <!-- Left chimney -->
+  <rect x="55" y="50" width="24" height="50" rx="8" fill="#4A2500"/>
+  <rect x="51" y="46" width="32" height="10" rx="5" fill="#C45F00"/>
+  <!-- Right chimney -->
+  <rect x="118" y="60" width="20" height="40" rx="7" fill="#4A2500"/>
+  <rect x="114" y="56" width="28" height="10" rx="5" fill="#C45F00"/>
+
+  <!-- === BUILDING === -->
+  <!-- Roof band -->
+  <rect x="22" y="96" width="156" height="18" rx="8" fill="#C45F00"/>
+  <!-- Building body -->
+  <rect x="28" y="110" width="144" height="66" rx="6" fill="#F07800"/>
+  <!-- Subtle body highlight -->
+  <rect x="38" y="116" width="20" height="54" rx="4" fill="#FFD08A" opacity="0.18"/>
+
+  <!-- === WINDOWS (coffee-bean shape = ellipse + centre groove) === -->
+  <!-- Left window -->
+  <ellipse cx="60"  cy="132" rx="18" ry="13" fill="#C45F00"/>
+  <path d="M60,119 Q64,132 60,145" stroke="#F07800" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Right window -->
+  <ellipse cx="140" cy="132" rx="18" ry="13" fill="#C45F00"/>
+  <path d="M140,119 Q144,132 140,145" stroke="#F07800" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- === DOOR (arched) === -->
+  <path d="M88,176 L88,152 Q100,140 112,152 L112,176 Z" fill="#4A2500"/>
+
+  <!-- === GROUND LINE === -->
+  <rect x="22" y="174" width="156" height="5" rx="2.5" fill="#C45F00" opacity="0.45"/>
+</svg>

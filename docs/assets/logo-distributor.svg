@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background: warm cream -->
+  <rect width="200" height="200" rx="40" fill="#FFF3E8"/>
+
+  <!-- === MOTION LINES (truck moving right) === -->
+  <line x1="12" y1="118" x2="28" y2="118" stroke="#F07800" stroke-width="4"   stroke-linecap="round" opacity="0.55"/>
+  <line x1="12" y1="131" x2="23" y2="131" stroke="#F07800" stroke-width="3"   stroke-linecap="round" opacity="0.35"/>
+  <line x1="12" y1="144" x2="28" y2="144" stroke="#F07800" stroke-width="4"   stroke-linecap="round" opacity="0.55"/>
+
+  <!-- === CARGO BOX === -->
+  <rect x="30" y="92" width="110" height="78" rx="7" fill="#F07800"/>
+  <!-- Subtle highlight -->
+  <rect x="40" y="98" width="18" height="66" rx="5" fill="#FFD08A" opacity="0.20"/>
+  <!-- Cargo door seam -->
+  <line x1="139" y1="94" x2="139" y2="168" stroke="#C45F00" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- === COFFEE BEAN on cargo side === -->
+  <ellipse cx="89" cy="128" rx="22" ry="16" fill="#C45F00"/>
+  <path d="M89,112 Q94,128 89,144" stroke="#F07800" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- === CAB === -->
+  <!-- Cab body -->
+  <path d="M140,116 L140,170 L174,170 L174,132 Q174,116 160,116 Z" fill="#C45F00"/>
+  <!-- Windshield -->
+  <path d="M148,122 L148,152 L170,152 L170,135 Q168,122 155,122 Z" fill="#FFD08A" opacity="0.80"/>
+  <!-- Cab-body join cover -->
+  <rect x="136" y="116" width="8" height="54" rx="4" fill="#C45F00"/>
+
+  <!-- === WHEELS === -->
+  <!-- Front wheel (under cab) -->
+  <circle cx="160" cy="178" r="20" fill="#4A2500"/>
+  <circle cx="160" cy="178" r="12" fill="#C45F00"/>
+  <circle cx="160" cy="178" r="5"  fill="#4A2500"/>
+  <!-- Rear wheel (under cargo) -->
+  <circle cx="58"  cy="178" r="20" fill="#4A2500"/>
+  <circle cx="58"  cy="178" r="12" fill="#C45F00"/>
+  <circle cx="58"  cy="178" r="5"  fill="#4A2500"/>
+
+  <!-- === GROUND SHADOW === -->
+  <ellipse cx="105" cy="195" rx="78" ry="5" fill="#4A2500" opacity="0.12"/>
+</svg>
