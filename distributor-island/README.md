@@ -1,6 +1,6 @@
 # Distributor Island — Coffee Trader
 
-Warehouse management and route planning. ERPNext WMS handles stock; VROOM optimises delivery routes; a Fabric peer node records shipment events on the shared ledger.
+Warehouse management, route planning, and autonomous last-mile delivery. ERPNext WMS handles stock; VROOM optimises pick sequences; a TurtleBot4 Lite robot carries packages to the Coffee House; a Fabric peer node records shipment events on the shared ledger.
 
 📖 **[Full documentation → GitHub Pages](https://digital-business-lab.github.io/digital-supply-chain/islands/distributor/)**
 
@@ -10,13 +10,14 @@ Warehouse management and route planning. ERPNext WMS handles stock; VROOM optimi
 
 | Component | Function |
 |---|---|
-| Linux workstation | WMS and logistics planning |
+| Linux workstation | WMS, logistics planning, ROS2 services |
 | RFID / barcode scanner | Goods receipt capture |
-| Touch display | Picking list and stock overview |
+| Touch display | Picking list and warehouse dashboard |
+| TurtleBot4 Lite + docking station | Autonomous last-mile delivery to Coffee House |
 
 ## Services
 
-ERPNext WMS · VROOM · Kafka · Grafana · Fabric Peer Node
+ERPNext WMS · VROOM · Kafka · Grafana · Fabric Peer Node · rosbridge\_server · robot\_manager
 
 ## Status
 
