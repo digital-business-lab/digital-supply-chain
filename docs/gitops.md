@@ -57,4 +57,4 @@ git push
 
 A GitHub Action (`.github/workflows/docs.yml`) automatically builds the MkDocs documentation site and deploys it to GitHub Pages on every push to `main`. No manual build step required.
 
-See the [workflow file](../.github/workflows/docs.yml) for details.
+See the [workflow file](https://github.com/digital-business-lab/digital-supply-chain/blob/main/.github/workflows/docs.yml) for details.

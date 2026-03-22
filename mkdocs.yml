@@ -4,6 +4,18 @@ repo_url: https://github.com/digital-business-lab/digital-supply-chain
 repo_name: digital-business-lab/digital-supply-chain
 edit_uri: edit/main/
 
+docs_dir: .
+site_dir: site
+
+exclude_docs: |
+  CLAUDE.md
+  site/
+  farm-island/docs/
+  factory-island/docs/
+  distributor-island/docs/
+  coffeehouse-island/docs/
+  lab-cloud/
+
 theme:
   name: material
   language: en
