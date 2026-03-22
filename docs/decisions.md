@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-This document records the key design decisions made for the SCM Lab, including the rationale. These are intended to help future contributors understand *why* the system is built the way it is.
+This document records the key design decisions made for this project, including the rationale. These are intended to help future contributors understand *why* the system is built the way it is.
 
 ---
 

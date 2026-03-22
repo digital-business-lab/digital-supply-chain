@@ -16,7 +16,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ISLAND_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 REPO_DIR="$(git -C "$ISLAND_DIR" rev-parse --show-toplevel)"
-INSTALL_BASE="/opt/scm-lab"
+INSTALL_BASE="/opt/digital-supply-chain"
 SYSTEMD_DIR="/etc/systemd/system"
 
 echo "=== GitOps Deploy Timer Installation ==="
@@ -74,8 +74,8 @@ systemctl start  farm-deploy.timer
 echo "      Timer enabled."
 
 # --- Log directory ---
-mkdir -p /var/log/scm-lab
-echo "      Log directory: /var/log/scm-lab/"
+mkdir -p /var/log/digital-supply-chain
+echo "      Log directory: /var/log/digital-supply-chain/"
 
 # --- Status ---
 echo ""

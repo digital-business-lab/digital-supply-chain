@@ -1,6 +1,6 @@
 # Didactic Scenarios
 
-The SCM Lab is designed for three levels of engagement: foundational courses, advanced courses, and research. The coffee theme makes abstract supply chain concepts tangible for all levels.
+This lab is designed for three levels of engagement: foundational courses, advanced courses, and research. The coffee theme makes abstract supply chain concepts tangible for all levels.
 
 ## Foundational Courses
 

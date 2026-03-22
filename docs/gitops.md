@@ -25,7 +25,7 @@ sudo systemctl start farm-deploy.service
 The `deploy.sh` script does:
 1. `git pull` — fetch latest commits
 2. `docker compose up -d` — only changed services restart (Docker Compose diffing)
-3. Log the result to `/var/log/scm-lab/farm-island-deploy.log`
+3. Log the result to `/var/log/digital-supply-chain/farm-island-deploy.log`
 
 ## Setting Up Auto-Deploy (Once Per Island)
 
@@ -41,7 +41,7 @@ This installs `farm-deploy.service` and `farm-deploy.timer` as systemd units. Th
 ```bash
 sudo systemctl start farm-deploy.service     # trigger immediately
 journalctl -u farm-deploy.service -f         # follow live output
-cat /var/log/scm-lab/farm-island-deploy.log  # full deploy log
+cat /var/log/digital-supply-chain/farm-island-deploy.log  # full deploy log
 ```
 
 ## Rollback

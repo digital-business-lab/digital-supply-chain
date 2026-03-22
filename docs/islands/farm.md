@@ -59,8 +59,8 @@ Node-RED
 
 ```bash
 # Clone the repository on the farm workstation
-git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/scm-lab
-cd /opt/scm-lab
+git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/digital-supply-chain
+cd /opt/digital-supply-chain
 
 # Copy and fill in secrets
 cp farm-island/.env.example farm-island/.env

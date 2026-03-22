@@ -17,7 +17,7 @@ ISLAND="farm-island"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ISLAND_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 REPO_DIR="$(git -C "$ISLAND_DIR" rev-parse --show-toplevel)"
-LOG_FILE="/var/log/scm-lab/${ISLAND}-deploy.log"
+LOG_FILE="/var/log/digital-supply-chain/${ISLAND}-deploy.log"
 BRANCH="main"
 
 FORCE=false

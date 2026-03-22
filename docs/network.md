@@ -31,4 +31,4 @@ Each island uses a **MikroTik router** as the local network hub:
 
 ## Inter-Island Connectivity
 
-In the lab environment, all islands are on the same physical LAN. For a more realistic setup, each island can be placed behind its own MikroTik router with a dedicated subnet, and REST API endpoints can be exposed via Traefik as virtual hostnames (e.g. `api.farm.scm-lab.local`).
+In the lab environment, all islands are on the same physical LAN. For a more realistic setup, each island can be placed behind its own MikroTik router with a dedicated subnet, and REST API endpoints can be exposed via Traefik as virtual hostnames (e.g. `api.farm.lab.local`).

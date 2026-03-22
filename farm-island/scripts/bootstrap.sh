@@ -35,7 +35,7 @@ clear
 echo -e "${BOLD}"
 echo "  ╔═══════════════════════════════════════════════════╗"
 echo "  ║         Farm Island — Bootstrap Script            ║"
-echo "  ║      Open-Source Supply Chain  ·  SCM Lab         ║"
+echo "  ║         Open-Source Supply Chain Lab               ║"
 echo "  ╚═══════════════════════════════════════════════════╝"
 echo -e "${NC}"
 echo "  This script sets up the following services:"
@@ -271,7 +271,7 @@ if [[ "${INSTALL_DEPLOY,,}" != "n" ]]; then
   REPO_DIR="$(git -C "$COMPOSE_DIR" rev-parse --show-toplevel 2>/dev/null || echo "")"
   if [[ -z "$REPO_DIR" ]]; then
     warn "No Git repository detected."
-    warn "Please clone the repo first: git clone https://github.com/... /opt/scm-lab"
+    warn "Please clone the repo first: git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/digital-supply-chain"
     warn "The deploy timer can then be set up manually:"
     warn "  sudo ./scripts/install-deploy-timer.sh"
   else

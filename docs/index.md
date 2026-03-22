@@ -1,4 +1,4 @@
-# SCM Lab — Digital Open-Source Supply Chain (Coffee)
+# Digital Open-Source Supply Chain (Coffee)
 
 A teaching and research project simulating a multi-tier B2B supply chain using **coffee as the example product**. Four independent lab islands communicate via REST APIs and a shared Hyperledger Fabric ledger — entirely open-source.
 
