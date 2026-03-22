@@ -1,55 +1,23 @@
 # Factory Island — Coffee Processing
 
-The Factory Island is the didactic centrepiece: two Dobot robots demonstrate physical coffee processing steps (sorting green beans, roasting, quality control, packaging) that are directly reported back to the ERP system.
+Coffee processing and roasting. Two Dobot robots handle sorting, QC, and packaging; ERPNext MES manages production orders; a Fabric peer node records roasting events on the shared ledger.
 
-→ [Full architecture overview](../docs/architecture.md) | [B2B communication](../docs/b2b-communication.md)
-
----
-
-## Hardware
-
-| Component | Model / Spec | Function |
-|---|---|---|
-| Linux workstation | — | Robot control and MES |
-| Touch display | — | MES operator interface for production orders |
-| Dobot Magician #1 | Dobot Magician | Pick & place — sorting green beans by quality |
-| Dobot Magician #2 | Dobot Magician | Quality control + packaging |
+📖 **[Full documentation → GitHub Pages](https://digital-business-lab.github.io/digital-supply-chain/islands/factory/)**
 
 ---
 
-## Services (Docker)
+## Hardware at a Glance
 
-| Service | Function |
+| Component | Function |
 |---|---|
-| ERPNext Manufacturing (MES) | Production orders, bills of materials, quality records |
-| Dobot Python SDK | Direct robot control via USB/TCP |
-| OPC-UA Server | Machine status exposure to ERPNext MES |
-| Apache Kafka | Internal event processing (island-internal only) |
-| Grafana | Production dashboard on the touch display |
-| Fabric Peer Node | Writes roasting/processing batch events to the shared ledger |
-| ROS2 (optional) | Advanced robot path programming for research contexts |
+| Linux workstation | Robot control and MES |
+| 2× Dobot Magician | Sorting + QC / packaging |
+| Touch display | MES operator interface |
 
----
+## Services
 
-## Internal Data Flow
-
-```
-ERPNext production order
-    ↓
-Dobot Python SDK
-    ↓
-Dobot #1 (sorting green beans)
-    ↓
-Dobot #2 (QC + packaging)
-    ↓
-OPC-UA → ERPNext booking
-    └─→ Fabric Peer Node (roasting batch event on ledger)
-```
-
----
+ERPNext MES · Dobot Python SDK · OPC-UA · Kafka · Grafana · Fabric Peer Node
 
 ## Status
 
-> **Planned** — configuration will be created analogously to the Farm island.
-
-The `docker-compose.yml`, config files, and scripts for this island are not yet created. They will follow the same structure as `farm-island/`.
+> **Planned** — will be set up analogously to `farm-island/`.

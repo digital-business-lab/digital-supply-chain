@@ -2,19 +2,7 @@ site_name: SCM Lab — Digital Open-Source Supply Chain
 site_url: https://digital-business-lab.github.io/digital-supply-chain/
 repo_url: https://github.com/digital-business-lab/digital-supply-chain
 repo_name: digital-business-lab/digital-supply-chain
-edit_uri: edit/main/
-
-docs_dir: .
-site_dir: site
-
-exclude_docs: |
-  CLAUDE.md
-  site/
-  farm-island/docs/
-  factory-island/docs/
-  distributor-island/docs/
-  coffeehouse-island/docs/
-  lab-cloud/
+edit_uri: edit/main/docs/
 
 theme:
   name: material
@@ -44,25 +32,25 @@ theme:
     - content.code.copy
 
 nav:
-  - Home: README.md
+  - Home: index.md
   - Architecture:
-    - Overview: docs/architecture.md
-    - Lab Cloud: docs/lab-cloud.md
-    - Hyperledger Fabric: docs/hyperledger-fabric.md
-    - B2B Communication: docs/b2b-communication.md
-    - LoRaWAN (Farm): docs/lorawan.md
-    - Network: docs/network.md
+    - Overview: architecture.md
+    - Lab Cloud: lab-cloud.md
+    - Hyperledger Fabric: hyperledger-fabric.md
+    - B2B Communication: b2b-communication.md
+    - LoRaWAN (Farm): lorawan.md
+    - Network: network.md
   - Lab Islands:
-    - Farm Island: farm-island/README.md
-    - Factory Island: factory-island/README.md
-    - Distributor Island: distributor-island/README.md
-    - Coffee House Island: coffeehouse-island/README.md
+    - Farm Island: islands/farm.md
+    - Factory Island: islands/factory.md
+    - Distributor Island: islands/distributor.md
+    - Coffee House Island: islands/coffeehouse.md
   - Teaching:
-    - Didactic Scenarios: docs/didactic-scenarios.md
+    - Didactic Scenarios: didactic-scenarios.md
   - Operations:
-    - Backup & VM Templates: docs/operations.md
-    - GitOps Workflow: docs/gitops.md
-    - Architecture Decisions: docs/decisions.md
+    - Backup & VM Templates: operations.md
+    - GitOps Workflow: gitops.md
+    - Architecture Decisions: decisions.md
 
 plugins:
   - search
