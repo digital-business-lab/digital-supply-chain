@@ -45,6 +45,7 @@ nav:
     - Factory Island: islands/factory.md
     - Distributor Island: islands/distributor.md
     - Coffee House Island: islands/coffeehouse.md
+    - Service Centre (optional): islands/service-centre.md
   - Teaching:
     - Didactic Scenarios: didactic-scenarios.md
   - Operations:
