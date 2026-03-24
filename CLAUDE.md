@@ -54,6 +54,8 @@ All design decisions, technology choices, and implementation proposals must foll
 - **TurtleBot4 Lite** is the last-mile delivery robot, organisationally part of the Distributor Island; uses ROS2 Humble + Nav2 for autonomous navigation. See `docs/islands/distributor.md`.
 - **ERP–ROS2 bridge** uses `rosbridge_suite` (WebSocket) + Node-RED — consistent with the existing Node-RED integration pattern on the island; a standalone polling service was considered but rejected. Both ROS2 Docker containers run with `network_mode: host` to enable DDS multicast over the island LAN.
 - **Farm: LED grow light and automated irrigation** (Shelly relay + pump) are controlled via Node-RED based on LoRaWAN sensor readings. Shelly relay model not yet confirmed (tbc). See `docs/islands/farm.md`.
+- **Factory Island physical structure:** aluminium profile rack, three levels (top: stainless-steel perforated plate / Lochblech with Dobot robots; mid: WIP buffer shelf; lower: compute). 3D-printed containers (~6×6 cm) snap into the perforated grid at fixed positions — no vision system required for basic Dobot scenarios. See `docs/islands/factory.md`.
+- **Farm → Factory material flow:** manual carry by student/operator; goods receipt scanned (QR code or NFC, tbc) into Factory ERPNext, recorded on Fabric ledger. Conveyor belt and TurtleBot were considered but rejected as over-engineered for adjacent lab islands. Open: QR vs. NFC reader choice.
 
 ## What lives in Git
 

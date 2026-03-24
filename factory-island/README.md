@@ -6,6 +6,24 @@ Coffee processing and roasting. Two Dobot robots handle sorting, QC, and packagi
 
 ---
 
+## Physical Structure
+
+Aluminium profile rack with three levels — identical construction principle to the Farm Island.
+
+```
+TOP LEVEL   — Stainless-steel perforated plate (Lochblech) + 3D-printed containers
+              (Dobot #1 sorting / Dobot #2 QC + packaging)
+MID LEVEL   — Second perforated plate as WIP buffer / staging area
+LOWER LEVEL — Workstation, network hardware
+FRONT       — Touch display (MES / Grafana dashboard)
+```
+
+Containers (~6 × 6 cm base) snap into the grid at defined positions, enabling repeatable Dobot pick-and-place without vision system.
+
+**Material input:** raw green beans arrive in a container carried manually from the Farm Island; goods receipt is scanned into ERPNext and recorded on the Fabric ledger.
+
+---
+
 ## Hardware at a Glance
 
 | Component | Function |
