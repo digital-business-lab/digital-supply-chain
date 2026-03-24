@@ -14,6 +14,7 @@ A teaching and research project simulating a multi-tier B2B supply chain using *
 | [Factory](factory-island/README.md) | Roasting & processing | Dobot robots, MES, OPC-UA, Fabric peer |
 | [Distributor](distributor-island/README.md) | Coffee trader & warehouse | ERPNext WMS, VROOM, Fabric peer |
 | [Coffee House](coffeehouse-island/README.md) | Consumer endpoint · no ERP | POS, Traceability Display, Lab Cloud IoT |
+| [Service Centre](service-center-island/README.md) *(optional)* | Coffee equipment repair · job-shop MRP | ERPNext Manufacturing, Fabric Peer (optional) |
 
 B2B communication exclusively via **REST APIs**. Each island is an independent company with its own ERPNext and Kafka. The Coffee House is intentionally lean — no ERP, no Kafka, no Fabric peer node.
 
