@@ -59,6 +59,9 @@ All design decisions, technology choices, and implementation proposals must foll
 - **Factory MES didactic concept:** five defined scenarios (standard run, quality reject, bottleneck, material shortage, traceability/recall) map MES functions (production order lifecycle, BoM, routing, OEE, non-conformance) to physical robot actions. Roasting is simulated via container movement + time-temperature profile + colour-coded tokens inspected by Vision Studio.
 - **Farm → Factory material flow:** manual carry by student/operator; goods receipt scanned (QR code or NFC, tbc) into Factory ERPNext, recorded on Fabric ledger. Conveyor belt and TurtleBot were considered but rejected as over-engineered for adjacent lab islands. Open: QR vs. NFC reader choice.
 
+- **Service Centre Island** is an optional, software-first extension with no permanent physical rack; its didactic purpose is to teach job-shop manufacturing (Werkstattfertigung) and the full MRP planning cycle in ERPNext. Each repair/maintenance job is a production order with a variable routing through shared work centres. The physical simulation method (role-play with job cards, digital mock-up, or lightweight props) is an open design question to be decided before first use. See `service-center-island/README.md`.
+- **Island README canonical structure** (all islands follow this template): Title + one-liner → GitHub Pages link → `---` → `## Physical Structure` (optional, only for rack-based islands) + `---` → `## Hardware at a Glance` → `## Services` → `## Quick Start` (operational islands only) → `## Status`.
+
 ## What lives in Git
 
 - `docker-compose.yml` and all config files
