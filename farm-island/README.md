@@ -6,9 +6,20 @@ Origin of the supply chain. LoRaWAN sensors measure field conditions; ERPNext ma
 
 ---
 
-## Hardware at a Glance
+## Physical Structure
 
-The island is built on an aluminium profile rack with multiple levels: coffee plant + LED grow light on top, water reservoir in the middle, compute and network hardware below, touch display mounted on the front.
+Aluminium profile rack with multiple levels — identical construction principle to the Factory Island.
+
+```
+TOP LEVEL   — Coffee plant + LED grow light (controllable intensity + schedule)
+MID LEVEL   — Water reservoir (automated irrigation via Shelly relay + pump)
+LOWER LEVEL — Linux workstation, MikroTik router, LoRaWAN gateway
+FRONT       — Touch display (Grafana dashboard, kiosk mode)
+```
+
+---
+
+## Hardware at a Glance
 
 | Component | Function |
 |---|---|
@@ -31,3 +42,7 @@ cp farm-island/.env.example farm-island/.env
 # fill in passwords, then:
 chmod +x farm-island/scripts/bootstrap.sh && ./farm-island/scripts/bootstrap.sh
 ```
+
+## Status
+
+> **Operational** — core services running; LoRaWAN gateway and sensors connected.

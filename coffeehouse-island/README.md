@@ -15,7 +15,7 @@ The lean end of the supply chain. No ERP, no Kafka, no Fabric peer. Three indepe
 | Customer-facing display | Traceability Display |
 | Smart coffee machine | IoT sensors → Lab Cloud |
 
-## Modules
+## Services
 
 POS System · Traceability Display · IoT Connector (→ Lab Cloud)
 
