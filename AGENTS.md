@@ -9,7 +9,6 @@
 
 ## Language
 
-- Communicate with the user in **German**
 - All files, documentation, and code comments in **English**
 
 ## Documentation Structure
