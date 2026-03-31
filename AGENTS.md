@@ -1,4 +1,4 @@
-# Project Instructions for Claude
+# Project Instructions for Agents
 
 ## Repository
 
@@ -20,13 +20,13 @@ This project uses GitHub-native documentation:
 - `docs/*.md` — one file per topic; these are the authoritative content source
 - `farm-island/README.md`, `factory-island/README.md`, etc. — island-specific docs rendered by GitHub when navigating to the subfolder
 - `mkdocs.yml` — MkDocs config; GitHub Action builds and deploys to GitHub Pages on every push to `main`
-- `CLAUDE.md` — this file; always read first when working on this project
+- `AGENTS.md` — this file; always read first when working on this project
 
 **Rule:** Never put detailed content directly into `README.md`. Always put it in the appropriate `docs/*.md` file and link from `README.md`.
 
-## Maintaining CLAUDE.md
+## Maintaining AGENTS.md
 
-`CLAUDE.md` is a living document. After every session it must reflect the current state of agreements and decisions:
+`AGENTS.md` is a living document. After every session it must reflect the current state of agreements and decisions:
 
 - **Update after every significant decision** — if a technology choice, architectural direction, naming convention, or workflow is agreed upon during a conversation, add or revise the relevant entry in this file before the session ends.
 - **Record the rationale, not just the outcome** — note briefly *why* a decision was made (constraint, trade-off, experiment result), so future sessions can judge whether the decision still holds.
