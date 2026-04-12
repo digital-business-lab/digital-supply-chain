@@ -42,6 +42,7 @@ nav:
     - Network: network.md
   - Lab Islands:
     - Farm Island: islands/farm.md
+    - Farm Island — ERP Config & Demo Data: islands/farm-erp.md
     - Factory Island: islands/factory.md
     - Distributor Island: islands/distributor.md
     - Coffee House Island: islands/coffeehouse.md
