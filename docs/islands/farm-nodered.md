@@ -25,16 +25,14 @@ No login is required by default inside the lab network. To enable authentication
 
 ### 1.2 Install Required Palette Nodes
 
-Open **Menu → Manage Palette → Install** and install the following community nodes:
+The standard **MQTT In/Out** and **HTTP Request** nodes are built into Node-RED and are already available in the editor. If you need the local operator panel and external credential storage described below, open **Menu → Manage Palette → Install** and install these community nodes:
 
 | Node package | Purpose |
 |---|---|
-| `node-red-contrib-mqtt-broker` | (built-in) MQTT subscribe/publish |
-| `node-red-node-http-request` | (built-in) HTTP REST calls to ERPNext |
 | `node-red-contrib-credentials` | Stores API keys outside the flow JSON |
 | `node-red-dashboard` | Local operator panel for manual harvest recording |
 
-All packages except `node-red-contrib-credentials` ship with the `nodered/node-red:3-minimal` image. Run the install once; packages persist in the `nodered-data` volume.
+Built-in nodes are available without any palette install. Install the community packages once; they persist in the `nodered-data` volume.
 
 ### 1.3 Configure ERPNext Credentials
 
