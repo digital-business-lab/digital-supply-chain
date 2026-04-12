@@ -35,7 +35,6 @@ nav:
   - Home: index.md
   - Architecture:
     - Overview: architecture.md
-    - Lab Cloud: lab-cloud.md
     - Hyperledger Fabric: hyperledger-fabric.md
     - B2B Communication: b2b-communication.md
     - LoRaWAN (Farm): lorawan.md
@@ -53,6 +52,7 @@ nav:
     - Didactic Scenarios: didactic-scenarios.md
   - Operations:
     - Supply Chain Setup Guide: setup-guide.md
+    - Lab Cloud Setup Guide: lab-cloud-setup.md
     - Workstation Setup: setup-workstation.md
     - Backup & VM Templates: operations.md
     - GitOps Workflow: gitops.md
