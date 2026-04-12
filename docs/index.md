@@ -41,29 +41,26 @@ Coffee Farm  →  Coffee Processing  →  Coffee Trader  →  Coffee House
 
 ## Project Status
 
-### Completed
-- Overall concept documented (this site)
-- Visual architecture overview ([lab-islands_overview_2.html](lab-islands_overview_2.html))
-- Farm island fully specified and operational
-
-### Open
-- Factory, Distributor, Coffee House islands
-- Lab Cloud setup
-- Hyperledger Fabric network
-- REST API endpoint definitions
-- Curriculum and seminar use cases
+| Component | Status |
+|---|---|
+| Overall concept & documentation site | Completed |
+| Visual architecture overview | Completed |
+| Farm Island — stack & automation | Partially specified — setup docs exist, full validation pending |
+| Lab Cloud — Fabric orderer + IoT backend | Planned — not yet set up |
+| Factory Island | Partially specified — hardware defined, docker-compose pending |
+| Distributor Island | Partially specified — architecture defined, docker-compose pending |
+| Coffee House Island | Planned — modules not yet implemented |
+| Hyperledger Fabric network (multi-island) | Planned |
+| REST API endpoint definitions | Planned |
+| Curriculum and seminar use cases | Planned |
 
 ---
 
-## Quick Start — Farm Island
+## Build the Supply Chain
 
-```bash
-git clone https://github.com/digital-business-lab/digital-supply-chain.git
-cd digital-supply-chain
-chmod +x farm-island/scripts/bootstrap.sh && ./farm-island/scripts/bootstrap.sh
-```
+The [Supply Chain Setup Guide](setup-guide.md) walks through standing up all components in the correct order, with checkpoints and links to each island's detail documentation.
 
-→ [Farm Island setup guide](islands/farm/index.md)
+→ [Setup Guide](setup-guide.md)
 
 ---
 

@@ -52,6 +52,7 @@ nav:
   - Teaching:
     - Didactic Scenarios: didactic-scenarios.md
   - Operations:
+    - Supply Chain Setup Guide: setup-guide.md
     - Workstation Setup: setup-workstation.md
     - Backup & VM Templates: operations.md
     - GitOps Workflow: gitops.md
