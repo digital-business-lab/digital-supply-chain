@@ -419,7 +419,7 @@ return msg;
 | Field | Value |
 |---|---|
 | Method | POST |
-| URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Delivery Note` |
+| URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Delivery%20Note` |
 | Return | Parsed JSON object |
 
 **Function — Build Fabric event payload:**
