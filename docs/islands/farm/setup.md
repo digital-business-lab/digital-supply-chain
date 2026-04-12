@@ -2,9 +2,9 @@
 
 Step-by-step operational guide for bringing up the Farm Island from a fresh workstation. Covers LoRaWAN stack configuration, ChirpStack gateway and device registration, MikroTik wAP LR8 packet forwarder, and Grafana first-time setup.
 
-**Prerequisites:** Complete [Workstation Setup](../setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
+**Prerequisites:** Complete [Workstation Setup](../../setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
 
-→ [Farm Island overview](index.md) | [ERPNext configuration](erp.md) | [Node-RED flows](nodered.md) | [LoRaWAN details](../lorawan.md)
+→ [Farm Island overview](index.md) | [ERPNext configuration](erp.md) | [Node-RED flows](nodered.md) | [LoRaWAN details](../../lorawan.md)
 
 ---
 
@@ -50,7 +50,7 @@ The MikroTik wAP LR8 runs RouterOS with a built-in LoRa packet forwarder. Config
   server-key=""
 ```
 
-> Replace `192.168.10.10` with the DHCP-reserved IP of the workstation (set up in [Workstation Setup § Network](../setup-workstation.md#4-network-dhcp-reservation)). Port `1700/UDP` is received by the ChirpStack Gateway Bridge.
+> Replace `192.168.10.10` with the DHCP-reserved IP of the workstation (set up in [Workstation Setup § Network](../../setup-workstation.md#4-network-dhcp-reservation)). Port `1700/UDP` is received by the ChirpStack Gateway Bridge.
 
 **Alternative via Winbox:** LoRa → Gateways → set Server Address to `192.168.10.10:1700`.
 
@@ -158,7 +158,7 @@ The PostgreSQL data source is provisioned automatically on first start (via `con
 4. Add panels for temperature, humidity, and soil moisture
 5. Save the dashboard and mark it as the **home dashboard** (star icon → set as home)
 
-> Grafana opens automatically in kiosk mode on the touch display at boot (configured in [Workstation Setup § Grafana kiosk mode](../setup-workstation.md#12-grafana-kiosk-mode-touch-display)). No manual browser launch is needed.
+> Grafana opens automatically in kiosk mode on the touch display at boot (configured in [Workstation Setup § Grafana kiosk mode](../../setup-workstation.md#12-grafana-kiosk-mode-touch-display)). No manual browser launch is needed.
 
 ---
 
@@ -200,4 +200,4 @@ docker stats
 | Node-RED: add ERPNext REST API integration and irrigation automation | [Farm Island — Node-RED Flows](nodered.md) |
 | ChirpStack: add remaining sensor types (Dragino LDDS75, SenseCAP CO₂) | § 3.3 above |
 | Grafana: refine dashboards, configure alerting for threshold breaches | § 5 above |
-| Automated GitOps deploy and backup timers | [GitOps Workflow](../gitops.md) |
+| Automated GitOps deploy and backup timers | [GitOps Workflow](../../gitops.md) |
