@@ -36,18 +36,19 @@ Built-in nodes are available without any palette install. Install the community 
 
 ### 1.3 Configure ERPNext Credentials
 
-ERPNext API credentials must not be embedded in the exported flow JSON. Use the Node-RED **Credentials** store instead:
+ERPNext API credentials must not be embedded in the exported flow JSON. Expose them to the Node-RED container as environment variables and read them from Function nodes with `env.get(...)`:
 
-1. In the editor, open **Menu → Settings → Credentials** (or add a `credentials` node to the canvas).
-2. Create a credential entry named `erpnext-farm` with two keys:
-   - `apiKey` — copy the value of `ERPNEXT_API_KEY` from `farm-island/.env`
-   - `apiSecret` — copy the value of `ERPNEXT_API_SECRET` from `farm-island/.env`
+1. In `farm-island/.env`, set `ERPNEXT_API_KEY` and `ERPNEXT_API_SECRET`.
+2. In `farm-island/docker-compose.yml`, pass those variables into the `farm-nodered` container under `environment:`.
 3. In every flow, add a **Function** node before each ERPNext HTTP Request node to set the `Authorization` header:
 
 ```javascript
 // Prepend to every ERPNext HTTP Request node
+const apiKey = env.get("ERPNEXT_API_KEY");
+const apiSecret = env.get("ERPNEXT_API_SECRET");
+
 msg.headers = {
-    "Authorization": "token " + credentials.apiKey + ":" + credentials.apiSecret,
+    "Authorization": "token " + apiKey + ":" + apiSecret,
     "Content-Type": "application/json"
 };
 return msg;
