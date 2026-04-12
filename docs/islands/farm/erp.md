@@ -2,7 +2,7 @@
 
 ERPNext v15 is the ERP system of the Farm Island. It manages **harvest batches**, **raw-material inventory**, and **outbound shipments** to the Factory Island. Node-RED feeds operator-triggered events into ERPNext via the Frappe REST API — see [Farm Island — Node-RED Setup and Flows](nodered.md) for the full Node-RED reference.
 
-→ [Farm Island overview](index.md) | [Node-RED flows](nodered.md) | [B2B communication](../../b2b-communication.md) | [LoRaWAN details](../../lorawan.md)
+→ [Farm Island overview](index.md) | [Node-RED flows](nodered.md) | [B2B communication](../../architecture/b2b-communication.md) | [LoRaWAN details](lorawan.md)
 
 ---
 

@@ -3,9 +3,9 @@
 Step-by-step guide for provisioning the Lab Cloud from a fresh server.
 The Lab Cloud **must be running before any island peer joins the Fabric channel**.
 
-**Prerequisites:** Complete [Workstation Setup](setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
+**Prerequisites:** Complete [Workstation Setup](../operations/setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
 
-→ [Lab Cloud architecture overview](lab-cloud.md) | [Hyperledger Fabric concepts](hyperledger-fabric.md) | [Supply Chain Setup Guide](setup-guide.md)
+→ [Lab Cloud architecture overview](README.md) | [Hyperledger Fabric concepts](../architecture/hyperledger-fabric.md) | [Supply Chain Setup Guide](../operations/setup-guide.md)
 
 ---
 
@@ -282,7 +282,7 @@ peer lifecycle chaincode package supplychain.tar.gz \
   --lang golang \
   --label supplychain_1.0
 
-# 2. Install on each peer (run once per island peer — see setup-guide.md)
+# 2. Install on each peer (run once per island peer — see ../operations/setup-guide.md)
 #    Each island admin runs this on their own peer node.
 
 # 3. Approve for each org (org admin runs this from each island)

@@ -2,7 +2,7 @@
 
 Shared prerequisite for all lab islands that run Docker services on a local workstation (Farm Island, Factory Island, Distributor Island). Each island uses the same base OS and container runtime.
 
-→ [Farm Island setup](islands/farm/setup.md) | [GitOps workflow](gitops.md)
+→ [Farm Island setup](../islands/farm/setup.md) | [GitOps workflow](gitops.md)
 
 ---
 

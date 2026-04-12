@@ -35,7 +35,7 @@ Coffee Farm  →  Coffee Processing  →  Coffee Trader  →  Coffee House
               └──────────────────────┘
 ```
 
-→ [Full architecture documentation](architecture.md)
+→ [Full architecture documentation](architecture/)
 
 ---
 
@@ -58,9 +58,9 @@ Coffee Farm  →  Coffee Processing  →  Coffee Trader  →  Coffee House
 
 ## Build the Supply Chain
 
-The [Supply Chain Setup Guide](setup-guide.md) walks through standing up all components in the correct order, with checkpoints and links to each island's detail documentation.
+The [Supply Chain Setup Guide](operations/setup-guide.md) walks through standing up all components in the correct order, with checkpoints and links to each island's detail documentation.
 
-→ [Setup Guide](setup-guide.md)
+→ [Setup Guide](operations/setup-guide.md)
 
 ---
 
@@ -68,4 +68,4 @@ The [Supply Chain Setup Guide](setup-guide.md) walks through standing up all com
 
 LoRaWAN · ChirpStack · ERPNext · Apache Kafka · Dobot · OPC-UA · VROOM · Hyperledger Fabric · Mosquitto · Node-RED · InfluxDB · Grafana · Docker · MikroTik RouterOS
 
-→ [Full technology stack](architecture.md#technology-stack)
+→ [Full technology stack](architecture/#technology-stack)

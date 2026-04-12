@@ -28,7 +28,7 @@ Follow [Workstation Setup](setup-workstation.md) on every machine before deployi
 
 ### Network
 
-All islands must be reachable from the Lab Cloud and from each other over the lab LAN. See [Network](network.md) for VLAN layout, DHCP reservations, and firewall rules.
+All islands must be reachable from the Lab Cloud and from each other over the lab LAN. See [Network](../architecture/network.md) for VLAN layout, DHCP reservations, and firewall rules.
 
 ### Repository
 
@@ -62,7 +62,7 @@ The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT
     6. Verify the orderer is reachable on port `7050` from all island workstations.
     7. Distribute the channel genesis block (`lab-channel.block`) and each org's MSP material to the respective island administrators.
 
-    → [Lab Cloud Setup Guide](lab-cloud/setup.md) | [Lab Cloud overview](../lab-cloud/README.md) | [Hyperledger Fabric](hyperledger-fabric.md)
+    → [Lab Cloud Setup Guide](lab-cloud/setup.md) | [Lab Cloud overview](../lab-cloud/README.md) | [Hyperledger Fabric](../architecture/hyperledger-fabric.md)
 
 ### Checkpoint
 
@@ -87,7 +87,7 @@ Follow the [Farm Island Setup Guide](islands/farm/setup.md):
 
 ### 2.2 LoRaWAN — Gateway and Sensors
 
-1. Configure the MikroTik wAP LR8 packet forwarder to point to `192.168.10.10:1700` (or the workstation's DHCP reservation) — see [LoRaWAN](lorawan.md).
+1. Configure the MikroTik wAP LR8 packet forwarder to point to `192.168.10.10:1700` (or the workstation's DHCP reservation) — see [LoRaWAN](../islands/farm/lorawan.md).
 2. Register the gateway in ChirpStack.
 3. Register each sensor device (Dragino LHT65, LDDS75, or Seeed SenseCAP S2103) in ChirpStack with the correct AppEUI / DevEUI / AppKey.
 4. Verify decoded uplink payloads appear in ChirpStack's live frame log.
@@ -115,7 +115,7 @@ Follow [Farm Island — Node-RED Flows](islands/farm/nodered.md):
     Expected steps:
 
     1. Obtain the channel genesis block from the Lab Cloud administrator.
-    2. Run the peer join command (see [Hyperledger Fabric](hyperledger-fabric.md) for the exact command once the channel config is finalised).
+    2. Run the peer join command (see [Hyperledger Fabric](../architecture/hyperledger-fabric.md) for the exact command once the channel config is finalised).
     3. Install and commit the supply chain chaincode on the peer.
 
 ### Checkpoint
@@ -164,7 +164,7 @@ cp factory-island/.env.example factory-island/.env
 ### 3.4 ERPNext MES Configuration
 
 !!! warning "Placeholder — MES configuration guide not yet written"
-    Expected: Bill of Materials for each product variant, routings (IN → SRT → RST → QC → OUT), work centre definitions, OEE tracking, non-conformance handling, five didactic scenarios (see [Didactic Scenarios](didactic-scenarios.md)).
+    Expected: Bill of Materials for each product variant, routings (IN → SRT → RST → QC → OUT), work centre definitions, OEE tracking, non-conformance handling, five didactic scenarios (see [Didactic Scenarios](../teaching/didactic-scenarios.md)).
 
 ### 3.5 Join Fabric Channel
 
@@ -308,7 +308,7 @@ Once all five components are running, verify the complete supply chain with a si
     ```
 
 !!! warning "Placeholder — REST API contracts not yet defined"
-    The B2B REST API endpoint definitions (Farm → Factory, Factory → Distributor, Distributor → Coffee House, Lab Cloud Fabric Gateway) are not yet specified. See [B2B Communication](b2b-communication.md) for the framework; endpoint schemas will be added as islands are implemented.
+    The B2B REST API endpoint definitions (Farm → Factory, Factory → Distributor, Distributor → Coffee House, Lab Cloud Fabric Gateway) are not yet specified. See [B2B Communication](../architecture/b2b-communication.md) for the framework; endpoint schemas will be added as islands are implemented.
 
 ---
 
@@ -316,7 +316,7 @@ Once all five components are running, verify the complete supply chain with a si
 
 | Step | Component | Status |
 |---|---|---|
-| Prerequisites | Ubuntu 22.04, Docker, network | Documented — [Workstation Setup](setup-workstation.md), [Network](network.md) |
+| Prerequisites | Ubuntu 22.04, Docker, network | Documented — [Workstation Setup](setup-workstation.md), [Network](../architecture/network.md) |
 | 1 | Lab Cloud (orderer + IoT backend) | Planned — `lab-cloud/` folder not yet created |
 | 2 | Farm Island | Partially specified — stack exists, Fabric join + full validation pending |
 | 3 | Factory Island | Partially specified — hardware defined, docker-compose and detailed docs pending |

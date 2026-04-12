@@ -24,16 +24,16 @@ B2B communication exclusively via **REST APIs**. Each island is an independent c
 
 | Topic | Description |
 |---|---|
-| [Architecture](docs/architecture.md) | Four islands, Lab Cloud, Hyperledger Fabric overview |
-| [Lab Cloud](docs/lab-cloud.md) | On-premise shared services (Fabric orderer, IoT backend, monitoring) |
-| [Hyperledger Fabric](docs/hyperledger-fabric.md) | End-to-end batch traceability across all tiers |
-| [B2B Communication](docs/b2b-communication.md) | REST API messages between companies |
-| [LoRaWAN Architecture](docs/lorawan.md) | Four-layer sensor stack on the Farm island |
-| [Network Architecture](docs/network.md) | All services, ports, and access rules |
-| [Didactic Scenarios](docs/didactic-scenarios.md) | Use cases for foundational, advanced, and research courses |
-| [Operations & Backup](docs/operations.md) | Backup strategy, VM templates for teaching |
-| [Architecture Decisions](docs/decisions.md) | Why we chose what we chose |
-| [GitOps Workflow](docs/gitops.md) | How configuration changes reach the islands |
+| [Architecture](docs/architecture/) | Four islands, Lab Cloud, Hyperledger Fabric overview |
+| [Lab Cloud](lab-cloud/README.md) | On-premise shared services (Fabric orderer, IoT backend, monitoring) |
+| [Hyperledger Fabric](docs/architecture/hyperledger-fabric.md) | End-to-end batch traceability across all tiers |
+| [B2B Communication](docs/architecture/b2b-communication.md) | REST API messages between companies |
+| [LoRaWAN Architecture](docs/islands/farm/lorawan.md) | Four-layer sensor stack on the Farm island |
+| [Network Architecture](docs/architecture/network.md) | All services, ports, and access rules |
+| [Didactic Scenarios](docs/teaching/didactic-scenarios.md) | Use cases for foundational, advanced, and research courses |
+| [Operations & Backup](docs/operations/) | Backup strategy, VM templates for teaching |
+| [Architecture Decisions](docs/architecture/decisions.md) | Why we chose what we chose |
+| [GitOps Workflow](docs/operations/gitops.md) | How configuration changes reach the islands |
 
 **Visual overview:** [docs/lab-islands_overview_2.html](docs/lab-islands_overview_2.html)
 
@@ -55,4 +55,4 @@ See [Farm Island setup guide](farm-island/README.md) for full instructions.
 
 LoRaWAN · ChirpStack · ERPNext · Apache Kafka · Dobot · OPC-UA · VROOM · Hyperledger Fabric · Mosquitto · Node-RED · InfluxDB · Grafana · Docker · MikroTik RouterOS
 
-Full table → [docs/architecture.md#technology-stack](docs/architecture.md#technology-stack)
+Full table → [docs/architecture/#technology-stack](docs/architecture/#technology-stack)

@@ -2,7 +2,7 @@
 
 The Factory Island is the didactic centrepiece of the supply chain: two Dobot robots demonstrate physical processing steps — receiving, sorting, roasting (simulated), quality control, and packaging — while ERPNext MES connects every step to production orders, material tracking, and Hyperledger Fabric.
 
-→ [Architecture overview](../../architecture.md) | [B2B communication](../../b2b-communication.md) | [Decisions log](../../decisions.md)
+→ [Architecture overview](../../architecture/) | [B2B communication](../../architecture/b2b-communication.md) | [Decisions log](../../architecture/decisions.md)
 
 ---
 

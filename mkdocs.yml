@@ -34,11 +34,11 @@ theme:
 nav:
   - Home: index.md
   - Architecture:
-    - Overview: architecture.md
-    - Hyperledger Fabric: hyperledger-fabric.md
-    - B2B Communication: b2b-communication.md
-    - LoRaWAN (Farm): lorawan.md
-    - Network: network.md
+    - Overview: architecture/
+    - Hyperledger Fabric: architecture/hyperledger-fabric.md
+    - B2B Communication: architecture/b2b-communication.md
+    - LoRaWAN (Farm): islands/farm/lorawan.md
+    - Network: architecture/network.md
   - Lab Islands:
     - Farm Island: islands/farm/index.md
     - Farm Island — Setup Guide: islands/farm/setup.md
@@ -49,14 +49,14 @@ nav:
     - Coffee House Island: islands/coffeehouse/index.md
     - Service Centre (optional): islands/service-centre/index.md
   - Teaching:
-    - Didactic Scenarios: didactic-scenarios.md
+    - Didactic Scenarios: teaching/didactic-scenarios.md
   - Operations:
-    - Supply Chain Setup Guide: setup-guide.md
+    - Supply Chain Setup Guide: operations/setup-guide.md
     - Lab Cloud Setup Guide: lab-cloud/setup.md
-    - Workstation Setup: setup-workstation.md
-    - Backup & VM Templates: operations.md
-    - GitOps Workflow: gitops.md
-    - Architecture Decisions: decisions.md
+    - Workstation Setup: operations/setup-workstation.md
+    - Backup & VM Templates: operations/index.md
+    - GitOps Workflow: operations/gitops.md
+    - Architecture Decisions: architecture/decisions.md
 
 plugins:
   - search
