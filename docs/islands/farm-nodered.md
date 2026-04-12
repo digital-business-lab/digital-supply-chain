@@ -56,7 +56,7 @@ return msg;
 
 ### 1.4 Environment Variables in Node-RED
 
-The `farm-island/docker-compose.yml` must expose the following variables into the Node-RED container (add under `environment:` if not present):
+Before importing the flows below, open `farm-island/docker-compose.yml` and check the `nodered` service's existing `environment:` section. If it currently only defines the default entries (for example `TZ` and `NODE_RED_ENABLE_PROJECTS`), you must manually extend that same `environment:` block with the ERPNext and sensor variables below so they are available inside the Node-RED container:
 
 ```yaml
 ERPNEXT_BASE_URL:    "http://erpnext:8000"
@@ -66,6 +66,8 @@ SOIL_SENSOR_DEVEUI:  "${SOIL_SENSOR_DEVEUI}"
 CO2_SENSOR_DEVEUI:   "${CO2_SENSOR_DEVEUI}"
 MOISTURE_THRESHOLD_PCT: "50"
 ```
+
+This is a required compose change unless your local `nodered` service already exposes these variables. The flow examples in this page expect them to be present.
 
 Inside a Function node, read them with:
 
