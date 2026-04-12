@@ -385,11 +385,17 @@ return msg;
         ↓
 [Function: set auth headers]
         ↓
-[HTTP Request: POST /api/resource/Delivery Note]   ← ERPNext
+[HTTP Request: POST /api/resource/Delivery%20Note]    ← ERPNext (create draft)
+        ↓
+[Function: extract Delivery Note name]
+        ↓
+[Function: build submit payload]
+        ↓
+[HTTP Request: PUT /api/resource/Delivery%20Note/<name>]  ← ERPNext (submit)
         ↓
 [Function: build Fabric event payload]
         ↓
-[HTTP Request: POST Fabric gateway]                ← Farm Fabric peer node
+[HTTP Request: POST Fabric gateway]                   ← Farm Fabric peer node
         ↓
 [Debug / Dashboard: show success toast]
 ```
@@ -414,7 +420,7 @@ msg.payload = {
 return msg;
 ```
 
-**HTTP Request node (Delivery Note):**
+**HTTP Request node (create Delivery Note):**
 
 | Field | Value |
 |---|---|
@@ -422,10 +428,37 @@ return msg;
 | URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Delivery%20Note` |
 | Return | Parsed JSON object |
 
+**Function — Extract Delivery Note name:**
+
+```javascript
+// Store the newly created Delivery Note name for the submit step
+msg.dnName = msg.payload.data.name;
+return msg;
+```
+
+**Function — Build submit payload:**
+
+```javascript
+// Submit the Delivery Note (docstatus 0 → 1)
+msg.url     = `${env.get("ERPNEXT_BASE_URL")}/api/resource/Delivery%20Note/${encodeURIComponent(msg.dnName)}`;
+msg.payload = { docstatus: 1 };
+return msg;
+```
+
+**HTTP Request node (submit Delivery Note):**
+
+| Field | Value |
+|---|---|
+| Method | PUT |
+| URL | *(set dynamically via `msg.url` — enable "Override URL" in the node)* |
+| Return | Parsed JSON object |
+
+> The PUT request sets `docstatus: 1`, which submits the draft Delivery Note. Only a submitted document triggers stock-ledger and accounting entries in ERPNext.
+
 **Function — Build Fabric event payload:**
 
 ```javascript
-const dn = msg.payload.data;              // Delivery Note response from ERPNext
+const dn = msg.payload.data;              // submitted Delivery Note response from ERPNext
 msg.payload = {
     event:        "HarvestShipped",
     batchId:      msg.batchId,
@@ -504,8 +537,9 @@ Connect the Inject node to the JSON node at the start of Flow 1. Once the payloa
 | Flow | ERPNext action | Method | Endpoint | Body type |
 |---|---|---|---|---|
 | 3 | Create Batch (with sensor metadata) | POST | `/api/resource/Batch` | Batch document |
-| 3 | Book Material Receipt (harvest into Field Store) | POST | `/api/resource/Stock Entry` | Stock Entry (Material Receipt) |
-| 4 | Transfer Field Store → Graded Store | POST | `/api/resource/Stock Entry` | Stock Entry (Material Transfer) |
-| 5 | Create Delivery Note (outbound shipment) | POST | `/api/resource/Delivery Note` | Delivery Note document |
+| 3 | Book Material Receipt (harvest into Field Store) | POST | `/api/resource/Stock%20Entry` | Stock Entry (Material Receipt) |
+| 4 | Transfer Field Store → Graded Store | POST | `/api/resource/Stock%20Entry` | Stock Entry (Material Transfer) |
+| 5 | Create Delivery Note (outbound shipment) | POST | `/api/resource/Delivery%20Note` | Delivery Note document |
+| 5 | Submit Delivery Note | PUT | `/api/resource/Delivery%20Note/<name>` | `{"docstatus": 1}` |
 | Any | Read a batch record | GET | `/api/resource/Batch/<batch_id>` | — |
-| Any | Submit a draft document | PUT | `/api/resource/<DocType>/<name>` | `{"docstatus": 1}` |
+| Any | Submit any draft document | PUT | `/api/resource/<DocType>/<name>` | `{"docstatus": 1}` |

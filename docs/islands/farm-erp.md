@@ -28,7 +28,7 @@ bench --site farm.localhost enable-scheduler
 bench use farm.localhost
 ```
 
-> **Assumption:** `$MARIADB_ROOT_PASS` and `$ERPNEXT_ADMIN_PASS` are the values set in `farm-island/.env`. Add `ERPNEXT_ADMIN_PASS` to `.env.example` if not already present.
+> **Assumption:** `$MARIADB_ROOT_PASS` and `$ERPNEXT_ADMIN_PASS` are the values set in `farm-island/.env` (see `.env.example`).
 
 After initialisation the ERPNext web UI is available at `http://<HOST-IP>:8000` — log in with user `Administrator` and the password set above.
 
