@@ -304,9 +304,11 @@ The ERPNext API endpoints called by Node-RED are summarised in the table below.
 | Node-RED flow | ERPNext action | Method | Endpoint |
 |---|---|---|---|
 | Flow 3 — Harvest Recording | Create Batch (with sensor metadata) | POST | `/api/resource/Batch` |
-| Flow 3 — Harvest Recording | Book Material Receipt (Field Store) | POST | `/api/resource/Stock Entry` |
-| Flow 4 — Grading Transfer | Transfer Field Store → Graded Store | POST | `/api/resource/Stock Entry` |
-| Flow 5 — Outbound Shipment | Create Delivery Note | POST | `/api/resource/Delivery Note` |
+| Flow 3 — Harvest Recording | Book Material Receipt (Field Store) | POST | `/api/resource/Stock%20Entry` |
+| Flow 4 — Grading Transfer | Transfer Field Store → Graded Store | POST | `/api/resource/Stock%20Entry` |
+| Flow 5 — Outbound Shipment | Create Delivery Note | POST | `/api/resource/Delivery%20Note` |
+
+For copy/paste safety, endpoint examples use URL-encoded path segments where the ERPNext DocType contains spaces.
 
 ---
 
