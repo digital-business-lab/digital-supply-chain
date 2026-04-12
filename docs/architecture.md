@@ -29,7 +29,7 @@ A dedicated on-premise lab server (not Azure / AWS) providing managed services c
 | Coffee House IoT Backend | Mosquitto + Node-RED + InfluxDB | Ingests coffee machine sensor data, serves REST to Traceability Display |
 | Central Monitoring | Grafana + Hyperledger Explorer | Cross-island dashboard and blockchain browser for instructors |
 
-Full details → [lab-cloud.md](lab-cloud.md)
+Full details → [Lab Cloud](../lab-cloud/README.md)
 
 ## Hyperledger Fabric
 

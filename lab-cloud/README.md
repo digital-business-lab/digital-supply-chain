@@ -2,7 +2,7 @@
 
 The Lab Cloud is a dedicated infrastructure layer running on a **lab server on-premise** — not in Azure, AWS, or any public cloud. It provides managed services consumed by individual islands, primarily the Coffee House, which has no local server infrastructure of its own.
 
-→ [Lab Cloud Setup Guide](../docs/lab-cloud-setup.md) | [Hyperledger Fabric](../docs/hyperledger-fabric.md) | [Supply Chain Setup Guide](../docs/setup-guide.md)
+→ [Lab Cloud Setup Guide](../docs/lab-cloud/setup.md) | [Hyperledger Fabric](../docs/hyperledger-fabric.md) | [Supply Chain Setup Guide](../docs/setup-guide.md)
 
 This models a real-world pattern: small businesses subscribe to managed cloud services from a provider without understanding the underlying infrastructure. From the Coffee House's perspective, the Lab Cloud is a black box — the coffee machine sends data out, and a REST endpoint delivers processed results back.
 
@@ -48,4 +48,4 @@ Students encounter all three patterns in one coherent scenario and can directly 
 
 ## Planned Configuration
 
-The Lab Cloud configuration lives in `lab-cloud/` in the repository, structured analogously to the island folders. See [Lab Cloud Setup Guide](../docs/lab-cloud-setup.md) for the full folder layout and step-by-step instructions.
+The Lab Cloud configuration lives in `lab-cloud/` in the repository, structured analogously to the island folders. See [Lab Cloud Setup Guide](../docs/lab-cloud/setup.md) for the full folder layout and step-by-step instructions.

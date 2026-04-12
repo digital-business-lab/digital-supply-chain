@@ -46,12 +46,12 @@ The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT
 
 !!! warning "Placeholder — Lab Cloud docker-compose and scripts not yet committed"
     The `lab-cloud/` folder and its `docker-compose.yml` do not yet exist in the repository.
-    The full setup procedure is documented in the [Lab Cloud Setup Guide](lab-cloud-setup.md). Summary:
+    The full setup procedure is documented in the [Lab Cloud Setup Guide](lab-cloud/setup.md). Summary:
 
     1. Provision the server with Ubuntu 22.04 + Docker (see [Workstation Setup](setup-workstation.md)).
     2. Clone the repository to `/opt/digital-supply-chain`.
-    3. Generate Fabric crypto material with `cryptogen` (see [Lab Cloud Setup — Step 2](lab-cloud-setup.md#step-2--generate-fabric-crypto-material)).
-    4. Create the channel genesis block and orderer self-join (see [Lab Cloud Setup — Step 3](lab-cloud-setup.md#step-3--create-the-fabric-channel)).
+    3. Generate Fabric crypto material with `cryptogen` (see [Lab Cloud Setup — Step 2](lab-cloud/setup.md#step-2--generate-fabric-crypto-material)).
+    4. Create the channel genesis block and orderer self-join (see [Lab Cloud Setup — Step 3](lab-cloud/setup.md#step-3--create-the-fabric-channel)).
     5. Start the Lab Cloud stack:
        ```bash
        cd /opt/digital-supply-chain
@@ -62,7 +62,7 @@ The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT
     6. Verify the orderer is reachable on port `7050` from all island workstations.
     7. Distribute the channel genesis block (`lab-channel.block`) and each org's MSP material to the respective island administrators.
 
-    → [Lab Cloud Setup Guide](lab-cloud-setup.md) | [Lab Cloud overview](../lab-cloud/README.md) | [Hyperledger Fabric](hyperledger-fabric.md)
+    → [Lab Cloud Setup Guide](lab-cloud/setup.md) | [Lab Cloud overview](../lab-cloud/README.md) | [Hyperledger Fabric](hyperledger-fabric.md)
 
 ### Checkpoint
 

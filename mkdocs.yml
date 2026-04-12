@@ -52,7 +52,7 @@ nav:
     - Didactic Scenarios: didactic-scenarios.md
   - Operations:
     - Supply Chain Setup Guide: setup-guide.md
-    - Lab Cloud Setup Guide: lab-cloud-setup.md
+    - Lab Cloud Setup Guide: lab-cloud/setup.md
     - Workstation Setup: setup-workstation.md
     - Backup & VM Templates: operations.md
     - GitOps Workflow: gitops.md
