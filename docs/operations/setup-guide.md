@@ -39,14 +39,6 @@ Confirm the following hardware is available and physically set up:
 | Distributor | Linux workstation | TurtleBot4 Lite + docking station, USB barcode/RFID scanner, touch display |
 | Coffee House | Linux PC | Customer-facing display, RFID/barcode scanner, smart coffee machine |
 
-### Software — All Workstations
-
-Follow [Workstation Setup](setup-workstation.md) on every island machine and on the Lab Cloud server before deploying any island stack. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
-
-### Network
-
-All islands must be reachable from the Lab Cloud and from each other over the lab LAN. See [Network](../architecture/network.md) for VLAN layout, DHCP reservations, and firewall rules.
-
 ### Repository
 
 ```bash
