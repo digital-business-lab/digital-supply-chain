@@ -283,7 +283,7 @@ ERPNEXT_API_KEY=<paste key here>
 ERPNEXT_API_SECRET=<paste secret here>
 ```
 
-Node-RED reads these environment variables at startup. All ERPNext REST calls from Node-RED use HTTP Basic Auth with this key pair.
+Node-RED reads these environment variables at startup. All ERPNext REST calls from Node-RED use Frappe token authentication with this key pair, sent as `Authorization: token <api_key>:<api_secret>`.
 
 ---
 
