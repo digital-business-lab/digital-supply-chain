@@ -6,11 +6,26 @@ This guide walks through standing up the complete Digital Open-Source Supply Cha
 
 ---
 
+## Setup Sequence
+
+- [ ] Configure lab network and DHCP reservations
+- [ ] Complete workstation baseline setup on the Lab Cloud server and all island machines
+- [ ] Deploy the Lab Cloud and verify the Fabric orderer is reachable
+- [ ] Start islands in supply-chain order: Farm → Factory → Distributor → Coffee House
+
 ## Prerequisites
 
 Before starting any island deployment, complete the shared prerequisites and make the Lab Cloud available first.
 
-The shared prerequisites include the workstation baseline on each island machine and the Lab Cloud server, plus network configuration and repository checkout. The Lab Cloud must be deployed before any island peer can join the Fabric channel.
+The shared prerequisites include network configuration and DHCP reservations first, then workstation baseline setup on each island machine and the Lab Cloud server, plus repository checkout. The Lab Cloud must be deployed before any island peer can join the Fabric channel.
+
+### Network
+
+All islands must be reachable from the Lab Cloud and from each other over the lab LAN. See [Network](../architecture/network.md) for VLAN layout, DHCP reservations, and firewall rules.
+
+### Software — All Workstations
+
+Follow [Workstation Setup](setup-workstation.md) on every island machine and on the Lab Cloud server after lab network configuration and before deploying any island stack. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
 
 ### Hardware
 

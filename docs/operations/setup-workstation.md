@@ -2,6 +2,8 @@
 
 Shared prerequisite for the Lab Cloud server and all lab island workstations that run Docker services. The Lab Cloud server plus the Farm, Factory, and Distributor island machines all use the same base OS and container runtime.
 
+Before starting this guide, configure the lab network and DHCP reservations for the island machines and the Lab Cloud server. Then proceed with workstation setup and repository checkout.
+
 Complete this guide before starting the Lab Cloud deployment, and before deploying any island stack.
 
 → [Lab Cloud Setup](../lab-cloud/setup.md) | [GitOps workflow](gitops.md)
