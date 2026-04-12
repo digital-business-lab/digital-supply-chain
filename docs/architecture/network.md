@@ -23,12 +23,27 @@ The Coffee House connects to the **Lab Cloud** for IoT data (MQTT) and blockchai
 
 ## Island Network Setup
 
-Each island uses a **MikroTik router** as the local network hub:
+Each island uses a **MikroTik router** as the local network hub and a MikroTik access point / uplink device.
 
 - All devices (workstation, sensors, display) are DHCP clients on the MikroTik router
-- The workstation receives a **fixed DHCP reservation** by MAC address (e.g. `192.168.10.10`)
+- The router uses `.1` as its address in each island subnet
+- The access point / uplink device uses `.2` in each island subnet
+- The workstation receives a **fixed DHCP reservation** by MAC address
 - This fixed IP is required so the MikroTik wAP LR8 kit can point the LoRa packet forwarder at a stable address
+- Critical services should use static leases or static IP addresses within the island subnet
+
+### Detailed Network Configuration
+
+The lab uses one dedicated `/24` subnet per island and one for the Lab Cloud. The subnets start with Farm at `192.168.91.0/24` and increment by one for each island.
+
+| Domain | Subnet | Router / Gateway | Key fixed addresses | Notes |
+|---|---|---|---|---|
+| Farm Island | `192.168.91.0/24` | `192.168.91.1` | Router `192.168.91.1`; AP / uplink `192.168.91.2`; workstation `192.168.91.10`; LoRaWAN gateway `192.168.91.20`; ChirpStack host `192.168.91.30` | Farm devices use this subnet and route to Lab Cloud for Fabric orderer and central services |
+| Factory Island | `192.168.92.0/24` | `192.168.92.1` | Router `192.168.92.1`; AP / uplink `192.168.92.2`; workstation `192.168.92.10`; Dobot base controller `192.168.92.20`; Vision camera `192.168.92.21` | Dedicated subnet isolates production equipment |
+| Distributor Island | `192.168.93.0/24` | `192.168.93.1` | Router `192.168.93.1`; AP / uplink `192.168.93.2`; workstation `192.168.93.10`; TurtleBot4 base station `192.168.93.20`; ROS2 bridge endpoint `192.168.93.21` | TurtleBot4 and ROS2 components remain on island network |
+| Coffee House | `192.168.94.0/24` | `192.168.94.1` | Router `192.168.94.1`; AP / uplink `192.168.94.2`; PC `192.168.94.10`; Traceability display `192.168.94.11`; coffee machine `192.168.94.20` | Coffee House uses Lab Cloud and Distributor services only |
+| Lab Cloud | `192.168.95.0/24` | `192.168.95.1` | Router `192.168.95.1`; AP / uplink `192.168.95.2`; server `192.168.95.10`; Grafana `192.168.95.11`; MQTT / Fabric Gateway `192.168.95.12` | Lab Cloud services are the central backbone for all islands |
 
 ## Inter-Island Connectivity
 
-In the lab environment, all islands are on the same physical LAN. For a more realistic setup, each island can be placed behind its own MikroTik router with a dedicated subnet, and REST API endpoints can be exposed via Traefik as virtual hostnames (e.g. `api.farm.lab.local`).
+In the lab environment, all islands are on the same physical LAN. For a more realistic setup, each island is placed behind its own MikroTik router with a dedicated subnet, and REST API endpoints can be exposed via Traefik as virtual hostnames (e.g. `api.farm.lab.local`).
