@@ -39,15 +39,9 @@ B2B communication exclusively via **REST APIs**. Each island is an independent c
 
 ---
 
-## Quick Start — Farm Island
+## Setup
 
-```bash
-git clone https://github.com/digital-business-lab/digital-supply-chain.git
-cd digital-supply-chain
-chmod +x farm-island/scripts/bootstrap.sh && ./farm-island/scripts/bootstrap.sh
-```
-
-See [Farm Island setup guide](farm-island/README.md) for full instructions.
+Start with the operations setup guide at [docs/operations/setup-guide.md](docs/operations/setup-guide.md).
 
 ---
 
