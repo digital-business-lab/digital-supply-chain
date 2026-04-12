@@ -13,41 +13,35 @@ This guide walks through standing up the complete Digital Open-Source Supply Cha
 - [ ] Deploy the Lab Cloud and verify the Fabric orderer is reachable
 - [ ] Start islands in supply-chain order: Farm → Factory → Distributor → Coffee House
 
-## Prerequisites
+---
 
-Before starting any island deployment, complete the shared prerequisites and make the Lab Cloud available first.
+## Step 1 — Network Setup
 
-The shared prerequisites include network configuration and DHCP reservations first, then workstation baseline setup on each island machine and the Lab Cloud server, plus repository checkout. The Lab Cloud must be deployed before any island peer can join the Fabric channel.
+Configure the lab network and DHCP reservations first so all island machines and the Lab Cloud server can use fixed IP addresses. This is required before workstation baseline setup or deploying any island stack.
 
-### Network
+See [Network](../architecture/network.md) for VLAN layout, DHCP reservations, IP assignment rules, and firewall configuration.
 
-All islands must be reachable from the Lab Cloud and from each other over the lab LAN. See [Network](../architecture/network.md) for VLAN layout, DHCP reservations, and firewall rules.
+### Checkpoint
 
-### Software — All Workstations
-
-Follow [Workstation Setup](setup-workstation.md) on every island machine and on the Lab Cloud server after lab network configuration and before deploying any island stack. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
-
-### Hardware
-
-Confirm the following hardware is available and physically set up:
-
-| Island | Minimum compute | Additional hardware |
-|---|---|---|
-| Lab Cloud | Lab server (on-premise) | — |
-| Farm | Linux workstation (Dell, i7, 16 GB RAM) | MikroTik router, MikroTik wAP LR8 gateway, LoRaWAN sensors, Shelly relay, pump, LED grow light, touch display |
-| Factory | Linux workstation | Dobot #1 + linear axis, Dobot #2 + Vision Studio camera, aluminium rack, Lochblech, containers, touch display |
-| Distributor | Linux workstation | TurtleBot4 Lite + docking station, USB barcode/RFID scanner, touch display |
-| Coffee House | Linux PC | Customer-facing display, RFID/barcode scanner, smart coffee machine |
-
-### Repository
-
-```bash
-git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/digital-supply-chain
-```
+- [ ] Lab network configured according to the architecture
+- [ ] DHCP reservations created for island workstations and Lab Cloud server
+- [ ] Fixed IP addresses assigned for island services that require stable endpoints
 
 ---
 
-## Step 1 — Lab Cloud
+## Step 2 — Workstation Setup
+
+Follow [Workstation Setup](setup-workstation.md) on every island machine and on the Lab Cloud server after Step 1 is complete. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
+
+### Checkpoint
+
+- [ ] Ubuntu 22.04 installed on all required machines
+- [ ] Docker Engine and Docker Compose installed
+- [ ] Repository cloned to `/opt/digital-supply-chain` on each machine
+
+---
+
+## Step 3 — Lab Cloud
 
 **Must be completed before any island peer can join the Fabric channel.**
 
