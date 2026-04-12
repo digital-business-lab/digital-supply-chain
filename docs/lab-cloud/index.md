@@ -36,6 +36,12 @@ Note: brewing parameters are **not** written to the Hyperledger Fabric ledger. T
 | Grafana (cross-island) | Dashboard showing the state of the entire supply chain for instructors |
 | Hyperledger Explorer | Visual browser for all Fabric transactions; useful for teaching blockchain concepts |
 
+### Local E-mail Services (planned)
+
+The Lab Cloud will also provide local e-mail services for internal notifications, alerts, and audit-related messaging. A Dockerized mailserver is planned, with the exact software stack, relay policy, account management, TLS configuration, and integration points to be defined.
+
+This work is currently a planned investigation item in the repository's project board.
+
 ## Didactic Significance
 
 The Lab Cloud demonstrates three complementary deployment patterns within a single system:
