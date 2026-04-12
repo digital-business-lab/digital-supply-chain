@@ -2,6 +2,7 @@
 
 Step-by-step guide for provisioning the Lab Cloud from a fresh server.
 The Lab Cloud **must be running before any island peer joins the Fabric channel**.
+This is the first deployment step after the shared workstation baseline is completed.
 
 **Prerequisites:** Complete [Workstation Setup](../operations/setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
 

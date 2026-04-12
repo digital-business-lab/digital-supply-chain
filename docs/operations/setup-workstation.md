@@ -1,8 +1,10 @@
 # Workstation Setup — Ubuntu 22.04 + Docker
 
-Shared prerequisite for all lab islands that run Docker services on a local workstation (Farm Island, Factory Island, Distributor Island). Each island uses the same base OS and container runtime.
+Shared prerequisite for the Lab Cloud server and all lab island workstations that run Docker services. The Lab Cloud server plus the Farm, Factory, and Distributor island machines all use the same base OS and container runtime.
 
-→ [Farm Island setup](../islands/farm/setup.md) | [GitOps workflow](gitops.md)
+Complete this guide before starting the Lab Cloud deployment, and before deploying any island stack.
+
+→ [Lab Cloud Setup](../lab-cloud/setup.md) | [GitOps workflow](gitops.md)
 
 ---
 
@@ -105,6 +107,7 @@ add address=192.168.10.10 mac-address=AA:BB:CC:DD:EE:FF comment=farm-island
 
 ## Next Steps
 
-After completing the base setup, follow the island-specific setup guide:
+After completing the base setup, proceed with the Lab Cloud setup first. Once the Lab Cloud is running, continue with island-specific setup in supply-chain order.
 
+- [Lab Cloud Setup](../lab-cloud/setup.md)
 - [Farm Island Setup](../islands/farm/setup.md)

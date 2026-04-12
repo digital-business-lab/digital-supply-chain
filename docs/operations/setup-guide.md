@@ -8,7 +8,9 @@ This guide walks through standing up the complete Digital Open-Source Supply Cha
 
 ## Prerequisites
 
-Before starting any island, complete the shared prerequisites.
+Before starting any island deployment, complete the shared prerequisites and make the Lab Cloud available first.
+
+The shared prerequisites include the workstation baseline on each island machine and the Lab Cloud server, plus network configuration and repository checkout. The Lab Cloud must be deployed before any island peer can join the Fabric channel.
 
 ### Hardware
 
@@ -24,7 +26,7 @@ Confirm the following hardware is available and physically set up:
 
 ### Software — All Workstations
 
-Follow [Workstation Setup](setup-workstation.md) on every machine before deploying any island stack. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
+Follow [Workstation Setup](setup-workstation.md) on every island machine and on the Lab Cloud server before deploying any island stack. This covers Ubuntu 22.04, Docker Engine, Docker Compose, and cloning the repository to `/opt/digital-supply-chain`.
 
 ### Network
 
