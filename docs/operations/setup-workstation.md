@@ -27,29 +27,9 @@ sudo apt install -y git curl wget htop net-tools openssh-server
 
 > **Recommendation:** Enable the SSH server so the workstation can be administered remotely from within the lab network without requiring physical access.
 
-### 1.2 Grafana kiosk mode (touch display)
+### 1.2 Touch display configuration
 
-For islands with a touch display showing Grafana, set up Chromium in kiosk mode as an autostart application:
-
-```bash
-sudo apt install -y chromium-browser unclutter
-mkdir -p ~/.config/autostart
-```
-
-Create `~/.config/autostart/grafana-kiosk.desktop`:
-
-```ini
-[Desktop Entry]
-Type=Application
-Name=Grafana Kiosk
-Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars \
-  --no-first-run http://localhost:3000/d/farm/sensor-dashboard
-X-GNOME-Autostart-enabled=true
-```
-
-Adjust the dashboard URL to match the island's Grafana home dashboard UID.
-
-> Chromium opens automatically in full-screen kiosk mode when the desktop session starts. No manual browser launch is needed.
+If a workstation has a touch display, its behavior should be configured per island and per use case. The workstation setup guide does not prescribe a dedicated kiosk mode.
 
 ---
 
