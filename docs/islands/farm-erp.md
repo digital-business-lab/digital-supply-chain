@@ -287,57 +287,492 @@ Node-RED reads these environment variables at startup. All ERPNext REST calls fr
 
 ---
 
-## 12. Node-RED Integration — ERPNext API Calls
+## 12. Node-RED — Setup and Flows
 
-Node-RED runs on the Farm Island and calls the ERPNext Frappe REST API for the following events:
+Node-RED (`farm-nodered`, port 1880) is the integration hub of the Farm Island. It:
 
-| Trigger | ERPNext action | API endpoint |
+- receives decoded sensor telemetry from ChirpStack via MQTT,
+- triggers automation (irrigation pump, grow light),
+- creates and updates records in ERPNext via the Frappe REST API, and
+- writes harvest batch events to the Hyperledger Fabric ledger.
+
+The sections below describe how to set Node-RED up from a fresh container and what each flow does.
+
+---
+
+### 12.1 First-Time Setup
+
+#### Access the UI
+
+After `docker compose up -d` the Node-RED editor is available at:
+
+```
+http://<HOST-IP>:1880
+```
+
+No login is required by default inside the lab network. To enable authentication, edit `settings.js` in the `nodered-data` volume (see Node-RED docs).
+
+#### Install Required Palette Nodes
+
+Open **Menu → Manage Palette → Install** and install the following community nodes:
+
+| Node package | Purpose |
+|---|---|
+| `node-red-contrib-mqtt-broker` | (built-in) MQTT subscribe/publish |
+| `node-red-node-http-request` | (built-in) HTTP REST calls to ERPNext |
+| `node-red-contrib-credentials` | Stores API keys outside the flow JSON |
+| `node-red-dashboard` | (optional) Local status panel on the touchscreen |
+
+All packages except `node-red-contrib-credentials` ship with the `nodered/node-red:3-minimal` image. Run the install once; packages persist in the `nodered-data` volume.
+
+#### Configure ERPNext Credentials
+
+ERPNext API credentials must be stored in Node-RED without being embedded in the flow JSON. Use the **Credentials** mechanism:
+
+1. In the editor, open **Menu → Manage Palette → Settings → Credentials store** — or add a `credentials` node to the canvas.
+2. Create a credential named `erpnext-farm` with two keys:
+   - `apiKey` — value of `ERPNEXT_API_KEY` from `.env`
+   - `apiSecret` — value of `ERPNEXT_API_SECRET` from `.env`
+3. Every HTTP-request node that calls ERPNext reads these from `msg.headers` set by a preceding **Function** node:
+
+```javascript
+// Set in a Function node before every ERPNext HTTP Request node
+msg.headers = {
+    "Authorization": "token " + credentials.apiKey + ":" + credentials.apiSecret,
+    "Content-Type": "application/json"
+};
+return msg;
+```
+
+#### Environment Variables in Node-RED
+
+The `docker-compose.yml` exposes these environment variables into the Node-RED container (add them under `environment:` in `farm-island/docker-compose.yml` if not already present):
+
+```yaml
+ERPNEXT_BASE_URL: "http://erpnext:8000"
+ERPNEXT_API_KEY:  "${ERPNEXT_API_KEY}"
+ERPNEXT_API_SECRET: "${ERPNEXT_API_SECRET}"
+```
+
+Inside a Function node, read them with:
+
+```javascript
+const base = env.get("ERPNEXT_BASE_URL");
+const key  = env.get("ERPNEXT_API_KEY");
+const sec  = env.get("ERPNEXT_API_SECRET");
+```
+
+---
+
+### 12.2 MQTT Topic Structure
+
+ChirpStack publishes decoded sensor payloads to Mosquitto on this topic pattern (from `chirpstack.toml`):
+
+```
+application/<ApplicationID>/device/<DevEUI>/event/<EventType>
+```
+
+| Segment | Example value | Notes |
 |---|---|---|
-| Soil moisture drops below threshold | Creates a *Stock Entry* (reason: "Harvest Ready" note) — instructor confirmation still required | `POST /api/resource/Stock Entry` |
-| Instructor confirms harvest | Creates a new **Batch** record with sensor metadata fields | `POST /api/resource/Batch` |
-| Harvest quantity entered | Creates a *Stock Entry* (Material Receipt) booking beans into Field Store | `POST /api/resource/Stock Entry` |
-| Grading complete | Creates a *Stock Transfer* (Field Store → Graded Store) | `POST /api/resource/Stock Entry` |
-| Outbound shipment created | Creates a *Delivery Note* against the Factory customer | `POST /api/resource/Delivery Note` |
+| `<ApplicationID>` | `1` | Assigned by ChirpStack when the application is created |
+| `<DevEUI>` | `a84041xxxxxx` | Unique per sensor, printed on the device |
+| `<EventType>` | `up` | `up` = uplink (sensor reading); `join` = OTAA join |
 
-### 12.1 Example: Create a Harvest Batch via REST
+**Wildcard subscription for all sensor readings:**
 
-```http
-POST /api/resource/Batch
-Authorization: token <API_KEY>:<API_SECRET>
-Content-Type: application/json
+```
+application/+/device/+/event/up
+```
 
+This is the topic used by the Node-RED MQTT-In node in every flow that processes sensor data.
+
+**Example decoded payload** from a Dragino LHT65 (temperature + humidity):
+
+```json
 {
-  "item": "CF-BEAN-ARABICA",
-  "batch_id": "HARVEST-2025-04-0001",
-  "manufacturing_date": "2025-04-10",
-  "avg_soil_moisture": 68.4,
-  "avg_temperature": 22.1,
-  "co2_level": 412.0,
-  "sensor_reading_date": "2025-04-10"
+  "deduplicationId": "...",
+  "time": "2025-04-10T08:15:00Z",
+  "deviceInfo": {
+    "tenantId": "52f14cd4-c6f1-4fea-aed9-012eff0cd04a",
+    "applicationId": "1",
+    "deviceName": "LHT65-01",
+    "devEui": "a84041xxxxxx",
+    "deviceProfileName": "Dragino-LHT65"
+  },
+  "object": {
+    "TempC_SHT": 22.1,
+    "Hum_SHT": 64.3,
+    "BatV": 3.2
+  }
 }
 ```
 
-### 12.2 Example: Book a Material Receipt (Harvest)
+The `object` field contains decoded values from the ChirpStack device-profile JavaScript decoder.
 
-```http
-POST /api/resource/Stock Entry
-Authorization: token <API_KEY>:<API_SECRET>
-Content-Type: application/json
+---
 
+### 12.3 Flow 1 — Sensor Data Logger
+
+**Purpose:** Subscribe to all sensor uplinks; store the last reading of each sensor in a Node-RED global context variable for use by other flows.
+
+**Nodes:**
+
+```
+[MQTT In]  →  [JSON]  →  [Function: extract & store]  →  [Debug]
+```
+
+| Node | Configuration |
+|---|---|
+| **MQTT In** | Server: `mosquitto:1883`; Topic: `application/+/device/+/event/up`; QoS: 0; Output: parsed JSON object |
+| **JSON** | Action: "Always convert to JavaScript Object" |
+| **Function: extract & store** | See code below |
+| **Debug** | Output: `msg.payload` — visible in the debug panel |
+
+**Function node code:**
+
+```javascript
+// Extract key fields
+const devEui   = msg.payload.deviceInfo.devEui;
+const ts       = msg.payload.time;
+const readings = msg.payload.object || {};
+
+// Persist in global context (keyed by DevEUI)
+const sensors = global.get("sensors") || {};
+sensors[devEui] = { ts, ...readings };
+global.set("sensors", sensors);
+
+// Forward enriched message
+msg.devEui   = devEui;
+msg.readings = readings;
+msg.ts       = ts;
+return msg;
+```
+
+---
+
+### 12.4 Flow 2 — Irrigation Automation
+
+**Purpose:** Read the soil-moisture value from the global context; switch the Shelly relay (pump) ON when moisture drops below a configurable threshold.
+
+**Nodes:**
+
+```
+[Inject: every 5 min]  →  [Function: read moisture]  →  [Switch]
+                                                            ├─ [HTTP Request: relay ON]
+                                                            └─ [HTTP Request: relay OFF]
+```
+
+| Node | Configuration |
+|---|---|
+| **Inject** | Repeat: every 5 minutes |
+| **Function: read moisture** | See code below |
+| **Switch** | Property: `msg.pumpShouldRun`; Rule 1: `== true` → output 1; Rule 2: `== false` → output 2 |
+| **HTTP Request: relay ON** | Method: GET; URL: `http://shelly-relay/relay/0?turn=on` |
+| **HTTP Request: relay OFF** | Method: GET; URL: `http://shelly-relay/relay/0?turn=off` |
+
+> **Note:** Replace `shelly-relay` with the Shelly device's IP address or hostname. Configure the threshold value as an environment variable `MOISTURE_THRESHOLD_PCT` (default: 50).
+
+**Function node code:**
+
+```javascript
+const threshold = parseFloat(env.get("MOISTURE_THRESHOLD_PCT") || "50");
+const sensors   = global.get("sensors") || {};
+
+// Pick the soil moisture sensor by DevEUI (configure as env variable)
+const soilDevEui = env.get("SOIL_SENSOR_DEVEUI") || "";
+const sensor     = sensors[soilDevEui] || {};
+
+// LHT65 reports soil moisture as "Hum_SHT" in this deployment
+const moisture = sensor.Hum_SHT ?? null;
+
+msg.moisture        = moisture;
+msg.pumpShouldRun   = moisture !== null && moisture < threshold;
+return msg;
+```
+
+---
+
+### 12.5 Flow 3 — Harvest Event: Create Batch + Book Material Receipt
+
+**Purpose:** When a soil-moisture sensor reading drops below the harvest threshold, generate a new ERPNext Batch record with sensor metadata and book the harvested quantity into the Field Store.
+
+This flow is **instructor-confirmed**: Node-RED detects the threshold breach and raises a notification; the instructor enters the harvest weight via the Node-RED Dashboard UI or via the ERPNext `Farm Operator` user. Node-RED then calls ERPNext in two sequential steps.
+
+**Nodes:**
+
+```
+[MQTT In: sensor up]  →  [Function: check threshold]  →  [Switch]
+                                                             └─ threshold breached
+                                                                  ↓
+                                                    [Dashboard: enter qty]
+                                                          ↓
+                                   [Function: build Batch payload]
+                                          ↓
+                               [HTTP Request: POST /api/resource/Batch]
+                                          ↓
+                              [Function: build Stock Entry payload]
+                                          ↓
+                         [HTTP Request: POST /api/resource/Stock Entry]
+                                          ↓
+                                   [Debug / notification]
+```
+
+**Step A — Detect threshold (Function node):**
+
+```javascript
+const threshold = parseFloat(env.get("HARVEST_MOISTURE_THRESHOLD_PCT") || "65");
+const moisture  = msg.readings.Hum_SHT ?? 100;
+
+if (moisture < threshold) {
+    msg.triggerHarvest = true;
+    msg.moisture       = moisture;
+    msg.ts             = msg.ts;
+    return msg;
+}
+return null;   // discard message — no action needed
+```
+
+**Step B — Build Batch payload (Function node):**
+
+```javascript
+const sensors = global.get("sensors") || {};
+const date    = new Date(msg.ts).toISOString().split("T")[0];
+
+// Aggregate readings from the last 7 days (simplified: last known values)
+const soilSensor = sensors[env.get("SOIL_SENSOR_DEVEUI")] || {};
+const co2Sensor  = sensors[env.get("CO2_SENSOR_DEVEUI")]  || {};
+
+// Auto-generate batch ID using date (ERPNext will apply naming series)
+msg.batchPayload = {
+    item:                "CF-BEAN-ARABICA",
+    manufacturing_date:  date,
+    avg_soil_moisture:   soilSensor.Hum_SHT  ?? null,
+    avg_temperature:     soilSensor.TempC_SHT ?? null,
+    co2_level:           co2Sensor.CO2        ?? null,
+    sensor_reading_date: date
+};
+return msg;
+```
+
+**Step B — HTTP Request node (Create Batch):**
+
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Batch` |
+| Body | `msg.batchPayload` (set `msg.payload = msg.batchPayload` in preceding Function node) |
+| Headers | `Authorization: token <key>:<secret>`, `Content-Type: application/json` |
+| Return | Parsed JSON object |
+
+**Step C — Build Stock Entry payload (Function node):**
+
+ERPNext returns the new batch ID in the response. Use it to book the material receipt:
+
+```javascript
+const batchId = msg.payload.data.name;    // e.g. "HARVEST-2025-04-0001"
+const qty     = msg.harvestQtyKg;          // entered via Dashboard UI
+
+msg.stockPayload = {
+    stock_entry_type: "Material Receipt",
+    company: "Coffee Farm GmbH",
+    items: [
+        {
+            item_code:   "CF-BEAN-ARABICA",
+            qty:         qty,
+            uom:         "kg",
+            t_warehouse: "Field Store - CF",
+            batch_no:    batchId
+        }
+    ]
+};
+msg.batchId = batchId;
+return msg;
+```
+
+**Step C — HTTP Request node (Book Material Receipt):**
+
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Stock Entry` |
+| Body | `msg.stockPayload` |
+| Return | Parsed JSON object |
+
+---
+
+### 12.6 Flow 4 — Grading: Transfer Field Store → Graded Store
+
+**Purpose:** After manual quality grading, transfer beans from *Field Store* to *Graded Store* in ERPNext. Triggered from the Node-RED Dashboard UI (instructor/operator presses "Confirm Grading Passed").
+
+**Nodes:**
+
+```
+[Dashboard Button: "Confirm Grading"]  →  [Function: build Stock Entry]
+                                                   ↓
+                                    [HTTP Request: POST /api/resource/Stock Entry]
+                                                   ↓
+                                             [Debug / notify]
+```
+
+**Function node code:**
+
+```javascript
+// msg.batchId and msg.gradedQtyKg come from Dashboard input nodes
+msg.payload = {
+    stock_entry_type: "Material Transfer",
+    company: "Coffee Farm GmbH",
+    items: [
+        {
+            item_code:   "CF-BEAN-ARABICA",
+            qty:         msg.gradedQtyKg,
+            uom:         "kg",
+            s_warehouse: "Field Store - CF",
+            t_warehouse: "Graded Store - CF",
+            batch_no:    msg.batchId
+        }
+    ]
+};
+return msg;
+```
+
+---
+
+### 12.7 Flow 5 — Outbound Shipment: Delivery Note + Fabric Ledger Event
+
+**Purpose:** When the instructor submits the outbound shipment, Node-RED (1) creates a Delivery Note in ERPNext against the Factory customer and (2) writes a `HarvestShipped` event to the Hyperledger Fabric ledger via the Fabric Peer Node REST gateway.
+
+**Nodes:**
+
+```
+[Dashboard Button: "Ship to Factory"]
+        ↓
+[Function: build Delivery Note payload]
+        ↓
+[HTTP Request: POST /api/resource/Delivery Note]   ← ERPNext
+        ↓
+[Function: build Fabric event payload]
+        ↓
+[HTTP Request: POST Fabric gateway]                ← Fabric Peer Node
+        ↓
+[Debug / success notification]
+```
+
+**Function — Build Delivery Note payload:**
+
+```javascript
+msg.payload = {
+    customer:     "Coffee Roasting GmbH",
+    company:      "Coffee Farm GmbH",
+    posting_date: new Date().toISOString().split("T")[0],
+    items: [
+        {
+            item_code:   "CF-BEAN-ARABICA",
+            qty:         msg.shipQtyKg,
+            uom:         "kg",
+            warehouse:   "Graded Store - CF",
+            batch_no:    msg.batchId
+        }
+    ]
+};
+return msg;
+```
+
+**HTTP Request node (Delivery Note):**
+
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | `{{env.ERPNEXT_BASE_URL}}/api/resource/Delivery Note` |
+| Return | Parsed JSON object |
+
+**Function — Build Fabric event payload:**
+
+```javascript
+const dn = msg.payload.data;              // Delivery Note response
+msg.fabricPayload = {
+    event:        "HarvestShipped",
+    batchId:      msg.batchId,
+    itemCode:     "CF-BEAN-ARABICA",
+    quantityKg:   msg.shipQtyKg,
+    fromCompany:  "Coffee Farm GmbH",
+    toCompany:    "Coffee Roasting GmbH",
+    deliveryNote: dn.name,
+    shippedAt:    new Date().toISOString()
+};
+msg.payload = msg.fabricPayload;
+return msg;
+```
+
+**HTTP Request node (Fabric Peer Node):**
+
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | `http://farm-fabric-peer:7051/submit` *(adjust to the Fabric REST gateway endpoint)* |
+| Content-Type | `application/json` |
+| Return | Parsed JSON object |
+
+---
+
+### 12.8 Error Handling and Debugging
+
+#### Catching HTTP Errors
+
+Connect a **Catch** node to each HTTP Request node and route errors to a **Debug** node and optionally a **Dashboard Notification** node:
+
+```
+[Catch]  →  [Function: format error]  →  [Debug]
+                                              └─→  [Dashboard: show error toast]
+```
+
+The Function node extracts the HTTP status code:
+
+```javascript
+msg.errorMsg = `ERPNext error ${msg.statusCode}: ${JSON.stringify(msg.payload)}`;
+node.error(msg.errorMsg, msg);
+return msg;
+```
+
+#### Checking ERPNext Responses
+
+ERPNext returns errors as:
+
+```json
+{ "exc_type": "ValidationError", "exc": "...", "message": "..." }
+```
+
+Always check `msg.payload.exc_type` after an HTTP Request node before proceeding to the next step.
+
+#### Debug Panel
+
+The Node-RED **Debug** panel (right sidebar) shows all messages passing through debug nodes. During demos, enable the debug node on the MQTT-In node to verify that sensor payloads arrive from ChirpStack.
+
+#### Test Without a Physical Sensor
+
+Use an **Inject** node with a manually crafted JSON payload to simulate a sensor reading:
+
+```json
 {
-  "stock_entry_type": "Material Receipt",
-  "company": "Coffee Farm GmbH",
-  "items": [
-    {
-      "item_code": "CF-BEAN-ARABICA",
-      "qty": 25.0,
-      "uom": "kg",
-      "t_warehouse": "Field Store - CF",
-      "batch_no": "HARVEST-2025-04-0001"
-    }
-  ]
+  "deviceInfo": { "devEui": "a84041xxxxxx", "deviceName": "LHT65-01" },
+  "time": "2025-04-10T08:15:00Z",
+  "object": { "TempC_SHT": 22.1, "Hum_SHT": 48.5, "BatV": 3.2 }
 }
 ```
+
+Set `Hum_SHT` below `HARVEST_MOISTURE_THRESHOLD_PCT` (default 65) to trigger the harvest flow.
+
+---
+
+### 12.9 Complete ERPNext API Call Reference
+
+| Flow | ERPNext action | Method | Endpoint | Body type |
+|---|---|---|---|---|
+| 3 | Create Batch | POST | `/api/resource/Batch` | Batch document |
+| 3 | Book Material Receipt (harvest) | POST | `/api/resource/Stock Entry` | Stock Entry (Material Receipt) |
+| 4 | Transfer Field Store → Graded Store | POST | `/api/resource/Stock Entry` | Stock Entry (Material Transfer) |
+| 5 | Create Delivery Note (outbound shipment) | POST | `/api/resource/Delivery Note` | Delivery Note document |
+| Any | Read current batch stock | GET | `/api/resource/Batch/<batch_id>` | — |
+| Any | Submit a draft document | PUT | `/api/resource/<DocType>/<name>` | `{"docstatus": 1}` |
 
 ---
 
@@ -397,7 +832,7 @@ Factory ERPNext: scan QR code → auto-create Purchase Receipt
 Fabric Peer Node (Farm Island): writes inter-island handover event
 ```
 
-The Fabric event payload written by Node-RED contains:
+The Fabric event is written by **Node-RED Flow 5** (see [section 12.7](#127-flow-5--outbound-shipment-delivery-note--fabric-ledger-event)) immediately after the Delivery Note is submitted in ERPNext. The event payload is:
 
 ```json
 {
