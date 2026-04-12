@@ -41,16 +41,18 @@ nav:
     - LoRaWAN (Farm): lorawan.md
     - Network: network.md
   - Lab Islands:
-    - Farm Island: islands/farm.md
-    - Farm Island — ERP Config & Demo Data: islands/farm-erp.md
-    - Farm Island — Node-RED Flows: islands/farm-nodered.md
-    - Factory Island: islands/factory.md
-    - Distributor Island: islands/distributor.md
-    - Coffee House Island: islands/coffeehouse.md
-    - Service Centre (optional): islands/service-centre.md
+    - Farm Island: islands/farm/index.md
+    - Farm Island — Setup Guide: islands/farm/setup.md
+    - Farm Island — ERP Config & Demo Data: islands/farm/erp.md
+    - Farm Island — Node-RED Flows: islands/farm/nodered.md
+    - Factory Island: islands/factory/index.md
+    - Distributor Island: islands/distributor/index.md
+    - Coffee House Island: islands/coffeehouse/index.md
+    - Service Centre (optional): islands/service-centre/index.md
   - Teaching:
     - Didactic Scenarios: didactic-scenarios.md
   - Operations:
+    - Workstation Setup: setup-workstation.md
     - Backup & VM Templates: operations.md
     - GitOps Workflow: gitops.md
     - Architecture Decisions: decisions.md

@@ -10,10 +10,10 @@ A teaching and research project simulating a multi-tier B2B supply chain using *
 
 | Island | Role | Key Technology |
 |---|---|---|
-| [Farm](islands/farm.md) | Coffee farm · origin of the chain | LoRaWAN, ChirpStack, ERPNext, Fabric peer |
-| [Factory](islands/factory.md) | Roasting & processing | Dobot robots, MES, OPC-UA, Fabric peer |
-| [Distributor](islands/distributor.md) | Coffee trader & warehouse | ERPNext WMS, VROOM, Fabric peer |
-| [Coffee House](islands/coffeehouse.md) | Consumer endpoint · no ERP | POS, Traceability Display, Lab Cloud IoT |
+| [Farm](islands/farm/index.md) | Coffee farm · origin of the chain | LoRaWAN, ChirpStack, ERPNext, Fabric peer |
+| [Factory](islands/factory/index.md) | Roasting & processing | Dobot robots, MES, OPC-UA, Fabric peer |
+| [Distributor](islands/distributor/index.md) | Coffee trader & warehouse | ERPNext WMS, VROOM, Fabric peer |
+| [Coffee House](islands/coffeehouse/index.md) | Consumer endpoint · no ERP | POS, Traceability Display, Lab Cloud IoT |
 
 B2B communication exclusively via **REST APIs**. Each island is an independent company with its own ERPNext and Kafka. The Coffee House is intentionally lean — no ERP, no Kafka, no Fabric peer node.
 
@@ -63,7 +63,7 @@ cd digital-supply-chain
 chmod +x farm-island/scripts/bootstrap.sh && ./farm-island/scripts/bootstrap.sh
 ```
 
-→ [Farm Island setup guide](islands/farm.md)
+→ [Farm Island setup guide](islands/farm/index.md)
 
 ---
 

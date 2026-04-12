@@ -11,10 +11,10 @@ Each arrow represents a physical coffee batch moving through the chain and a set
 
 | Island | Role | Coffee Context | Key Infrastructure |
 |---|---|---|---|
-| [Farm](islands/farm.md) | Origin of the supply chain | Coffee farm (e.g. Ethiopia / Colombia) | LoRaWAN sensors, ChirpStack, ERPNext, Fabric peer |
-| [Factory](islands/factory.md) | Processing | Roasting & packaging | 2× Dobot robots, MES, OPC-UA, ERPNext, Fabric peer |
-| [Distributor](islands/distributor.md) | Warehouse & Logistics | Coffee trader | ERPNext WMS, VROOM, TurtleBot4 Lite (ROS2), rosbridge, Fabric peer |
-| [Coffee House](islands/coffeehouse.md) | Consumer endpoint | Café / coffee bar | POS, Traceability Display, no ERP, no Fabric peer |
+| [Farm](islands/farm/index.md) | Origin of the supply chain | Coffee farm (e.g. Ethiopia / Colombia) | LoRaWAN sensors, ChirpStack, ERPNext, Fabric peer |
+| [Factory](islands/factory/index.md) | Processing | Roasting & packaging | 2× Dobot robots, MES, OPC-UA, ERPNext, Fabric peer |
+| [Distributor](islands/distributor/index.md) | Warehouse & Logistics | Coffee trader | ERPNext WMS, VROOM, TurtleBot4 Lite (ROS2), rosbridge, Fabric peer |
+| [Coffee House](islands/coffeehouse/index.md) | Consumer endpoint | Café / coffee bar | POS, Traceability Display, no ERP, no Fabric peer |
 
 **B2B communication exclusively via REST APIs.** Kafka is island-internal only and never crosses company boundaries. See [b2b-communication.md](b2b-communication.md).
 

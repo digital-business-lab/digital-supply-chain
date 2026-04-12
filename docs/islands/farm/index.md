@@ -2,7 +2,7 @@
 
 The Farm Island represents the origin of the supply chain: a coffee farm. It is the only island with field-level sensor infrastructure, measuring growing conditions and logging harvest batches via ERPNext.
 
-→ [Architecture overview](../architecture.md) | [LoRaWAN details](../lorawan.md) | [GitOps workflow](../gitops.md) | [ERP config & demo data](farm-erp.md)
+→ [Architecture overview](../architecture.md) | [LoRaWAN details](../lorawan.md) | [GitOps workflow](../gitops.md) | [Setup guide](setup.md) | [ERP config & demo data](erp.md)
 
 ---
 

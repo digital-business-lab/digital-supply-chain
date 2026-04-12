@@ -17,11 +17,15 @@ This project uses GitHub-native documentation:
 
 - `README.md` — slim overview and navigation hub only (no detailed content)
 - `docs/*.md` — one file per topic; these are the authoritative content source
+- `docs/islands/*.md` — per-island docs (overview, setup guide, ERP config, Node-RED flows, etc.)
+- `docs/setup-workstation.md` — shared workstation setup (Ubuntu 22.04, Docker) referenced by all islands
 - `farm-island/README.md`, `factory-island/README.md`, etc. — island-specific docs rendered by GitHub when navigating to the subfolder
 - `mkdocs.yml` — MkDocs config; GitHub Action builds and deploys to GitHub Pages on every push to `main`
 - `AGENTS.md` — this file; always read first when working on this project
 
 **Rule:** Never put detailed content directly into `README.md`. Always put it in the appropriate `docs/*.md` file and link from `README.md`.
+
+**Rule:** Never create `{island}/docs/` subdirectories. All documentation (architecture, setup guides, runbooks) belongs in `docs/` or `docs/islands/`. Island subfolders contain only operational files: `docker-compose.yml`, `config/`, `scripts/`, `README.md`. Rationale: single source of truth for MkDocs, avoids content split between repo subdirectories and the `docs/` tree.
 
 ## Maintaining AGENTS.md
 
@@ -50,10 +54,10 @@ All design decisions, technology choices, and implementation proposals must foll
 - **Coffee House** is intentionally lean: no ERP, no Kafka, no Fabric peer node; three independent modules (POS, Traceability Display, IoT connector)
 - **Brewing parameters** (grind, temp, water) are off-chain: stored in InfluxDB, not on Fabric
 - **B2B communication** exclusively via REST APIs — Kafka is island-internal only
-- **TurtleBot4 Lite** is the last-mile delivery robot, organisationally part of the Distributor Island; uses ROS2 Humble + Nav2 for autonomous navigation. See `docs/islands/distributor.md`.
+- **TurtleBot4 Lite** is the last-mile delivery robot, organisationally part of the Distributor Island; uses ROS2 Humble + Nav2 for autonomous navigation. See `docs/islands/distributor/index.md`.
 - **ERP–ROS2 bridge** uses `rosbridge_suite` (WebSocket) + Node-RED — consistent with the existing Node-RED integration pattern on the island; a standalone polling service was considered but rejected. Both ROS2 Docker containers run with `network_mode: host` to enable DDS multicast over the island LAN.
-- **Farm: LED grow light and automated irrigation** (Shelly relay + pump) are controlled via Node-RED based on LoRaWAN sensor readings. Shelly relay model not yet confirmed (tbc). See `docs/islands/farm.md`.
-- **Factory Island physical structure:** aluminium profile rack, three levels. **Only the top level has a stainless-steel Lochblech** (perforated grid); mid and lower levels are solid multiplex. Top level hosts both Dobot robots and the 6×6 cm snap-in containers; mid = storage; lower = compute. See `docs/islands/factory.md`.
+- **Farm: LED grow light and automated irrigation** (Shelly relay + pump) are controlled via Node-RED based on LoRaWAN sensor readings. Shelly relay model not yet confirmed (tbc). See `docs/islands/farm/index.md`.
+- **Factory Island physical structure:** aluminium profile rack, three levels. **Only the top level has a stainless-steel Lochblech** (perforated grid); mid and lower levels are solid multiplex. Top level hosts both Dobot robots and the 6×6 cm snap-in containers; mid = storage; lower = compute. See `docs/islands/factory/index.md`.
 - **Factory Dobot configuration:** Dobot #1 is mounted on a **linear axis** (traverses all station zones: IN → SRT → RST → QC → OUT); Dobot #2 has **Vision Studio + camera** (fixed at QC zone, detects roast level and defects by colour/shape). Seeed Grove sensor inventory pending — temperature, proximity, and colour sensors are planned integration points.
 - **Factory MES didactic concept:** five defined scenarios (standard run, quality reject, bottleneck, material shortage, traceability/recall) map MES functions (production order lifecycle, BoM, routing, OEE, non-conformance) to physical robot actions. Roasting is simulated via container movement + time-temperature profile + colour-coded tokens inspected by Vision Studio.
 - **Farm → Factory material flow:** manual carry by student/operator; goods receipt scanned (QR code or NFC, tbc) into Factory ERPNext, recorded on Fabric ledger. Conveyor belt and TurtleBot were considered but rejected as over-engineered for adjacent lab islands. Open: QR vs. NFC reader choice.

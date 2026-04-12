@@ -7,7 +7,7 @@ Node-RED (`farm-nodered`, port **1880**) is the integration hub of the Farm Isla
 - records manually triggered harvest events in ERPNext (Batch + Material Receipt), and
 - writes outbound shipment events to the Hyperledger Fabric ledger.
 
-→ [Farm Island overview](farm.md) | [ERPNext configuration](farm-erp.md) | [LoRaWAN details](../lorawan.md)
+→ [Farm Island overview](index.md) | [ERPNext configuration](erp.md) | [LoRaWAN details](../lorawan.md)
 
 ---
 

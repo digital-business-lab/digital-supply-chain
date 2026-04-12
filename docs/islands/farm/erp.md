@@ -1,8 +1,8 @@
 # Farm Island — ERPNext Configuration & Demo Data
 
-ERPNext v15 is the ERP system of the Farm Island. It manages **harvest batches**, **raw-material inventory**, and **outbound shipments** to the Factory Island. Node-RED feeds operator-triggered events into ERPNext via the Frappe REST API — see [Farm Island — Node-RED Setup and Flows](farm-nodered.md) for the full Node-RED reference.
+ERPNext v15 is the ERP system of the Farm Island. It manages **harvest batches**, **raw-material inventory**, and **outbound shipments** to the Factory Island. Node-RED feeds operator-triggered events into ERPNext via the Frappe REST API — see [Farm Island — Node-RED Setup and Flows](nodered.md) for the full Node-RED reference.
 
-→ [Farm Island overview](farm.md) | [Node-RED flows](farm-nodered.md) | [B2B communication](../b2b-communication.md) | [LoRaWAN details](../lorawan.md)
+→ [Farm Island overview](index.md) | [Node-RED flows](nodered.md) | [B2B communication](../b2b-communication.md) | [LoRaWAN details](../lorawan.md)
 
 ---
 
@@ -368,7 +368,7 @@ Factory ERPNext: scan QR code → auto-create Purchase Receipt
 Fabric Peer Node (Farm Island): writes inter-island handover event
 ```
 
-The Fabric event is written by **Node-RED Flow 5** (see [Farm Island — Node-RED → Flow 5](farm-nodered.md#8-flow-5--outbound-shipment-delivery-note--fabric-ledger-event)) immediately after the Delivery Note is submitted in ERPNext. The event payload is:
+The Fabric event is written by **Node-RED Flow 5** (see [Farm Island — Node-RED → Flow 5](nodered.md#8-flow-5--outbound-shipment-delivery-note--fabric-ledger-event)) immediately after the Delivery Note is submitted in ERPNext. The event payload is:
 
 ```json
 {
