@@ -44,9 +44,7 @@ git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/
 
 The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT backend, and the central cross-island Grafana instance.
 
-!!! warning "Placeholder — Lab Cloud docker-compose and scripts not yet committed"
-    The `lab-cloud/` folder and its `docker-compose.yml` do not yet exist in the repository.
-    The full setup procedure is documented in the [Lab Cloud Setup Guide](../lab-cloud/setup.md). Summary:
+The `lab-cloud/` folder and its `docker-compose.yml` are still under development. Implementation progress is tracked in the repository's GitHub project board, while the full setup procedure is documented in `.md` files. See the [Lab Cloud Setup Guide](../lab-cloud/setup.md). Summary:
 
     1. Provision the server with Ubuntu 22.04 + Docker (see [Workstation Setup](setup-workstation.md)).
     2. Clone the repository to `/opt/digital-supply-chain`.
@@ -110,9 +108,7 @@ Follow [Farm Island — Node-RED Flows](../islands/farm/nodered.md):
 
 ### 2.5 Join Fabric Channel
 
-!!! warning "Placeholder — Fabric peer join procedure not yet documented"
-    Once the Lab Cloud is running, each island peer must be joined to the shared channel.
-    Expected steps:
+Once the Lab Cloud is running, each island peer must be joined to the shared channel. Implementation details and the exact peer join procedure are tracked in the repository's GitHub project board, while the final procedure will be documented in `.md` files. Expected steps:
 
     1. Obtain the channel genesis block from the Lab Cloud administrator.
     2. Run the peer join command (see [Hyperledger Fabric](../architecture/hyperledger-fabric.md) for the exact command once the channel config is finalised).
@@ -133,16 +129,14 @@ Follow [Farm Island — Node-RED Flows](../islands/farm/nodered.md):
 
 The Factory Island receives raw coffee from the Farm, runs it through a simulated roasting and quality control process using two Dobot robots, and ships approved product to the Distributor.
 
-!!! warning "Placeholder — Factory Island docker-compose and detailed setup docs not yet written"
-    The `factory-island/` folder does not yet contain a `docker-compose.yml`.
-    The steps below describe the intended setup sequence; details will be added to [Factory Island](../islands/factory/index.md) as work progresses.
+The `factory-island/` folder and its deployment artifacts are under active development. Implementation progress is tracked in the repository's GitHub project board, while the operational details are documented in `.md` files. The steps below describe the intended setup sequence; details will be added to [Factory Island](../islands/factory/index.md) as work progresses.
 
 ### 3.1 Deploy the Stack
 
 Expected services: ERPNext MES, Apache Kafka, Fabric peer node, OPC-UA server, Node-RED, Grafana.
 
 ```bash
-# placeholder — docker-compose.yml not yet available
+# Intended deployment command once the Factory Island docker-compose file exists
 cd /opt/digital-supply-chain
 cp factory-island/.env.example factory-island/.env
 ./factory-island/scripts/bootstrap.sh
@@ -158,13 +152,11 @@ cp factory-island/.env.example factory-island/.env
 
 ### 3.3 Dobot Programming
 
-!!! warning "Placeholder — Dobot programming guide not yet written"
-    Expected: station-zone XYZ coordinates for Dobot #1, pick-place routines for each process step, Vision Studio training set for roast-level and defect classification on Dobot #2.
+Dobot programming details will be documented in `.md` files as part of the Factory Island implementation, while execution progress is tracked in the repository's GitHub project board. Expected: station-zone XYZ coordinates for Dobot #1, pick-place routines for each process step, Vision Studio training set for roast-level and defect classification on Dobot #2.
 
 ### 3.4 ERPNext MES Configuration
 
-!!! warning "Placeholder — MES configuration guide not yet written"
-    Expected: Bill of Materials for each product variant, routings (IN → SRT → RST → QC → OUT), work centre definitions, OEE tracking, non-conformance handling, five didactic scenarios (see [Didactic Scenarios](../teaching/didactic-scenarios.md)).
+MES configuration guidance will be documented in `.md` files as part of the Factory Island implementation, while execution progress is tracked in the repository's GitHub project board. Expected: Bill of Materials for each product variant, routings (IN → SRT → RST → QC → OUT), work centre definitions, OEE tracking, non-conformance handling, five didactic scenarios (see [Didactic Scenarios](../teaching/didactic-scenarios.md)).
 
 ### 3.5 Join Fabric Channel
 
@@ -172,8 +164,7 @@ Same procedure as Step 2.5 — obtain channel genesis block from Lab Cloud, join
 
 ### 3.6 B2B Goods Receipt from Farm
 
-!!! warning "Placeholder — QR vs. NFC reader choice not yet decided"
-    When the Farm physically delivers beans, the Factory operator scans a QR code or NFC tag to trigger a goods receipt in Factory ERPNext (linked to the Farm batch ID on the Fabric ledger). The reader type (QR scanner vs. NFC) is an open decision.
+When the Farm physically delivers beans, the Factory operator scans a QR code or NFC tag to trigger a goods receipt in Factory ERPNext (linked to the Farm batch ID on the Fabric ledger). The reader type (QR scanner vs. NFC) is an open decision and is being tracked in the repository's GitHub project board.
 
 ### Checkpoint
 
@@ -190,15 +181,14 @@ Same procedure as Step 2.5 — obtain channel genesis block from Lab Cloud, join
 
 The Distributor receives roasted coffee from the Factory, manages warehouse stock, and dispatches last-mile delivery via TurtleBot4 Lite to the Coffee House.
 
-!!! warning "Placeholder — Distributor Island docker-compose and detailed setup docs not yet written"
-    The `distributor-island/` folder does not yet contain a `docker-compose.yml`.
+The `distributor-island/` folder and its deployment artifacts are under active development. Implementation progress is tracked in the repository's GitHub project board, while deployment guidance will remain in `.md` files.
 
 ### 4.1 Deploy the Stack
 
 Expected services: ERPNext WMS, Apache Kafka, Fabric peer node, VROOM, rosbridge_server, robot_manager (ROS2 node), Grafana.
 
 ```bash
-# placeholder — docker-compose.yml not yet available
+# Intended deployment command once the Distributor Island docker-compose file exists
 cd /opt/digital-supply-chain
 cp distributor-island/.env.example distributor-island/.env
 ./distributor-island/scripts/bootstrap.sh
@@ -217,13 +207,11 @@ cp distributor-island/.env.example distributor-island/.env
 
 Before the first delivery, a floor map of the lab must be created:
 
-!!! warning "Placeholder — SLAM mapping procedure not yet documented"
-    Expected: launch `slam_toolbox` in mapping mode, manually drive the robot around all relevant areas, save the map, configure the map path in `nav2_params.yaml`. Waypoints for each delivery target (e.g. `coffee_house_counter`) must be defined as named poses in the map frame.
+SLAM mapping procedure details are tracked in the repository's GitHub project board, while the final procedure notes will be documented in `.md` files. Expected: launch `slam_toolbox` in mapping mode, manually drive the robot around all relevant areas, save the map, configure the map path in `nav2_params.yaml`. Waypoints for each delivery target (e.g. `coffee_house_counter`) must be defined as named poses in the map frame.
 
 ### 4.4 ERPNext WMS Configuration
 
-!!! warning "Placeholder — WMS configuration guide not yet written"
-    Expected: warehouse structure, FIFO stock management rules, delivery order lifecycle, integration with VROOM for pick-sequence optimisation.
+ERPNext WMS configuration guidance is being developed in `.md` files, while the implementation work is tracked in the repository's GitHub project board. Expected: warehouse structure, FIFO stock management rules, delivery order lifecycle, integration with VROOM for pick-sequence optimisation.
 
 ### 4.5 Node-RED — ERP to Robot Bridge
 
@@ -247,15 +235,14 @@ Same procedure as Step 2.5.
 
 The Coffee House is the consumer endpoint. It has no ERP, no Kafka, and no Fabric peer — all heavyweight processing is delegated to the Lab Cloud.
 
-!!! warning "Placeholder — Coffee House modules not yet implemented"
-    The three modules (POS, Traceability Display, IoT Connector) are planned but not yet implemented. The steps below describe the intended setup sequence.
+The three Coffee House modules (POS, Traceability Display, IoT Connector) are planned and their implementation status is tracked in the repository's GitHub project board, while the setup sequence is documented in `.md` files. The steps below describe the intended setup sequence.
 
 ### 5.1 Deploy the Modules
 
 Expected: POS module, Traceability Display web app, IoT Connector (MQTT/serial agent).
 
 ```bash
-# placeholder — source and docker-compose.yml not yet available
+# Intended deployment command once the Coffee House island source and docker-compose file exist
 cd /opt/digital-supply-chain
 cp coffeehouse-island/.env.example coffeehouse-island/.env
 ./coffeehouse-island/scripts/bootstrap.sh
@@ -275,8 +262,7 @@ When a delivery bag arrives from the Distributor, its RFID tag or QR code carrie
 
 ### 5.4 Coffee Machine Integration
 
-!!! warning "Placeholder — Smart coffee machine integration not yet specified"
-    Expected: the coffee machine (model tbc) publishes grind level, temperature, bean type, water volume, water hardness, and extraction time per brew either via MQTT or serial. The IoT Connector captures this and forwards it to the Lab Cloud Mosquitto broker.
+Smart coffee machine integration details are being defined in the repository's GitHub project board. Expected: the coffee machine (model tbc) publishes grind level, temperature, bean type, water volume, water hardness, and extraction time per brew either via MQTT or serial. The IoT Connector captures this and forwards it to the Lab Cloud Mosquitto broker.
 
 ### Checkpoint
 
@@ -307,8 +293,7 @@ Once all five components are running, verify the complete supply chain with a si
     ✓ This cup:    [grind, temperature, extraction time]
     ```
 
-!!! warning "Placeholder — REST API contracts not yet defined"
-    The B2B REST API endpoint definitions (Farm → Factory, Factory → Distributor, Distributor → Coffee House, Lab Cloud Fabric Gateway) are not yet specified. See [B2B Communication](../architecture/b2b-communication.md) for the framework; endpoint schemas will be added as islands are implemented.
+The B2B REST API endpoint definitions (Farm → Factory, Factory → Distributor, Distributor → Coffee House, Lab Cloud Fabric Gateway) are documented and coordinated through the repository's GitHub project board. See [B2B Communication](../architecture/b2b-communication.md) for the framework; endpoint schemas will be added as islands are implemented.
 
 ---
 

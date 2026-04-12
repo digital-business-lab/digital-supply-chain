@@ -27,6 +27,8 @@ This project uses GitHub-native documentation:
 
 **Rule:** Never create `{island}/docs/` subdirectories. All documentation (architecture, setup guides, runbooks) belongs in `docs/` or `docs/islands/`. Island subfolders contain only operational files: `docker-compose.yml`, `config/`, `scripts/`, `README.md`. Rationale: single source of truth for MkDocs, avoids content split between repo subdirectories and the `docs/` tree.
 
+**Rule:** Do not manage open implementation tasks directly inside `.md` files. Use the repository's GitHub project board to track backlog items and implementation work; docs should not serve as the primary task tracker.
+
 ## Maintaining AGENTS.md
 
 `AGENTS.md` is a living document. After every session it must reflect the current state of agreements and decisions:

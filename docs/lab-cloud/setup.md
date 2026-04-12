@@ -171,8 +171,7 @@ Output: `organizations/` tree containing MSP directories, TLS certs, and private
 - Orderer configuration: RAFT, `BatchTimeout: 2s`, `MaxMessageCount: 10`
 - An application channel profile `SupplyChainChannel` with all four orgs
 
-!!! warning "Placeholder — configtx.yaml template not yet written"
-    A working template will be committed to `lab-cloud/config/fabric/configtx.yaml` when the `lab-cloud/` folder is created. Refer to the [Hyperledger Fabric 2.5 sample configtx.yaml](https://github.com/hyperledger/fabric-samples/blob/main/config/configtx.yaml) as a starting point.
+A working `configtx.yaml` template will be committed to `lab-cloud/config/fabric/configtx.yaml` when the `lab-cloud/` folder is created. This implementation work is tracked in the repository's GitHub project board. Refer to the [Hyperledger Fabric 2.5 sample configtx.yaml](https://github.com/hyperledger/fabric-samples/blob/main/config/configtx.yaml) as a starting point.
 
 ### 3.2 Generate the Genesis Block
 
@@ -270,8 +269,7 @@ Key chaincode functions:
 
 ### 5.1 Chaincode Lifecycle
 
-!!! warning "Placeholder — chaincode source not yet written"
-    The chaincode source will be at `lab-cloud/chaincode/supplychain/`. Steps below show the commands; they require all three island peers to be running and channel-joined.
+The chaincode source will be at `lab-cloud/chaincode/supplychain/`. Steps below show the commands; they require all three island peers to be running and channel-joined. The chaincode implementation is tracked in the repository's GitHub project board.
 
 ```bash
 cd /opt/digital-supply-chain/lab-cloud
@@ -308,8 +306,7 @@ coffeehouse-app  ──GET /batch/:id──►  Fabric Gateway REST (Lab Cloud :
                                     Lab Cloud orderer → peer nodes
 ```
 
-!!! warning "Placeholder — Fabric Gateway REST service not yet implemented"
-    The service will live at `lab-cloud/services/fabric-gateway-api/`. Expected endpoints:
+The Fabric Gateway REST service will live at `lab-cloud/services/fabric-gateway-api/`. Expected endpoints:
 
     | Method | Path | Response |
     |---|---|---|
@@ -318,6 +315,8 @@ coffeehouse-app  ──GET /batch/:id──►  Fabric Gateway REST (Lab Cloud :
     | `GET` | `/health` | Service health check |
 
     Authentication: API key in `Authorization: Bearer <token>` header. The token is configured in `.env` and shared with the Coffee House. No user-level auth is needed for this teaching use case.
+
+    Implementation progress for this service is tracked in the repository's GitHub project board.
 
 ---
 
@@ -372,8 +371,7 @@ HTTP In (GET /brew/:batch_id/latest)
 
 This REST endpoint is called by the Coffee House Traceability Display to retrieve brewing parameters alongside the Fabric batch history.
 
-!!! warning "Placeholder — Node-RED flow JSON not yet written"
-    Flows will be committed to `lab-cloud/config/nodered/flows.json`. The InfluxDB v2 node (`node-red-contrib-influxdb`) must be installed in the Node-RED container.
+Flows will be committed to `lab-cloud/config/nodered/flows.json`. The InfluxDB v2 node (`node-red-contrib-influxdb`) must be installed in the Node-RED container. Implementation work for these flows is tracked in the repository's GitHub project board.
 
 ---
 
@@ -381,8 +379,7 @@ This REST endpoint is called by the Coffee House Traceability Display to retriev
 
 The central Grafana instance visualises the overall supply chain state for instructors.
 
-!!! warning "Placeholder — Grafana dashboard not yet designed"
-    Planned panels:
+Planned panels:
 
     - **Fabric ledger activity** — transaction count per org, last event timestamps, batch event timeline
     - **Farm sensors** — forwarded via InfluxDB on the Farm island (cross-island Grafana data source)
@@ -391,14 +388,15 @@ The central Grafana instance visualises the overall supply chain state for instr
 
     Provisioning files will live in `lab-cloud/config/grafana/provisioning/`.
 
+    The Grafana dashboard design and provisioning are tracked in the repository's GitHub project board.
+
 ---
 
 ## Step 10 — Hyperledger Explorer
 
 Hyperledger Explorer provides a web-based view of all Fabric blocks and transactions. It is primarily a **teaching tool** — useful for showing students the ledger structure in class.
 
-!!! warning "Placeholder — Explorer configuration not yet written"
-    Explorer requires a `connection-profile.json` that points to the orderer and all peer nodes via their TLS certs and enrolled identities. This will be generated as part of the bootstrap process once the `lab-cloud/` folder is implemented.
+Explorer requires a `connection-profile.json` that points to the orderer and all peer nodes via their TLS certs and enrolled identities. This will be generated as part of the bootstrap process once the `lab-cloud/` folder is implemented. The Explorer configuration is tracked in the repository's GitHub project board.
 
 ---
 
