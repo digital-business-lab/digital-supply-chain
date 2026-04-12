@@ -1,52 +1,42 @@
 # Digital Open-Source Supply Chain (Coffee)
 
-A teaching and research project simulating a multi-tier B2B supply chain using **coffee as the example product**. Four independent lab islands communicate via REST APIs and a shared Hyperledger Fabric ledger — entirely open-source.
-
-> **Central idea:** A customer in the Coffee House scans a QR code and traces their cup of coffee all the way back to the farm — origin, roasting profile, distributor route, and brewing parameters.
+A compact teaching and research project for an open-source lab simulation of a multi-tier coffee supply chain.
 
 ---
 
-## Lab Islands
+## What’s in this repo
 
-| Island | Role | Key Technology |
-|---|---|---|
-| [Farm](farm-island/README.md) | Coffee farm · origin of the chain | LoRaWAN, ChirpStack, ERPNext, Fabric peer |
-| [Factory](factory-island/README.md) | Roasting & processing | Dobot robots, MES, OPC-UA, Fabric peer |
-| [Distributor](distributor-island/README.md) | Coffee trader & warehouse | ERPNext WMS, VROOM, Fabric peer |
-| [Coffee House](coffeehouse-island/README.md) | Consumer endpoint · no ERP | POS, Traceability Display, Lab Cloud IoT |
-| [Service Centre](service-center-island/README.md) *(optional)* | Coffee equipment repair · job-shop MRP | ERPNext Manufacturing, Fabric Peer (optional) |
-
-B2B communication exclusively via **REST APIs**. Each island is an independent company with its own ERPNext and Kafka. The Coffee House is intentionally lean — no ERP, no Kafka, no Fabric peer node.
+- `docs/` — canonical documentation for architecture, operations, island setup, and teaching scenarios
+- `farm-island/` — Farm island deployment, configuration, and services
+- `factory-island/` — Factory island overview and implementation notes
+- `distributor-island/` — Distributor island documentation and integration
+- `coffeehouse-island/` — Coffee House island overview and consumer-facing components
+- `service-center-island/` — Optional Service Centre island material
+- `lab-cloud/` — shared on-premise services supporting the islands
+- `site/` — generated documentation site output
 
 ---
 
-## Documentation
+## Key documentation
 
-| Topic | Description |
-|---|---|
-| [Architecture](docs/architecture/) | Four islands, Lab Cloud, Hyperledger Fabric overview |
-| [Lab Cloud](lab-cloud/README.md) | On-premise shared services (Fabric orderer, IoT backend, monitoring) |
-| [Hyperledger Fabric](docs/architecture/hyperledger-fabric.md) | End-to-end batch traceability across all tiers |
-| [B2B Communication](docs/architecture/b2b-communication.md) | REST API messages between companies |
-| [LoRaWAN Architecture](docs/islands/farm/lorawan.md) | Four-layer sensor stack on the Farm island |
-| [Network Architecture](docs/architecture/network.md) | All services, ports, and access rules |
-| [Didactic Scenarios](docs/teaching/didactic-scenarios.md) | Use cases for foundational, advanced, and research courses |
-| [Operations & Backup](docs/operations/) | Backup strategy, VM templates for teaching |
-| [Architecture Decisions](docs/architecture/decisions.md) | Why we chose what we chose |
-| [GitOps Workflow](docs/operations/gitops.md) | How configuration changes reach the islands |
-
-**Visual overview:** [docs/lab-islands_overview_2.html](docs/lab-islands_overview_2.html)
+- [docs/index.md](docs/index.md) — main entry point for the rendered documentation
+- [docs/architecture/](docs/architecture/) — system design, network architecture, and platform decisions
+- [docs/operations/](docs/operations/) — deployment, backup, and maintenance procedures
+- [docs/islands/](docs/islands/) — island-specific guides and environment overviews
+- [docs/teaching/](docs/teaching/) — didactic scenarios and course use cases
+- [docs/lab-cloud/](docs/lab-cloud) — shared lab services, IoT backend, and monitoring setup
 
 ---
 
 ## Setup
 
-Start with the operations setup guide at [docs/operations/setup-guide.md](docs/operations/setup-guide.md).
+Begin with the operations setup guide:
+
+- [docs/operations/setup-guide.md](docs/operations/setup-guide.md)
 
 ---
 
-## Technology Stack
+## Notes
 
-LoRaWAN · ChirpStack · ERPNext · Apache Kafka · Dobot · OPC-UA · VROOM · Hyperledger Fabric · Mosquitto · Node-RED · InfluxDB · Grafana · Docker · MikroTik RouterOS
-
-Full table → [docs/architecture/#technology-stack](docs/architecture/#technology-stack)
+- This README is a project overview and navigation hub.
+- The detailed reference documentation lives in `docs/` and the generated `site/` output.

@@ -84,29 +84,6 @@ cd /opt/digital-supply-chain
 
 ---
 
-## 4. Network: DHCP Reservation
-
-Each island workstation must receive the **same IP address** on every boot. Island-internal services (e.g. the LoRaWAN packet forwarder on the Farm Island) target a fixed IP, and DNS is not used inside the island network.
-
-Configure a MAC-based DHCP reservation on the MikroTik router:
-
-```bash
-# On the workstation — find the MAC address
-ip link show
-```
-
-```routeros
-# On the MikroTik router (Winbox or RouterOS terminal)
-/ip dhcp-server lease
-add address=192.168.10.10 mac-address=AA:BB:CC:DD:EE:FF comment=farm-island
-```
-
-> Replace `192.168.10.10` with the IP assigned in your lab network. Use the same IP in any island service that requires a static target address (e.g. ChirpStack Gateway Bridge UDP target on the Farm Island).
-
-**NTP:** The MikroTik router provides NTP. Ubuntu and all Docker containers synchronise automatically — no additional NTP configuration is required.
-
----
-
 ## Next Steps
 
 After completing the base setup, proceed with the Lab Cloud setup first. Once the Lab Cloud is running, continue with island-specific setup in supply-chain order.
