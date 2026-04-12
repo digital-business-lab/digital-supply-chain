@@ -162,7 +162,41 @@ The PostgreSQL data source is provisioned automatically on first start (via `con
 
 ---
 
-## 6. Operations reference
+## 6. Key Scripts
+
+| Script | Purpose |
+|---|---|
+| `scripts/bootstrap.sh` | Initial setup — run once on a fresh workstation |
+| `scripts/deploy.sh` | GitOps deploy: `git pull` + `docker compose up -d` |
+| `scripts/install-deploy-timer.sh` | Installs systemd timer for auto-deploy every 15 min |
+| `scripts/backup.sh` | Full backup to `~/farm-backups/` (databases + volumes) |
+| `scripts/restore.sh` | Restore a backup archive |
+| `scripts/install-backup-timer.sh` | Installs systemd timer for daily 02:00 backup |
+| `scripts/mikrotik-backup.rsc` | RouterOS backup commands for the MikroTik |
+
+---
+
+## 7. Folder Structure
+
+```
+farm-island/
+  docker-compose.yml
+  .env.example
+  config/
+    chirpstack/chirpstack.toml
+    chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    grafana/provisioning/datasources/
+    mosquitto/mosquitto.conf
+    postgres/init.sql
+  scripts/
+    bootstrap.sh · deploy.sh · install-deploy-timer.sh
+    backup.sh · restore.sh · install-backup-timer.sh
+    mikrotik-backup.rsc
+```
+
+---
+
+## 8. Operations reference
 
 Common Docker commands for day-to-day operation:
 
@@ -192,7 +226,7 @@ docker stats
 
 ---
 
-## 7. Next steps after basic setup
+## 9. Next steps after basic setup
 
 | Step | Reference |
 |---|---|

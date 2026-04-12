@@ -104,53 +104,6 @@ Node-RED
 
 ---
 
-## Initial Setup
+## Getting Started
 
-```bash
-# Clone the repository on the farm workstation
-git clone https://github.com/digital-business-lab/digital-supply-chain.git /opt/digital-supply-chain
-cd /opt/digital-supply-chain
-
-# Copy and fill in secrets
-cp farm-island/.env.example farm-island/.env
-nano farm-island/.env
-
-# Run bootstrap (installs Docker, sets up systemd timers, starts services)
-chmod +x farm-island/scripts/bootstrap.sh
-./farm-island/scripts/bootstrap.sh
-```
-
----
-
-## Key Scripts
-
-| Script | Purpose |
-|---|---|
-| `scripts/bootstrap.sh` | Initial setup — run once on a fresh workstation |
-| `scripts/deploy.sh` | GitOps deploy: `git pull` + `docker compose up -d` |
-| `scripts/install-deploy-timer.sh` | Installs systemd timer for auto-deploy every 15 min |
-| `scripts/backup.sh` | Full backup to `~/farm-backups/` (databases + volumes) |
-| `scripts/restore.sh` | Restore a backup archive |
-| `scripts/install-backup-timer.sh` | Installs systemd timer for daily 02:00 backup |
-| `scripts/mikrotik-backup.rsc` | RouterOS backup commands for the MikroTik |
-
----
-
-## Folder Structure
-
-```
-farm-island/
-  docker-compose.yml
-  .env.example
-  config/
-    chirpstack/chirpstack.toml
-    chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
-    grafana/provisioning/datasources/
-    mosquitto/mosquitto.conf
-    postgres/init.sql
-  scripts/
-    bootstrap.sh
-    deploy.sh · install-deploy-timer.sh
-    backup.sh · restore.sh · install-backup-timer.sh
-    mikrotik-backup.rsc
-```
+For initial setup, scripts, and folder structure, see the dedicated [Farm Island Setup Guide](setup.md).
