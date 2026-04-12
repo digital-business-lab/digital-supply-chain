@@ -193,14 +193,14 @@ Navigate to **Customize Form → Batch** and add the following custom fields to 
 
 | Field Label | Field Name | Field Type | Notes |
 |---|---|---|---|
-| Avg. Soil Moisture (%) | avg_soil_moisture | Float | Average soil moisture reading over the last 7 days before harvest (from LoRaWAN sensors via Node-RED) |
-| Avg. Temperature (°C) | avg_temperature | Float | Average ambient temperature over harvest period |
-| CO₂ Level (ppm) | co2_level | Float | Last CO₂ reading before harvest |
-| Sensor Reading Date | sensor_reading_date | Date | Date of the final sensor log that triggered the harvest event |
+| Avg. Soil Moisture (%) | avg_soil_moisture | Float | Latest soil moisture reading attached at harvest time (from LoRaWAN sensors via Node-RED) |
+| Avg. Temperature (°C) | avg_temperature | Float | Latest ambient temperature reading attached at harvest time |
+| CO₂ Level (ppm) | co2_level | Float | Latest CO₂ reading attached at harvest time |
+| Sensor Reading Date | sensor_reading_date | Date | Date of the latest sensor reading attached to the harvest event |
 | Harvest GPS Lat | harvest_gps_lat | Float | Optional: GPS latitude of the plant position |
 | Harvest GPS Lon | harvest_gps_lon | Float | Optional: GPS longitude of the plant position |
 
-> **These fields are populated automatically by Node-RED** when a harvest event is booked. They can also be filled manually during the demo setup.
+> **These fields are populated automatically by Node-RED** when a manually triggered harvest event is booked. They can also be filled manually during the demo setup.
 
 ---
 
