@@ -2,7 +2,7 @@
 
 The Farm Island represents the origin of the supply chain: a coffee farm. It is the only island with field-level sensor infrastructure, measuring growing conditions and logging harvest batches via ERPNext.
 
-→ [Architecture overview](../../architecture/index.md) | [LoRaWAN details](lorawan.md) | [GitOps workflow](../../operations/gitops.md) | [Setup guide](setup.md) | [ERP config & demo data](erp.md)
+→ [Architecture overview](../../architecture/index.md) | [LoRaWAN details](lorawan.md) | [GitOps workflow](../../operations/gitops.md) | [Hardware & Build](hardware.md) | [Setup guide](setup.md) | [ERP config & demo data](erp.md)
 
 ---
 
@@ -50,20 +50,7 @@ A touch display is mounted on the front of the rack and shows the Grafana sensor
 
 ---
 
-## Hardware
-
-| Component | Model / Spec | Function |
-|---|---|---|
-| Linux workstation | Dell, Core i7, 16 GB RAM, 256 GB SSD | Main compute node for all Docker services |
-| Touch display | — | Grafana sensor dashboard in kiosk mode (rack-mounted) |
-| LED grow light | — | Controllable plant lighting (intensity + schedule via Node-RED) |
-| Smart relay | Shelly (tbc) | Switches irrigation pump based on soil-moisture threshold |
-| Water tank + pump | — | Automated moisture-controlled irrigation |
-| LoRaWAN gateway | MikroTik wAP LR8 kit | Receives sensor radio packets, forwards to ChirpStack |
-| Router | MikroTik | DHCP, NTP, routing for all island devices |
-| Sensors | Dragino LHT65, LDDS75 / Seeed SenseCAP S2103 | Soil moisture, temperature, CO₂, fill level |
-
-**Network:** The workstation receives a fixed DHCP reservation by MAC address (e.g. `192.168.10.10`) so the wAP LR8 packet forwarder always has a stable target IP.
+For detailed hardware information and physical build instructions, see the dedicated [Hardware & Build](hardware.md) page.
 
 ---
 
