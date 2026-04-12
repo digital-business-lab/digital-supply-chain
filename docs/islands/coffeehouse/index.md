@@ -2,7 +2,7 @@
 
 The Coffee House is the consumer endpoint of the supply chain. It is intentionally lean: no ERP, no Kafka, no Fabric peer node. A real coffee house has no IT department. Its three software modules can run on one machine or on separate hardware.
 
-→ [Architecture overview](../../architecture/) | [Lab Cloud](../../../lab-cloud/README.md) | [Hyperledger Fabric](../../architecture/hyperledger-fabric.md)
+→ [Architecture overview](../../architecture/index.md) | [Lab Cloud](../../lab-cloud/index.md) | [Hyperledger Fabric](../../architecture/hyperledger-fabric.md)
 
 ---
 

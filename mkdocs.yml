@@ -34,7 +34,7 @@ theme:
 nav:
   - Home: index.md
   - Architecture:
-    - Overview: architecture/
+    - Overview: architecture/index.md
     - Hyperledger Fabric: architecture/hyperledger-fabric.md
     - B2B Communication: architecture/b2b-communication.md
     - LoRaWAN (Farm): islands/farm/lorawan.md
@@ -53,6 +53,7 @@ nav:
   - Operations:
     - Supply Chain Setup Guide: operations/setup-guide.md
     - Lab Cloud Setup Guide: lab-cloud/setup.md
+    - Lab Cloud Overview: lab-cloud/index.md
     - Workstation Setup: operations/setup-workstation.md
     - Backup & VM Templates: operations/index.md
     - GitOps Workflow: operations/gitops.md

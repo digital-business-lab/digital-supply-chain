@@ -127,4 +127,4 @@ add address=192.168.10.10 mac-address=AA:BB:CC:DD:EE:FF comment=farm-island
 
 After completing the base setup, follow the island-specific setup guide:
 
-- [Farm Island Setup](islands/farm/setup.md)
+- [Farm Island Setup](../islands/farm/setup.md)

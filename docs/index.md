@@ -35,7 +35,7 @@ Coffee Farm  →  Coffee Processing  →  Coffee Trader  →  Coffee House
               └──────────────────────┘
 ```
 
-→ [Full architecture documentation](architecture/)
+→ [Full architecture documentation](architecture/index.md)
 
 ---
 
@@ -68,4 +68,4 @@ The [Supply Chain Setup Guide](operations/setup-guide.md) walks through standing
 
 LoRaWAN · ChirpStack · ERPNext · Apache Kafka · Dobot · OPC-UA · VROOM · Hyperledger Fabric · Mosquitto · Node-RED · InfluxDB · Grafana · Docker · MikroTik RouterOS
 
-→ [Full technology stack](architecture/#technology-stack)
+→ [Full technology stack](architecture/index.md#technology-stack)

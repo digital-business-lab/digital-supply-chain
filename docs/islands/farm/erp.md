@@ -368,7 +368,7 @@ Factory ERPNext: scan QR code → auto-create Purchase Receipt
 Fabric Peer Node (Farm Island): writes inter-island handover event
 ```
 
-The Fabric event is written by **Node-RED Flow 5** (see [Farm Island — Node-RED → Flow 5](nodered.md#8-flow-5--outbound-shipment-delivery-note--fabric-ledger-event)) immediately after the Delivery Note is submitted in ERPNext. The event payload is:
+The Fabric event is written by **Node-RED Flow 5** (see [Farm Island — Node-RED → Flow 5](nodered.md#8-flow-5-outbound-shipment-delivery-note-fabric-ledger-event)) immediately after the Delivery Note is submitted in ERPNext. The event payload is:
 
 ```json
 {

@@ -43,4 +43,4 @@ For practicals and seminars, each island can be provisioned from a **VM golden i
 3. Students can misconfigure or break their island freely; restore takes minutes
 4. Instructor retains the production islands untouched
 
-See [operations/](../operations/) for VM template details.
+See [operations/](../operations/index.md) for VM template details.

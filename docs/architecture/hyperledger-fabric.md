@@ -41,7 +41,7 @@ Coffee machine brewing parameters (grind level, temperature, water volume, water
 - Too granular and high-frequency for a blockchain
 - Potentially commercially sensitive (proprietary roasting/brewing recipes)
 
-They are stored in **InfluxDB** on the Lab Cloud and served directly to the Traceability Display via REST. See [Lab Cloud](../lab-cloud/README.md).
+They are stored in **InfluxDB** on the Lab Cloud and served directly to the Traceability Display via REST. See [Lab Cloud](../lab-cloud/index.md).
 
 ## Integration with Node-RED
 

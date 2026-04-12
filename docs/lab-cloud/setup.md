@@ -5,7 +5,7 @@ The Lab Cloud **must be running before any island peer joins the Fabric channel*
 
 **Prerequisites:** Complete [Workstation Setup](../operations/setup-workstation.md) first (Ubuntu 22.04, Docker, repository cloned to `/opt/digital-supply-chain`).
 
-→ [Lab Cloud architecture overview](README.md) | [Hyperledger Fabric concepts](../architecture/hyperledger-fabric.md) | [Supply Chain Setup Guide](../operations/setup-guide.md)
+→ [Lab Cloud architecture overview](index.md) | [Hyperledger Fabric concepts](../architecture/hyperledger-fabric.md) | [Supply Chain Setup Guide](../operations/setup-guide.md)
 
 ---
 

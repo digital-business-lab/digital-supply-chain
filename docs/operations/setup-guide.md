@@ -46,12 +46,12 @@ The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT
 
 !!! warning "Placeholder — Lab Cloud docker-compose and scripts not yet committed"
     The `lab-cloud/` folder and its `docker-compose.yml` do not yet exist in the repository.
-    The full setup procedure is documented in the [Lab Cloud Setup Guide](lab-cloud/setup.md). Summary:
+    The full setup procedure is documented in the [Lab Cloud Setup Guide](../lab-cloud/setup.md). Summary:
 
     1. Provision the server with Ubuntu 22.04 + Docker (see [Workstation Setup](setup-workstation.md)).
     2. Clone the repository to `/opt/digital-supply-chain`.
-    3. Generate Fabric crypto material with `cryptogen` (see [Lab Cloud Setup — Step 2](lab-cloud/setup.md#step-2--generate-fabric-crypto-material)).
-    4. Create the channel genesis block and orderer self-join (see [Lab Cloud Setup — Step 3](lab-cloud/setup.md#step-3--create-the-fabric-channel)).
+    3. Generate Fabric crypto material with `cryptogen` (see [Lab Cloud Setup — Step 2](../lab-cloud/setup.md#step-2-generate-fabric-crypto-material)).
+    4. Create the channel genesis block and orderer self-join (see [Lab Cloud Setup — Step 3](../lab-cloud/setup.md#step-3-create-the-fabric-channel)).
     5. Start the Lab Cloud stack:
        ```bash
        cd /opt/digital-supply-chain
@@ -62,7 +62,7 @@ The Lab Cloud runs the Hyperledger Fabric ordering service, the Coffee House IoT
     6. Verify the orderer is reachable on port `7050` from all island workstations.
     7. Distribute the channel genesis block (`lab-channel.block`) and each org's MSP material to the respective island administrators.
 
-    → [Lab Cloud Setup Guide](lab-cloud/setup.md) | [Lab Cloud overview](../lab-cloud/README.md) | [Hyperledger Fabric](../architecture/hyperledger-fabric.md)
+    → [Lab Cloud Setup Guide](../lab-cloud/setup.md) | [Lab Cloud overview](../lab-cloud/index.md) | [Hyperledger Fabric](../architecture/hyperledger-fabric.md)
 
 ### Checkpoint
 
@@ -79,7 +79,7 @@ The Farm Island is the **origin of the supply chain**: it produces coffee, logs 
 
 ### 2.1 Deploy the Stack
 
-Follow the [Farm Island Setup Guide](islands/farm/setup.md):
+Follow the [Farm Island Setup Guide](../islands/farm/setup.md):
 
 1. Complete workstation setup.
 2. Configure secrets: `cp farm-island/.env.example farm-island/.env` and fill in passwords.
@@ -94,7 +94,7 @@ Follow the [Farm Island Setup Guide](islands/farm/setup.md):
 
 ### 2.3 ERPNext Configuration
 
-Follow [Farm Island — ERP Config & Demo Data](islands/farm/erp.md):
+Follow [Farm Island — ERP Config & Demo Data](../islands/farm/erp.md):
 
 1. Create warehouses, item definitions (green coffee bean batches), and stock locations.
 2. Add demo harvest batches for initial testing.
@@ -102,7 +102,7 @@ Follow [Farm Island — ERP Config & Demo Data](islands/farm/erp.md):
 
 ### 2.4 Node-RED Flows
 
-Follow [Farm Island — Node-RED Flows](islands/farm/nodered.md):
+Follow [Farm Island — Node-RED Flows](../islands/farm/nodered.md):
 
 1. Import the Node-RED flow package from `farm-island/config/nodered/`.
 2. Verify the MQTT → ERPNext → Kafka → Fabric peer pipeline.
@@ -135,7 +135,7 @@ The Factory Island receives raw coffee from the Farm, runs it through a simulate
 
 !!! warning "Placeholder — Factory Island docker-compose and detailed setup docs not yet written"
     The `factory-island/` folder does not yet contain a `docker-compose.yml`.
-    The steps below describe the intended setup sequence; details will be added to [Factory Island](islands/factory/index.md) as work progresses.
+    The steps below describe the intended setup sequence; details will be added to [Factory Island](../islands/factory/index.md) as work progresses.
 
 ### 3.1 Deploy the Stack
 
@@ -205,7 +205,7 @@ cp distributor-island/.env.example distributor-island/.env
 ```
 
 !!! note "Docker networking for ROS2"
-    Both `rosbridge_server` and `robot_manager` must run with `network_mode: host` to allow ROS2 DDS multicast traffic to reach the TurtleBot4 over the island LAN. See [Distributor Island](islands/distributor/index.md) for details.
+    Both `rosbridge_server` and `robot_manager` must run with `network_mode: host` to allow ROS2 DDS multicast traffic to reach the TurtleBot4 over the island LAN. See [Distributor Island](../islands/distributor/index.md) for details.
 
 ### 4.2 TurtleBot4 Lite Setup
 
@@ -227,7 +227,7 @@ Before the first delivery, a floor map of the lab must be created:
 
 ### 4.5 Node-RED — ERP to Robot Bridge
 
-Deploy the Node-RED flow that converts an ERPNext delivery order webhook into a `robot_manager` mission via `rosbridge_server` WebSocket. See [Distributor Island](islands/distributor/index.md#erp-integration--delivery-order-to-robot-mission) for the flow diagram.
+Deploy the Node-RED flow that converts an ERPNext delivery order webhook into a `robot_manager` mission via `rosbridge_server` WebSocket. See [Distributor Island](../islands/distributor/index.md#erp-integration-delivery-order-to-robot-mission) for the flow diagram.
 
 ### 4.6 Join Fabric Channel
 
