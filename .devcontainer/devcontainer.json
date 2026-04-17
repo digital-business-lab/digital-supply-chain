@@ -7,7 +7,7 @@
   },
   "customizations": {
     "codespaces": {
-      "profile": "codespaces"
+      "profile": "Codespaces"
     },
     "vscode": {
       "extensions": [
