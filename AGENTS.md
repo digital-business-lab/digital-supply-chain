@@ -37,6 +37,7 @@ This project uses GitHub-native documentation:
 - **Record the rationale, not just the outcome** — note briefly *why* a decision was made (constraint, trade-off, experiment result), so future sessions can judge whether the decision still holds.
 - **Remove or flag outdated entries** — if a previous decision is superseded, either update the entry or mark it `(superseded)` with the replacement noted.
 - **Keep entries concise** — one to two sentences per item; link to the relevant `docs/*.md` file for deeper context.
+- **Commit messages should use a prefix style** such as `doc:` or `fix:` for documentation updates and bug fixes.
 
 ## Scientific and Self-Critical Working Practice
 
