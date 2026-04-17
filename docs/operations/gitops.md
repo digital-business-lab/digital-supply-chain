@@ -15,12 +15,14 @@ All configuration, compose files, and scripts are versioned in this repository. 
 ```bash
 # 1. Make and commit the change on the development machine
 git add farm-island/config/mosquitto/mosquitto.conf
-git commit -m "Increase Mosquitto max connections to 100"
+git commit -m "fix: increase Mosquitto max connections to 100"
 git push
 
 # 2. On the island — runs automatically every 15 min, or trigger manually:
 sudo systemctl start farm-deploy.service
 ```
+
+Use commit message prefixes like `doc:` or `fix:` to make review and changelog tracking easier.
 
 The `deploy.sh` script does:
 1. `git pull` — fetch latest commits
