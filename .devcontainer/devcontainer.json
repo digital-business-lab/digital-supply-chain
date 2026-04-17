@@ -1,0 +1,23 @@
+{
+  "name": "Digital Supply Chain",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/docker-compose:2": {}
+  },
+  "customizations": {
+    "codespaces": {
+      "profile": "codespaces"
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  },
+  "postCreateCommand": "python3 -m pip install --user mkdocs-material",
+  "remoteUser": "vscode"
+}
