@@ -2,9 +2,9 @@
   "name": "Digital Supply Chain",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/devcontainers/features/docker-compose:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
+  "initializeCommand": "if ! docker compose version >/dev/null 2>&1 && ! command -v docker-compose >/dev/null 2>&1; then apt-get update && apt-get install -y curl && mkdir -p /usr/local/lib/docker/cli-plugins && curl -L https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose && chmod +x /usr/local/lib/docker/cli-plugins/docker-compose && ln -sf /usr/local/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose; fi",
   "customizations": {
     "codespaces": {
       "profile": "Codespaces"
