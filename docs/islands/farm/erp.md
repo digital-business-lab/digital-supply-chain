@@ -193,6 +193,7 @@ Navigate to **Customize Form → Batch** and add the following custom fields to 
 
 | Field Label | Field Name | Field Type | Notes |
 |---|---|---|---|
+| Quality Grade | quality_grade | Data | Example values: `A`, `B`, `C`; used in the walkthrough prompt for harvest grading |
 | Avg. Soil Moisture (%) | avg_soil_moisture | Float | Latest soil moisture reading attached at harvest time (from LoRaWAN sensors via Node-RED) |
 | Avg. Temperature (°C) | avg_temperature | Float | Latest ambient temperature reading attached at harvest time |
 | CO₂ Level (ppm) | co2_level | Float | Latest CO₂ reading attached at harvest time |
@@ -201,6 +202,22 @@ Navigate to **Customize Form → Batch** and add the following custom fields to 
 | Harvest GPS Lon | harvest_gps_lon | Float | Optional: GPS longitude of the plant position |
 
 > **These fields are populated automatically by Node-RED** when a manually triggered harvest event is booked. They can also be filled manually during the demo setup.
+
+### 8.3 Prompt Walkthrough Example — Harvest Batch `FARM-2024-001`
+
+The supply-chain walkthrough prompt uses a concrete Farm example. The table below maps that example to ERPNext fields.
+
+| Prompt field | ERPNext DocType | ERPNext field | Example value |
+|---|---|---|---|
+| Item | Item / Batch | `item` | `Green Coffee Beans — Yirgacheffe` |
+| Batch ID | Batch | `name` | `FARM-2024-001` |
+| Quantity | Stock Entry (Material Receipt) | `items[0].qty` | `5` |
+| Quality grade | Batch (custom field) | `quality_grade` | `A` |
+| Origin note | Batch (custom field or description) | `description` or location custom field | `Yirgacheffe, Ethiopia, 1850 m` |
+
+After the batch is created, the operator marks it **ready for dispatch to Factory** by printing a QR code or attaching an NFC tag and booking a stock movement into the dispatch area.
+
+**Assumption:** If the teaching setup keeps only one generic Arabica item in the item master, `Green Coffee Beans — Yirgacheffe` can be represented as the item name plus origin metadata instead of a separate SKU.
 
 ---
 

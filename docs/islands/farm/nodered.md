@@ -221,6 +221,39 @@ msg.pumpShouldRun = moisture !== null && moisture < threshold;
 return msg;
 ```
 
+### 5.1 Prompt Walkthrough Example — ChirpStack to Shelly Relay
+
+For the end-to-end supply-chain walkthrough prompt, the physical and digital irrigation step is:
+
+- **Physical:** the soil around the coffee plant becomes too dry, so the pump on the mid level starts watering the plant.
+- **Digital:** ChirpStack publishes a decoded MQTT uplink, Node-RED evaluates the moisture threshold, and the Shelly relay switches the pump.
+
+| Service | Role in the walkthrough |
+|---|---|
+| ChirpStack | Decodes the LoRaWAN uplink and republishes it to MQTT |
+| Mosquitto | Carries the local MQTT message used by Node-RED |
+| Node-RED | Applies the moisture threshold and decides whether the pump should run |
+| Shelly relay | Switches the irrigation pump on or off |
+
+**Example MQTT payload from ChirpStack:**
+
+```json
+{
+  "time": "2026-05-05T08:00:00Z",
+  "deviceInfo": {
+    "applicationId": "1",
+    "deviceName": "soil-moisture-01",
+    "devEui": "a84041farm0001"
+  },
+  "object": {
+    "Hum_SHT": 41.2,
+    "TempC_SHT": 22.4
+  }
+}
+```
+
+With `MOISTURE_THRESHOLD_PCT=50`, the Function node sets `msg.pumpShouldRun = true`, so the flow calls `http://<SHELLY_IP>/relay/0?turn=on`.
+
 ---
 
 ## 6. Flow 3 — Harvest Recording (Manual)
@@ -258,6 +291,28 @@ return msg;
 | Item | Dropdown | Options: `CF-BEAN-ARABICA`, `CF-BEAN-ROBUSTA` |
 | Qty (kg) | Number input | Harvested weight |
 | Harvest Date | Date picker | Defaults to today |
+
+### 6.1 Prompt Walkthrough Example — Harvest Event `harvest_recorded`
+
+In the walkthrough prompt, the operator records a 5 kg harvest batch `FARM-2024-001` for **Green Coffee Beans — Yirgacheffe** with quality grade `A`. After ERPNext confirms the batch, Node-RED sends the minimal Fabric payload below:
+
+```json
+{
+  "batch_id": "FARM-2024-001",
+  "island": "farm",
+  "event": "harvest_recorded",
+  "timestamp": "<ISO-8601>",
+  "quantity_kg": 5,
+  "quality_grade": "A",
+  "location": "Yirgacheffe, Ethiopia, 1850 m"
+}
+```
+
+**Boundary output to Factory:**
+
+- physical container carried manually to the Factory Island
+- QR code or NFC tag encodes `FARM-2024-001`
+- Fabric ledger confirms `harvest_recorded`
 
 **Step A — Build Batch payload (Function node):**
 

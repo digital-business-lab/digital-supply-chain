@@ -58,6 +58,58 @@ Display shows:
   ✓ This cup:    18g grind, 93°C, 28s extraction
 ```
 
+## Prompt Walkthrough Example — Goods Receipt, Sale, Traceability
+
+The supply-chain walkthrough prompt uses the following Coffee House sequence:
+
+1. **Goods receipt**
+   - Distributor calls:
+
+   ```http
+   POST https://<coffeehouse-ip>:5000/api/delivery_notice
+   Content-Type: application/json
+
+   { "batch_id": "FACTORY-ROAST-001", "rfid_tags": ["RFID-001"], "quantity_kg": 1 }
+   ```
+
+   - **Physical:** the delivered bag arrives from the TurtleBot4 and the barista scans `RFID-001`.
+   - **Digital:** the POS stores `batch_id = FACTORY-ROAST-001` for later sale and traceability.
+
+2. **Brewing telemetry**
+   - The coffee machine sends:
+
+   ```json
+   {
+     "batch_id": "FACTORY-ROAST-001",
+     "grind_g": 18,
+     "water_temp_c": 93,
+     "water_ml": 200,
+     "extraction_s": 28,
+     "hardness_dh": 7
+   }
+   ```
+
+   - The Lab Cloud IoT backend stores this in InfluxDB measurement `brew_events`.
+   - This telemetry stays **off-chain**; it is not written to Hyperledger Fabric.
+
+3. **Customer-facing traceability**
+   - The Traceability Display queries:
+
+   ```http
+   GET https://<labcloud-ip>:8080/fabric/batch/FACTORY-ROAST-001/history
+   ```
+
+   - The display renders:
+
+   ```text
+   ✓ Farm:        Yirgacheffe, Ethiopia, 1850m — harvest_recorded
+   ✓ Factory:     goods_receipt → roasting_complete → qc_pass
+   ✓ Distributor: goods_receipt → delivery_completed
+   ✓ This cup:    18g grind, 93°C, 28s extraction
+   ```
+
+**Assumption:** the Coffee House POS can resolve the scanned RFID tag to the stored `batch_id` without a separate local ERP layer.
+
 ---
 
 ## Status
