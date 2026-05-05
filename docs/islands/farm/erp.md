@@ -217,7 +217,7 @@ The supply-chain walkthrough prompt uses a concrete Farm example. The table belo
 
 After the batch is created, the operator marks it **ready for dispatch to Factory** by printing a QR code or attaching an NFC tag and booking a stock movement into the dispatch area.
 
-**Assumption:** If the teaching setup keeps only one generic Arabica item in the item master, `Green Coffee Beans — Yirgacheffe` can be represented as the item name plus origin metadata instead of a separate SKU.
+**Open question:** Should `Green Coffee Beans — Yirgacheffe` remain a dedicated item in the item master, or should the teaching setup keep one generic Arabica item and capture origin only as metadata?
 
 ---
 

@@ -120,7 +120,7 @@ For the end-to-end walkthrough prompt, the Distributor step is:
    { "item": "Roasted Coffee — Medium", "quantity_kg": 1, "destination": "Coffee House — Hauptstraße 1" }
    ```
 
-   - `receive_coffee_house_order` is a custom ERPNext whitelisted method on the Distributor instance; it is not a standard ERPNext endpoint. Its implementation is still conceptual in this repository's current AI workflow phase and should later be documented with the Distributor ERP integration once production code is written.
+   - `receive_coffee_house_order` is a custom ERPNext whitelisted method on the Distributor instance; it is not a standard ERPNext endpoint. In the current concept-only phase, its future contract is tracked in the API contract placeholder section below and will be documented there when the project transitions to production code.
    - ERPNext creates delivery order `DO-DIST-001` and reserves stock.
 
 3. **Route planning + robot mission**
