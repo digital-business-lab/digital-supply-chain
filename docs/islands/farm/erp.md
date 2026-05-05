@@ -193,7 +193,7 @@ Navigate to **Customize Form → Batch** and add the following custom fields to 
 
 | Field Label | Field Name | Field Type | Notes |
 |---|---|---|---|
-| Quality Grade | quality_grade | Select | Dropdown with options `A`, `B`, `C`; no default value. Suggested demo meaning: `A = release`, `B = review`, `C = reject` |
+| Quality Grade | quality_grade | Select | Dropdown with options `A`, `B`, `C`; no default value. Suggested demo meaning: `A = highest quality`, `B = acceptable`, `C = reject / rework` |
 | Avg. Soil Moisture (%) | avg_soil_moisture | Float | Latest soil moisture reading attached at harvest time (from LoRaWAN sensors via Node-RED) |
 | Avg. Temperature (°C) | avg_temperature | Float | Latest ambient temperature reading attached at harvest time |
 | CO₂ Level (ppm) | co2_level | Float | Latest CO₂ reading attached at harvest time |
@@ -209,7 +209,7 @@ The supply-chain walkthrough prompt uses a concrete Farm example. The table belo
 
 | Prompt field | ERPNext DocType | ERPNext field | Example value |
 |---|---|---|---|
-| Item | Item / Batch | `item` | `Green Coffee Beans — Yirgacheffe` |
+| Item | Item / Batch | `item` | `Green Coffee Beans — Yirgacheffe` *(or a generic Arabica item plus origin metadata, if the item master stays smaller)* |
 | Batch ID | Batch | `name` | `FARM-2024-001` |
 | Quantity | Stock Entry (Material Receipt) | `items[0].qty` | `5` |
 | Quality grade | Batch (custom field) | `quality_grade` | `A` |

@@ -170,6 +170,20 @@ For the end-to-end walkthrough prompt, the Distributor step is:
 
 **Assumption:** the waypoint `coffeehouse_main` already exists in the Nav2 map used by `robot_manager`. Waypoint creation is part of the TurtleBot4/Nav2 setup that must be completed before the first delivery run; it is not documented in detail in this repository yet.
 
+### API Contract Placeholder (concept phase)
+
+The walkthrough uses two custom ERPNext whitelisted methods that are **not implemented in this repository yet**:
+
+- `receive_factory_shipment`
+- `receive_coffee_house_order`
+
+When the project moves from concept notes to production code, this page should document for both methods:
+
+- authentication and authorisation expectations
+- request validation and idempotency rules
+- success and error response payloads
+- how the methods map into ERPNext Purchase Receipt / Delivery Order creation
+
 ---
 
 ## Internal Data Flow
