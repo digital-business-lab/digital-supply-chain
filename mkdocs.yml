@@ -42,6 +42,7 @@ nav:
   - AI Orchestration:
     - Overview: ai/index.md
     - Island-Driven Workflow: ai/island-driven-workflow.md
+    - Supply Chain Workflow Prompt: ai/supply-chain-workflow-prompt.md
   - Lab Islands:
     - Farm Island: islands/farm/index.md
     - Farm Island — Setup Guide: islands/farm/setup.md
