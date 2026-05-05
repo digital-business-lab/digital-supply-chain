@@ -39,6 +39,9 @@ nav:
     - B2B Communication: architecture/b2b-communication.md
     - LoRaWAN (Farm): islands/farm/lorawan.md
     - Network: architecture/network.md
+  - AI Orchestration:
+    - Overview: ai/index.md
+    - Island-Driven Workflow: ai/island-driven-workflow.md
   - Lab Islands:
     - Farm Island: islands/farm/index.md
     - Farm Island — Setup Guide: islands/farm/setup.md

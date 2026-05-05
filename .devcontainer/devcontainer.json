@@ -1,5 +1,5 @@
 {
-  "name": "digital-supply-chain Codespace",
+  "name": "digital-supply-chain",
   "build": {
     "dockerfile": "Dockerfile"
   },
