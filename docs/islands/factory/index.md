@@ -219,7 +219,7 @@ The supply-chain walkthrough prompt uses one concrete standard-run example:
 - `quantity_kg = 4`
 - confirmed Fabric events: `goods_receipt`, `roasting_complete`, `qc_pass`
 
-**Assumption:** the Grove temperature sensor can provide a mock roasting curve for teaching, even though no real thermal roasting happens on the island.
+**Assumption:** the `20°C → 212°C` roast curve is simulated for teaching. If no safe demo heat source is installed, the Grove temperature values are injected by Node-RED or the MES rather than measured from a real thermal process.
 
 ### Scenario B — Quality Reject and Non-Conformance
 

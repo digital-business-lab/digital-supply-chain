@@ -167,7 +167,7 @@ For the end-to-end walkthrough prompt, the Distributor step is:
 - RFID-tagged bag `RFID-001`
 - confirmed Fabric events: `goods_receipt`, `delivery_completed`
 
-**Assumption:** the waypoint `coffeehouse_main` already exists in the Nav2 map used by `robot_manager`.
+**Assumption:** the waypoint `coffeehouse_main` already exists in the Nav2 map used by `robot_manager`. Waypoint creation is part of the TurtleBot4/Nav2 setup that must be completed before the first delivery run; it is not documented in detail in this repository yet.
 
 ---
 
