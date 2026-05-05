@@ -193,7 +193,7 @@ Navigate to **Customize Form → Batch** and add the following custom fields to 
 
 | Field Label | Field Name | Field Type | Notes |
 |---|---|---|---|
-| Quality Grade | quality_grade | Select | Standard ERPNext dropdown field; options: `A`, `B`, `C`; no default value so the operator or Node-RED must set it explicitly |
+| Quality Grade | quality_grade | Select | Dropdown with options `A`, `B`, `C`; no default value |
 | Avg. Soil Moisture (%) | avg_soil_moisture | Float | Latest soil moisture reading attached at harvest time (from LoRaWAN sensors via Node-RED) |
 | Avg. Temperature (°C) | avg_temperature | Float | Latest ambient temperature reading attached at harvest time |
 | CO₂ Level (ppm) | co2_level | Float | Latest CO₂ reading attached at harvest time |
