@@ -120,6 +120,7 @@ For the end-to-end walkthrough prompt, the Distributor step is:
    { "item": "Roasted Coffee — Medium", "quantity_kg": 1, "destination": "Coffee House — Hauptstraße 1" }
    ```
 
+   - `receive_coffee_house_order` is a custom ERPNext whitelisted method on the Distributor instance; it is not a standard ERPNext endpoint.
    - ERPNext creates delivery order `DO-DIST-001` and reserves stock.
 
 3. **Route planning + robot mission**

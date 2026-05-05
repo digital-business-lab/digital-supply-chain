@@ -108,7 +108,7 @@ The supply-chain walkthrough prompt uses the following Coffee House sequence:
    ✓ This cup:    18g grind, 93°C, 28s extraction
    ```
 
-**Assumption:** the Coffee House POS can resolve the scanned RFID tag to the stored `batch_id` without a separate local ERP layer.
+**Assumption:** the Coffee House POS can resolve the scanned RFID tag to the stored `batch_id` without a separate local ERP layer. The minimal expected implementation is a lightweight local POS data store (for example SQLite or an in-memory cache persisted by the POS service) populated from the incoming `delivery_notice`.
 
 ---
 

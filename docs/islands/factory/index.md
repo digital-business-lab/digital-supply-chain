@@ -213,6 +213,8 @@ The supply-chain walkthrough prompt uses one concrete standard-run example:
    { "batch_id": "FACTORY-ROAST-001", "quantity_kg": 4, "item": "Roasted Coffee — Medium" }
    ```
 
+   - `receive_factory_shipment` is a custom ERPNext whitelisted method on the Distributor side; it is not part of the ERPNext standard REST API.
+
 **Boundary output to Distributor:**
 
 - `batch_id = FACTORY-ROAST-001`
