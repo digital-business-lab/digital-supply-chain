@@ -48,6 +48,7 @@ All design decisions, technology choices, and implementation proposals must foll
 - **Identify open questions and risks** — flag anything that has not yet been validated (e.g. "untested with actual LoRa range", "Shelly relay model not yet confirmed").
 - **Prefer reversible decisions** — when two options are comparable, prefer the one that is easier to change later.
 - **Distinguish fact from assumption** — use precise language: *"the sensor measures …"* (fact) vs. *"the sensor is expected to measure …"* (assumption).
+- **Current AI workflow phase:** step 4 in `docs/ai/island-driven-workflow.md` is conceptual only — create implementation-ready concept notes, but do not write production code yet. Prefix unresolved assumptions with `Assumption:` so they can be clarified before a later AI implementation pass.
 
 ## Architecture Decisions (summary)
 
