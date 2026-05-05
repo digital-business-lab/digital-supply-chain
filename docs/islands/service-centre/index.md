@@ -2,6 +2,8 @@
 
 > **Optional island** — deployed on demand for didactic scenarios focused on job-shop manufacturing and MRP planning. No permanent physical rack is planned.
 
+→ [Architecture overview](../../architecture/index.md) | [Dependencies & integration contracts](../../architecture/dependencies.md)
+
 ## Purpose
 
 This island provides an authentic job-shop manufacturing (Werkstattfertigung) context as a didactic counterpart to the flow manufacturing (Fließfertigung) on the Factory Island. Repair and maintenance jobs for coffee equipment (espresso machines, grinders) are modelled as production orders in ERPNext, each with a variable routing through shared work centres.
@@ -58,6 +60,14 @@ During QC, a repaired machine fails the functional test. Students create a non-c
 | ERPNext | Production orders, BOMs, routings, work centres, MRP | Core service; required |
 | Fabric Peer Node | Record repair events on the traceability ledger | Optional |
 | Kafka | Internal event streaming | Optional |
+
+## External Dependencies
+
+- **No hard dependency on the main coffee supply chain**
+- **Optional dependency on Lab Cloud / Fabric** only if repair-history events should be added to the shared ledger
+- **Must remain non-blocking** for Farm, Factory, Distributor, Coffee House, and Lab Cloud implementation work
+
+See [Dependencies and Integration Contracts](../../architecture/dependencies.md) for the canonical integration boundary.
 
 ## Status
 

@@ -16,7 +16,7 @@ Each arrow represents a physical coffee batch moving through the chain and a set
 | [Distributor](../islands/distributor/index.md) | Warehouse & Logistics | Coffee trader | ERPNext WMS, VROOM, TurtleBot4 Lite (ROS2), rosbridge, Fabric peer |
 | [Coffee House](../islands/coffeehouse/index.md) | Consumer endpoint | Café / coffee bar | POS, Traceability Display, no ERP, no Fabric peer |
 
-**B2B communication exclusively via REST APIs.** Kafka is island-internal only and never crosses company boundaries. See [b2b-communication.md](b2b-communication.md).
+**B2B communication exclusively via REST APIs.** Kafka is island-internal only and never crosses company boundaries. See [B2B Communication](b2b-communication.md) and the canonical [Dependencies and Integration Contracts](dependencies.md) reference.
 
 ## Lab Cloud
 
@@ -30,6 +30,14 @@ A dedicated on-premise lab server (not Azure / AWS) providing managed services c
 | Central Monitoring | Grafana + Hyperledger Explorer | Cross-island dashboard and blockchain browser for instructors |
 
 Full details → [Lab Cloud](../lab-cloud/index.md)
+
+## Dependency Baseline for Independent Implementation
+
+The islands are intentionally designed so they can be implemented locally first and integrated later. The strict shared boundaries are documented centrally in [dependencies.md](dependencies.md):
+
+- which external services each component is allowed to depend on
+- which REST, Fabric, MQTT, and tag-based contracts must remain stable
+- which open hardware decisions are **not** allowed to change the integration boundary
 
 ## Hyperledger Fabric
 

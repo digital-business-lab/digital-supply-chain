@@ -2,7 +2,7 @@
 
 The Distributor Island coordinates warehousing, picking, and last-mile delivery — the only island with a physical mobile robot. Its TurtleBot4 Lite autonomously transports packages from the warehouse to the Coffee House, triggered by ERPNext delivery orders. VROOM optimises pick sequences; Hyperledger Fabric records shipment events.
 
-→ [Architecture overview](../../architecture/index.md) | [B2B communication](../../architecture/b2b-communication.md)
+→ [Architecture overview](../../architecture/index.md) | [Dependencies & integration contracts](../../architecture/dependencies.md) | [B2B communication](../../architecture/b2b-communication.md)
 
 ---
 
@@ -31,6 +31,17 @@ The Distributor Island coordinates warehousing, picking, and last-mile delivery 
 | robot\_manager | Custom ROS2 Python node; translates delivery orders into Nav2 goals |
 
 > **Note on Docker networking:** ROS2 DDS multicast does not work reliably inside Docker bridge networks. Both `rosbridge_server` and `robot_manager` must run with `network_mode: host` so DDS traffic reaches the TurtleBot4 over the island LAN.
+
+---
+
+## External Dependencies
+
+- **Upstream contract:** Factory shipment notice must provide the inbound batch reference and finished-goods metadata
+- **Downstream contracts:** Coffee House purchase orders and delivery notices must remain aligned with the documented REST boundary
+- **Shared service dependency:** Lab Cloud Fabric orderer and channel artefacts are required for ledger participation
+- **Local-only dependencies:** ROS2, VROOM, and Node-RED can be developed and tested with synthetic orders before upstream and downstream systems exist
+
+See [Dependencies and Integration Contracts](../../architecture/dependencies.md) for the canonical cross-component view.
 
 ---
 

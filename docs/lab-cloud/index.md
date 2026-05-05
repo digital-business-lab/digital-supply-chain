@@ -2,7 +2,7 @@
 
 The Lab Cloud is a dedicated infrastructure layer running on a **lab server on-premise** — not in Azure, AWS, or any public cloud. It provides managed services consumed by individual islands, primarily the Coffee House, which has no local server infrastructure of its own.
 
-→ [Lab Cloud Setup Guide](setup.md) | [Hyperledger Fabric](../architecture/hyperledger-fabric.md) | [Supply Chain Setup Guide](../operations/setup-guide.md)
+→ [Lab Cloud Setup Guide](setup.md) | [Dependencies & integration contracts](../architecture/dependencies.md) | [Hyperledger Fabric](../architecture/hyperledger-fabric.md) | [Supply Chain Setup Guide](../operations/setup-guide.md)
 
 This models a real-world pattern: small businesses subscribe to managed cloud services from a provider without understanding the underlying infrastructure. From the Coffee House's perspective, the Lab Cloud is a black box — the coffee machine sends data out, and a REST endpoint delivers processed results back.
 
@@ -41,6 +41,15 @@ Note: brewing parameters are **not** written to the Hyperledger Fabric ledger. T
 The Lab Cloud will also provide local e-mail services for internal notifications, alerts, and audit-related messaging. A Dockerized mailserver is planned, with the exact software stack, relay policy, account management, TLS configuration, and integration points to be defined.
 
 This work is currently a planned investigation item in the repository's project board.
+
+## External Dependencies
+
+- **No island is required to start the Lab Cloud stack itself**
+- **Farm, Factory, and Distributor depend on the Lab Cloud** for the Fabric orderer and channel artefacts
+- **Coffee House depends on the Lab Cloud** for Fabric batch-history queries and brew telemetry ingestion/storage
+- **Service contracts must remain stable** even if the internal Lab Cloud implementation changes
+
+The canonical dependency summary lives in [Dependencies and Integration Contracts](../architecture/dependencies.md).
 
 ## Didactic Significance
 

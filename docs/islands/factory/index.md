@@ -2,7 +2,7 @@
 
 The Factory Island is the didactic centrepiece of the supply chain: two Dobot robots demonstrate physical processing steps — receiving, sorting, roasting (simulated), quality control, and packaging — while ERPNext MES connects every step to production orders, material tracking, and Hyperledger Fabric.
 
-→ [Architecture overview](../../architecture/index.md) | [B2B communication](../../architecture/b2b-communication.md) | [Decisions log](../../architecture/decisions.md)
+→ [Architecture overview](../../architecture/index.md) | [Dependencies & integration contracts](../../architecture/dependencies.md) | [B2B communication](../../architecture/b2b-communication.md) | [Decisions log](../../architecture/decisions.md)
 
 ---
 
@@ -302,6 +302,17 @@ Dobot workflow starts (see roasting simulation above)
 | Grafana | Production dashboard: roasting curve, OEE, order queue |
 | Fabric Peer Node | Writes processing batch events to the shared ledger |
 | MariaDB | ERPNext database |
+
+---
+
+## External Dependencies
+
+- **Upstream contract:** Farm hand-off metadata and physical tag must map to the inbound `batch_id`
+- **Downstream contract:** Distributor must accept the documented shipment notice for finished goods
+- **Shared service dependency:** Lab Cloud Fabric orderer and channel artefacts are required for ledger participation
+- **Not required for local MES/robot development:** live Farm, Distributor, or Coffee House systems
+
+See [Dependencies and Integration Contracts](../../architecture/dependencies.md) for the canonical boundary definition.
 
 ---
 

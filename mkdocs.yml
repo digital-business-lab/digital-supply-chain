@@ -34,11 +34,12 @@ theme:
 nav:
   - Home: index.md
   - Architecture:
-    - Overview: architecture/index.md
-    - Hyperledger Fabric: architecture/hyperledger-fabric.md
-    - B2B Communication: architecture/b2b-communication.md
-    - LoRaWAN (Farm): islands/farm/lorawan.md
-    - Network: architecture/network.md
+      - Overview: architecture/index.md
+      - Dependencies & Integration Contracts: architecture/dependencies.md
+      - Hyperledger Fabric: architecture/hyperledger-fabric.md
+      - B2B Communication: architecture/b2b-communication.md
+      - LoRaWAN (Farm): islands/farm/lorawan.md
+      - Network: architecture/network.md
   - AI Orchestration:
     - Overview: ai/index.md
     - Island-Driven Workflow: ai/island-driven-workflow.md
