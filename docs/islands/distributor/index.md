@@ -92,6 +92,98 @@ The primary confirmation signal is the Nav2 action result (goal reached). As an 
 
 > **Open question:** Whether physical RFID scan at the Coffee House is feasible during an automated delivery (no human present) depends on the placement of the scanner. This has not yet been finalised.
 
+### Prompt Walkthrough Example — `FACTORY-ROAST-001` to Coffee House
+
+For the end-to-end walkthrough prompt, the Distributor step is:
+
+1. **Factory hand-off received**
+   - ERPNext WMS creates a Purchase Receipt for `FACTORY-ROAST-001`, 4 kg of **Roasted Coffee — Medium**.
+   - Node-RED submits:
+
+   ```json
+   {
+     "batch_id": "FACTORY-ROAST-001",
+     "island": "distributor",
+     "event": "goods_receipt",
+     "timestamp": "<ISO-8601>",
+     "quantity_kg": 4
+   }
+   ```
+
+2. **Coffee House order**
+   - The Coffee House submits:
+
+   ```http
+   POST https://<distributor-ip>:8000/api/method/receive_coffee_house_order
+   Content-Type: application/json
+
+   { "item": "Roasted Coffee — Medium", "quantity_kg": 1, "destination": "Coffee House — Hauptstraße 1" }
+   ```
+
+   - `receive_coffee_house_order` is a custom ERPNext whitelisted method on the Distributor instance; it is not a standard ERPNext endpoint. In the current concept-only phase, its future contract is tracked in the API contract placeholder section below and will be documented there when the project transitions to production code.
+   - ERPNext creates delivery order `DO-DIST-001` and reserves stock.
+
+3. **Route planning + robot mission**
+   - VROOM optimises the single-stop route with:
+
+   ```json
+   {
+     "vehicles": [{"id": 1, "start": [48.208, 16.373], "end": [48.208, 16.373]}],
+     "jobs": [{"id": 1, "location": [48.209, 16.374], "description": "Coffee House — Hauptstraße 1"}]
+   }
+   ```
+
+   - On delivery-order confirmation, Node-RED sends:
+
+   ```json
+   {
+     "op": "publish",
+     "topic": "/robot/mission",
+     "msg": { "batch_id": "FACTORY-ROAST-001", "waypoint": "coffeehouse_main" }
+   }
+   ```
+
+4. **Delivery completion**
+   - After Nav2 goal success, Node-RED finalises ERPNext booking, writes the Fabric event below, and notifies the Coffee House:
+
+   ```json
+   {
+     "batch_id": "FACTORY-ROAST-001",
+     "island": "distributor",
+     "event": "delivery_completed",
+     "destination": "Coffee House — Hauptstraße 1"
+   }
+   ```
+
+   ```http
+   POST https://<coffeehouse-ip>:5000/api/delivery_notice
+   Content-Type: application/json
+
+   { "batch_id": "FACTORY-ROAST-001", "rfid_tags": ["RFID-001"], "quantity_kg": 1 }
+   ```
+
+**Boundary output to Coffee House:**
+
+- `batch_id = FACTORY-ROAST-001`
+- RFID-tagged bag `RFID-001`
+- confirmed Fabric events: `goods_receipt`, `delivery_completed`
+
+**Assumption:** the waypoint `coffeehouse_main` already exists in the Nav2 map used by `robot_manager`. Waypoint creation is part of the TurtleBot4/Nav2 setup that must be completed before the first delivery run; it is not documented in detail in this repository yet.
+
+### API Contract Placeholder (concept phase)
+
+The walkthrough uses two custom ERPNext whitelisted methods that are **not implemented in this repository yet**:
+
+- `receive_factory_shipment`
+- `receive_coffee_house_order`
+
+When the project moves from concept notes to production code, this page should document for both methods:
+
+- authentication and authorisation expectations
+- request validation and idempotency rules
+- success and error response payloads
+- how the methods map into ERPNext Purchase Receipt / Delivery Order creation
+
 ---
 
 ## Internal Data Flow

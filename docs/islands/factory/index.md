@@ -150,6 +150,79 @@ The following scenarios are designed as self-contained exercises. Each scenario 
 
 **Learning outcome:** Students follow the complete production order lifecycle and see how each physical action (scan, robot movement, sensor reading) generates a corresponding ERP event.
 
+#### Prompt Walkthrough Example — `FARM-2024-001` to `FACTORY-ROAST-001`
+
+The supply-chain walkthrough prompt uses one concrete standard-run example:
+
+1. **Goods receipt**
+   - **Physical:** an operator scans the Farm container at the Factory workstation and places it in the `IN` zone.
+   - **Digital:** ERPNext books a goods receipt for `FARM-2024-001` (5 kg of *Green Coffee Beans — Yirgacheffe*), and Node-RED submits:
+
+   ```json
+   {
+     "batch_id": "FARM-2024-001",
+     "island": "factory",
+     "event": "goods_receipt",
+     "timestamp": "<ISO-8601>",
+     "quantity_kg": 5
+   }
+   ```
+
+2. **Production order + BoM**
+   - ERPNext releases `PO-FACTORY-001` for **Roasted Coffee — Medium**.
+   - Example BoM:
+
+   | Raw material | Finished good | Input | Output | Yield |
+   |---|---|---|---|---|
+   | Green Coffee Beans — Yirgacheffe | Roasted Coffee — Medium | 5 kg | 4 kg | 80 % |
+
+3. **Dobot workflow (Scenario A)**
+   - Dobot #1 moves the container `IN → SRT`; Dobot #2 verifies bean count and absence of foreign objects.
+   - Dobot #1 moves `SRT → RST`; MES starts the mock roast profile `20°C → 212°C` over `60 s`.
+   - Dobot #1 moves `RST → QC`; Dobot #2 reads the brown token as `correctly_roasted`.
+   - Dobot #1 moves `QC → OUT`; ERPNext books production completion for `FACTORY-ROAST-001`.
+
+4. **Fabric events + Distributor hand-off**
+   - Node-RED submits:
+
+   ```json
+   {
+     "batch_id": "FACTORY-ROAST-001",
+     "island": "factory",
+     "event": "roasting_complete",
+     "source_batch": "FARM-2024-001",
+     "roast_profile": "medium, 212°C, 60s"
+   }
+   ```
+
+   ```json
+   {
+     "batch_id": "FACTORY-ROAST-001",
+     "island": "factory",
+     "event": "qc_pass",
+     "result": "correctly_roasted"
+   }
+   ```
+
+   - ERPNext then calls the Distributor REST API:
+
+   ```http
+   POST https://<distributor-ip>:8000/api/method/receive_factory_shipment
+   Content-Type: application/json
+
+   { "batch_id": "FACTORY-ROAST-001", "quantity_kg": 4, "item": "Roasted Coffee — Medium" }
+   ```
+
+   - `receive_factory_shipment` is a custom ERPNext whitelisted method on the Distributor side; it is not part of the ERPNext standard REST API. In the current concept-only phase, its future contract is tracked in the Distributor documentation's API contract placeholder section.
+
+**Boundary output to Distributor:**
+
+- `batch_id = FACTORY-ROAST-001`
+- `quantity_kg = 4`
+- confirmed Fabric events: `goods_receipt`, `roasting_complete`, `qc_pass`
+
+**Assumption:** the `20°C → 212°C` roast curve is simulated for teaching. If no safe demo heat source is installed, the Grove temperature values are injected by Node-RED or the MES rather than measured from a real thermal process.
+
 ### Scenario B — Quality Reject and Non-Conformance
 
 **Trigger:** Dobot #2 vision detects a defect marker (deliberately placed by instructor).
