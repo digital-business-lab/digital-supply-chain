@@ -14,7 +14,8 @@
         "files.exclude": {
           "**/.devcontainer": false
         },
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "github.copilot.chat.agent.backgroundTodoAgent.enabled": true
       }
     }
   },
