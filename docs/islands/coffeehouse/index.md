@@ -2,7 +2,7 @@
 
 The Coffee House is the consumer endpoint of the supply chain. It is intentionally lean: no ERP, no Kafka, no Fabric peer node. A real coffee house has no IT department. Its three software modules can run on one machine or on separate hardware.
 
-→ [Architecture overview](../../architecture/index.md) | [Lab Cloud](../../lab-cloud/index.md) | [Hyperledger Fabric](../../architecture/hyperledger-fabric.md)
+→ [Architecture overview](../../architecture/index.md) | [Dependencies & integration contracts](../../architecture/dependencies.md) | [Lab Cloud](../../lab-cloud/index.md) | [Hyperledger Fabric](../../architecture/hyperledger-fabric.md)
 
 ---
 
@@ -26,6 +26,17 @@ The Coffee House is the consumer endpoint of the supply chain. It is intentional
 | **IoT Connector** | Coffee machine sends sensor data via MQTT/serial | Lab Cloud IoT backend |
 
 The modules communicate with each other via local REST endpoints and are loosely coupled — each can be developed, deployed, and replaced independently.
+
+---
+
+## External Dependencies
+
+- **Distributor dependency:** POS needs the documented Distributor REST boundary for purchase orders and inbound delivery notices
+- **Lab Cloud dependency:** Traceability Display needs the Fabric Gateway and brew REST endpoints; IoT Connector needs the Lab Cloud MQTT broker
+- **Explicit non-dependency:** the Coffee House does not call Farm or Factory APIs directly
+- **Independent local development remains possible:** all three modules can be built against mocks as long as they keep the documented external contracts
+
+See [Dependencies and Integration Contracts](../../architecture/dependencies.md) for the canonical shared boundary definition.
 
 ---
 

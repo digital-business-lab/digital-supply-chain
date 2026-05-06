@@ -58,6 +58,7 @@ All design decisions, technology choices, and implementation proposals must foll
 - **Coffee House** is intentionally lean: no ERP, no Kafka, no Fabric peer node; three independent modules (POS, Traceability Display, IoT connector)
 - **Brewing parameters** (grind, temp, water) are off-chain: stored in InfluxDB, not on Fabric
 - **B2B communication** exclusively via REST APIs — Kafka is island-internal only
+- **Cross-island dependency contracts** are documented centrally in `docs/architecture/dependencies.md`; island pages summarise their local role but shared interfaces must stay aligned there so teams can implement components independently first.
 - **TurtleBot4 Lite** is the last-mile delivery robot, organisationally part of the Distributor Island; uses ROS2 Humble + Nav2 for autonomous navigation. See `docs/islands/distributor/index.md`.
 - **ERP–ROS2 bridge** uses `rosbridge_suite` (WebSocket) + Node-RED — consistent with the existing Node-RED integration pattern on the island; a standalone polling service was considered but rejected. Both ROS2 Docker containers run with `network_mode: host` to enable DDS multicast over the island LAN.
 - **Farm: LED grow light and automated irrigation** (Shelly relay + pump) are controlled via Node-RED based on LoRaWAN sensor readings. Shelly relay model not yet confirmed (tbc). See `docs/islands/farm/index.md`.

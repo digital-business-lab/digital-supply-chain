@@ -4,6 +4,8 @@ This guide walks through standing up the complete Digital Open-Source Supply Cha
 
 > **Why this order matters:** The Lab Cloud must be running first because it hosts the Hyperledger Fabric orderer. No island peer can join the channel until the orderer is reachable. After that, islands can be brought up in supply-chain order (Farm → Factory → Distributor → Coffee House), which also maps to the teaching narrative.
 
+Before connecting independently developed components, review the canonical [Dependencies and Integration Contracts](../architecture/dependencies.md) page. It defines the shared boundaries that must stay stable across islands and Lab Cloud services.
+
 ---
 
 ## Setup Sequence
